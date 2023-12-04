@@ -69,8 +69,7 @@ class Game:
             10,
             9,
         )
-        # px.text(0, 0, f"FPS: {self.fps}", 7)
-        # px.text(0, 10, f"Delta Time: {self.delta_time}", 7)
+        px.text(0, 0, f"FPS: {self.fps}", 7)
         self.delta_time = t.time() - start
 
     def run(self):

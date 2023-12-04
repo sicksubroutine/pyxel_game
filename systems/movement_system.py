@@ -9,3 +9,13 @@ class MovementSystem:
         for entity, (velocity, transform) in es.get_components(Velocity, Transform):
             transform.position += velocity.velocity
             velocity.velocity = glm.vec2(0, 0)
+
+            if transform.position.x > 128 - 10:
+                transform.position.x = 128 - 10
+            if transform.position.x < 0:
+                transform.position.x = 0
+
+            if transform.position.y > 128 - 10:
+                transform.position.y = 128 - 10
+            if transform.position.y < 0:
+                transform.position.y = 0
