@@ -1,14 +1,10 @@
 import esper as es
 import random
 import glm
-import pygame as pg
 from misc.entity import EntityPool
 from components.transform import Transform
 from components.velocity import Velocity
-from components.sprite import Sprite, SpriteLayer
-from components.collider import Collider
-from components.health import Health
-from components.projectile_emitter import ProjectileEmitter
+from components.color import Color, Colors
 from misc.logger import Logger
 
 
@@ -18,27 +14,17 @@ class Spawner:
         self.logger: Logger = logger
         self.logger.Log("Spawner initialized")
 
-    def gen_random_entity(self, group, pos, scale, rot, vel, enemy_type) -> None:
-        src_rect = pg.Rect(0, 0, 32, 32)
-        layer = SpriteLayer.GROUND_LAYER
-        projectile_velocity = glm.vec2(vel.x * 4, vel.y * 4)
+    def gen_random_entity(self) -> None:
+        random_pos = glm.vec2(random.randint(0, 110), random.randint(0, 110))
+        random_scale = glm.vec2(random.randint(1, 5), random.randint(1, 5))
+        random_vel = glm.vec2(random.randint(-1, 1), random.randint(-1, 1))
+        random_color: Colors = random.choice(list(Colors))
         ent = self.pool.create_entity(
-            Transform(pos, scale, rot),
-            Velocity(vel),
-            Collider(32, 32, glm.vec2(0, 0), group),
-            Health(100, 100, False),
-            Sprite(enemy_type, 32, 32, layer, False, src_rect),
-            ProjectileEmitter(
-                500,
-                projectile_velocity,
-                5,
-                8,
-                False,
-                targeting_player=True,
-                velocity_multiplier=50,
-            ),
+            Transform(random_pos, random_scale, 0.0),
+            Velocity(random_vel),
+            Color(random_color),
         )
-        ent.Group(group)
+        ent.Group("enemies")
 
     def destroy_entities(self) -> None:
         # check if enemies group exists

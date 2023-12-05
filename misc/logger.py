@@ -17,7 +17,12 @@ class LogEntry:
 
 
 class Logger:
-    def __init__(self, console_print=False, file_write=False, file_path="log.txt"):
+    def __init__(
+        self,
+        console_print=False,
+        file_write=False,
+        file_path="log.txt",
+    ):
         self.logs: list = []
         self.console_print: bool = console_print
         self.file_path: str = file_path
