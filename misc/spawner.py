@@ -16,11 +16,11 @@ class Spawner:
 
     def gen_random_entity(self) -> None:
         random_pos = glm.vec2(random.randint(0, 110), random.randint(0, 110))
-        random_scale = glm.vec2(random.randint(1, 5), random.randint(1, 5))
+
         random_vel = glm.vec2(random.randint(-1, 1), random.randint(-1, 1))
         random_color: Colors = random.choice(list(Colors))
         ent = self.pool.create_entity(
-            Transform(random_pos, random_scale, 0.0),
+            Transform(random_pos, glm.vec2(4, 4), 0.0),
             Velocity(random_vel),
             Color(random_color),
         )

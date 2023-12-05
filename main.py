@@ -11,12 +11,14 @@ from misc.spawner import Spawner
 from components.transform import Transform
 from components.velocity import Velocity
 from components.keyboard_controller import KeyboardController
+from components.collider import Collider
 from components.color import Color, Colors
 
 # Systems
 from systems.keyboard_system import KeyboardSystem
 from systems.movement_system import MovementSystem
 from systems.render_system import RenderSystem
+from systems.star_system import StarSystem
 
 
 class Game:
@@ -34,6 +36,7 @@ class Game:
         self.keyboard_system = KeyboardSystem(self)
         self.movement_system = MovementSystem(self)
         self.render_system = RenderSystem()
+        self.star_system = StarSystem()
 
     def on_init(self):
         self.systems_import()
@@ -48,16 +51,19 @@ class Game:
             glm.vec2(0, 1),
             glm.vec2(-1, 0),
         )
+        collider = Collider(width=5, height=5, offset=glm.vec2(0, 0), group="player")
         self.player: Entity = self.pool.create_entity(
             transform,
             velocity,
             keyboard,
             color,
+            collider,
         )
         self.player.Group("player")
 
     def update(self):
         self.manual_fps_counter()
+        self.star_system.update()
         self.keyboard_system.process()
         self.movement_system.process()
 
@@ -71,7 +77,9 @@ class Game:
 
     def render(self):
         px.cls(0)
+        self.star_system.render()
         self.render_system.process()
+
         px.text(0, 0, f"FPS: {self.fps}", 7)
 
     def run(self):
