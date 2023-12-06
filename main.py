@@ -28,7 +28,9 @@ class Game:
         self.frames = 0
         self.fps = 0
         self.last_clock = 0
-        px.init(128, 128, title="Game", fps=60)
+        self.res_width = 64
+        self.res_height = 64
+        px.init(self.res_width, self.res_height, title="Game", fps=60)
         self.on_init()
 
     def systems_import(self):

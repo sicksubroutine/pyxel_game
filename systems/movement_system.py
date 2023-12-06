@@ -9,30 +9,32 @@ class MovementSystem:
     def __init__(self, game):
         self.game = game
         self.pool: EntityPool = game.pool
+        self.width = game.res_width
+        self.height = game.res_height
 
     def process(self):
         for entity, (velocity, transform) in es.get_components(Velocity, Transform):
             transform.position += velocity.velocity
             # get group
-            player = self.pool.belongs_to_group(entity, "player")
+            enemy = self.pool.belongs_to_group(entity, "enemies")
             size_x = transform.scale.x
             size_y = transform.scale.y
-            if transform.position.x > 128 - size_x:
-                transform.position.x = 128 - size_x
+            if transform.position.x > self.width - size_x:
+                transform.position.x = self.width - size_x
                 # bounce back
-                if not player:
+                if enemy:
                     velocity.velocity.x *= -1
             if transform.position.x < 0:
                 transform.position.x = 0
-                if not player:
+                if enemy:
                     velocity.velocity.x *= -1
 
-            if transform.position.y > 128 - size_y:
-                transform.position.y = 128 - size_y
+            if transform.position.y > self.height - size_y:
+                transform.position.y = self.height - size_y
                 # bounce back
-                if not player:
+                if enemy:
                     velocity.velocity.y *= -1
             if transform.position.y < 0:
                 transform.position.y = 0
-                if not player:
+                if enemy:
                     velocity.velocity.y *= -1

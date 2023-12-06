@@ -1,8 +1,9 @@
 import pyxel as px
 
 NUM_STARS = 100
+STAR_COLOR_WHITE = 7
 STAR_COLOR_HIGH = 12
-STAR_COLOR_LOW = 5
+STAR_COLOR_LOW = 1
 
 
 class StarSystem:
@@ -13,7 +14,7 @@ class StarSystem:
                 (
                     px.rndi(0, px.width - 1),
                     px.rndi(0, px.height - 1),
-                    px.rndf(1, 2.5),
+                    px.rndf(0.5, 2.5),
                 )
             )
 
@@ -26,4 +27,12 @@ class StarSystem:
 
     def render(self):
         for x, y, speed in self.stars:
-            px.pset(x, y, STAR_COLOR_HIGH if speed > 1.5 else STAR_COLOR_LOW)
+            px.pset(
+                x,
+                y,
+                STAR_COLOR_WHITE
+                if speed > 2.0
+                else STAR_COLOR_HIGH
+                if speed > 1.0
+                else STAR_COLOR_LOW,
+            )
