@@ -3,7 +3,6 @@ from enum import Enum
 
 
 class Colors(Enum):
-    # there is only 16 colors
     BLACK = 0
     DARK_BLUE = 1
     VIOLET = 2

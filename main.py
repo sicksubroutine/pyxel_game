@@ -1,11 +1,11 @@
 import pyxel as px
-import esper as es
 import glm
 import time as t
 
 from misc.entity import Entity, EntityPool
 from misc.logger import Logger
 from misc.spawner import Spawner
+from misc.asset_store import AssetStore
 
 # Components
 from components.transform import Transform
@@ -13,6 +13,7 @@ from components.velocity import Velocity
 from components.keyboard_controller import KeyboardController
 from components.collider import Collider
 from components.color import Color, Colors
+from components.sprite import Sprite, SpriteLayer
 
 # Systems
 from systems.keyboard_system import KeyboardSystem
@@ -25,6 +26,8 @@ class Game:
     def __init__(self):
         self.logger: Logger = Logger(console_print=True)
         self.pool: EntityPool = EntityPool(self.logger)
+        self.asset_store: AssetStore = AssetStore(self.logger)
+        self.debug = False
         self.frames = 0
         self.fps = 0
         self.last_clock = 0
@@ -41,7 +44,10 @@ class Game:
         self.star_system = StarSystem()
 
     def on_init(self):
+        self.asset_store.load_resource("sprites", "./assets/sprites.pyxres")
+
         self.systems_import()
+        sprite = Sprite(8, 8, 0, 8, 32, SpriteLayer.PLAYER_LAYER, False, True)
         color = Color(color=Colors.RED)
         transform = Transform(
             position=glm.vec2(25, 25), scale=glm.vec2(5, 5), rotation=0.0
@@ -55,13 +61,10 @@ class Game:
         )
         collider = Collider(width=5, height=5, offset=glm.vec2(0, 0), group="player")
         self.player: Entity = self.pool.create_entity(
-            transform,
-            velocity,
-            keyboard,
-            color,
-            collider,
+            transform, velocity, keyboard, color, collider, sprite
         )
         self.player.Group("player")
+        self.spawner.gen_random_entity()
 
     def update(self):
         self.manual_fps_counter()
@@ -81,9 +84,9 @@ class Game:
         px.cls(0)
         self.star_system.render()
         self.render_system.process()
-
-        px.text(0, 0, f"FPS: {self.fps}", 7)
-        px.text(0, 8, f"Entities: {len(self.pool.entities)-1}", 7)
+        if self.debug:
+            px.text(0, 0, f"FPS: {self.fps}", 7)
+            px.text(0, 8, f"Entities: {len(self.pool.entities)-1}", 7)
 
     def run(self):
         px.run(self.update, self.render)

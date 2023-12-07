@@ -2,43 +2,53 @@ import esper as es
 from components.keyboard_controller import KeyboardController
 from components.velocity import Velocity
 from components.transform import Transform
+from components.sprite import Sprite
 import pyxel as px
 from misc.spawner import Spawner
 import glm
 
 
-class KeyboardSystem:
+class KeyboardSystem(es.Processor):
     def __init__(self, game):
         self.game = game
         self.spawner: Spawner = game.spawner
 
     def process(self):
-        for entity, (keyboard, velocity, transform) in es.get_components(
-            KeyboardController, Velocity, Transform
+        for entity, (keyboard, velocity, transform, sprite) in es.get_components(
+            KeyboardController,
+            Velocity,
+            Transform,
+            Sprite,
         ):
             velocity.velocity = glm.vec2(0, 0)
-            if px.btn(px.KEY_W):
+            sprite.u = sprite.default_u
+            if px.btn(px.KEY_W) and px.btn(px.KEY_A):
+                velocity.velocity = keyboard.up_velocity + keyboard.left_velocity
+                sprite.u -= sprite.width
+            elif px.btn(px.KEY_W) and px.btn(px.KEY_D):
+                velocity.velocity = keyboard.up_velocity + keyboard.right_velocity
+                sprite.u += sprite.width
+            elif px.btn(px.KEY_S) and px.btn(px.KEY_A):
+                velocity.velocity = keyboard.down_velocity + keyboard.left_velocity
+                sprite.u -= sprite.width
+            elif px.btn(px.KEY_S) and px.btn(px.KEY_D):
+                velocity.velocity = keyboard.down_velocity + keyboard.right_velocity
+                sprite.u += sprite.width
+            elif px.btn(px.KEY_W) or px.btn(px.KEY_UP):
                 velocity.velocity = keyboard.up_velocity
-            if px.btn(px.KEY_S):
+            elif px.btn(px.KEY_S) or px.btn(px.KEY_DOWN):
                 velocity.velocity = keyboard.down_velocity
-            if px.btn(px.KEY_A):
+            elif px.btn(px.KEY_A) or px.btn(px.KEY_LEFT):
                 velocity.velocity = keyboard.left_velocity
-            if px.btn(px.KEY_D):
+                sprite.u -= sprite.width
+            elif px.btn(px.KEY_D) or px.btn(px.KEY_RIGHT):
                 velocity.velocity = keyboard.right_velocity
+                sprite.u += sprite.width
+
             if px.btn(px.KEY_X):
                 self.spawner.gen_random_entity()
             if px.btn(px.KEY_Z):
                 self.spawner.destroy_entities()
-
-            # account for diagonal movement
-            if px.btn(px.KEY_W) and px.btn(px.KEY_A):
-                velocity.velocity = keyboard.up_velocity + keyboard.left_velocity
-            if px.btn(px.KEY_W) and px.btn(px.KEY_D):
-                velocity.velocity = keyboard.up_velocity + keyboard.right_velocity
-            if px.btn(px.KEY_S) and px.btn(px.KEY_A):
-                velocity.velocity = keyboard.down_velocity + keyboard.left_velocity
-            if px.btn(px.KEY_S) and px.btn(px.KEY_D):
-                velocity.velocity = keyboard.down_velocity + keyboard.right_velocity
 
             if px.btnp(px.KEY_ESCAPE):
                 px.quit()

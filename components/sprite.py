@@ -1,4 +1,5 @@
 from enum import Enum
+from dataclasses import dataclass as component
 
 
 class SpriteLayer(Enum):
@@ -6,23 +7,23 @@ class SpriteLayer(Enum):
 
     BACKGROUND_LAYER = 0
     DECORATION_LAYER = 1
-    GROUND_LAYER = 2
-    AIR_LAYER = 3
-    BULLET_LAYER = 4
-    PLAYER_LAYER = 5
-    GUI_LAYER = 6
+    ENEMY_LAYER = 2
+    BULLET_LAYER = 3
+    PLAYER_LAYER = 4
+    GUI_LAYER = 5
 
 
+@component
 class Sprite:
     """Sprite component for tracking sprite data for an entity"""
 
-    def __init__(
-        self, asset_id, width, height, layer, is_fixed, src_rect, in_view=False
-    ):
-        self.asset_id = asset_id
+    def __init__(self, width, height, img, u, v, layer, is_fixed, in_view=False):
         self.width = width
         self.height = height
-        self.layer = layer
-        self.is_fixed = is_fixed
-        self.src_rect: tuple = src_rect
-        self.in_view = in_view
+        self.img = img
+        self.u = u
+        self.v = v
+        self.default_u = u
+        self.layer: SpriteLayer = layer
+        self.is_fixed: bool = is_fixed
+        self.in_view: bool = in_view

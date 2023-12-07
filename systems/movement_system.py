@@ -1,11 +1,12 @@
 import esper as es
 from components.velocity import Velocity
 from components.transform import Transform
+from components.sprite import Sprite
 import glm
 from misc.entity import EntityPool, Entity
 
 
-class MovementSystem:
+class MovementSystem(es.Processor):
     def __init__(self, game):
         self.game = game
         self.pool: EntityPool = game.pool
@@ -13,12 +14,14 @@ class MovementSystem:
         self.height = game.res_height
 
     def process(self):
-        for entity, (velocity, transform) in es.get_components(Velocity, Transform):
+        for entity, (velocity, transform, sprite) in es.get_components(
+            Velocity, Transform, Sprite
+        ):
             transform.position += velocity.velocity
             # get group
             enemy = self.pool.belongs_to_group(entity, "enemies")
-            size_x = transform.scale.x
-            size_y = transform.scale.y
+            size_x = sprite.width
+            size_y = sprite.height
             if transform.position.x > self.width - size_x:
                 transform.position.x = self.width - size_x
                 # bounce back
