@@ -83,6 +83,7 @@ class Game:
         self.render_system.process()
 
         px.text(0, 0, f"FPS: {self.fps}", 7)
+        px.text(0, 8, f"Entities: {len(self.pool.entities)-1}", 7)
 
     def run(self):
         px.run(self.update, self.render)
