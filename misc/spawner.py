@@ -5,6 +5,7 @@ from misc.entity import EntityPool
 from components.transform import Transform
 from components.velocity import Velocity
 from components.sprite import Sprite, SpriteLayer
+from components.collider import Collider
 from misc.logger import Logger
 
 
@@ -22,13 +23,16 @@ class Spawner:
 
     def gen_random_entity(self) -> None:
         random_pos = glm.vec2(random.randint(0, 110), random.randint(0, 110))
-
         random_vel = glm.vec2(random.randint(-1, 1), random.randint(-1, 1))
         random_sprite = random.choice(list(self.enemy_types.values()))
+        width = random_sprite.width
+        height = random_sprite.height
+        collider = Collider(width, height, glm.vec2(0, 0), "enemies")
         ent = self.pool.create_entity(
             Transform(random_pos, glm.vec2(4, 4), 0.0),
             Velocity(random_vel),
             random_sprite,
+            collider,
         )
         ent.Group("enemies")
 

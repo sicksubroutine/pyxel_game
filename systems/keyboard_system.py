@@ -34,14 +34,14 @@ class KeyboardSystem(es.Processor):
             elif px.btn(px.KEY_S) and px.btn(px.KEY_D):
                 velocity.velocity = keyboard.down_velocity + keyboard.right_velocity
                 sprite.u += sprite.width
-            elif px.btn(px.KEY_W) or px.btn(px.KEY_UP):
+            elif px.btn(px.KEY_W):
                 velocity.velocity = keyboard.up_velocity
-            elif px.btn(px.KEY_S) or px.btn(px.KEY_DOWN):
+            elif px.btn(px.KEY_S):
                 velocity.velocity = keyboard.down_velocity
-            elif px.btn(px.KEY_A) or px.btn(px.KEY_LEFT):
+            elif px.btn(px.KEY_A):
                 velocity.velocity = keyboard.left_velocity
                 sprite.u -= sprite.width
-            elif px.btn(px.KEY_D) or px.btn(px.KEY_RIGHT):
+            elif px.btn(px.KEY_D):
                 velocity.velocity = keyboard.right_velocity
                 sprite.u += sprite.width
 

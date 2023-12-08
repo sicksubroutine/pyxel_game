@@ -1,11 +1,14 @@
 import esper as es
-
+import glm
 from misc.entity import EntityPool
 from misc.logger import Logger
 
 from components.transform import Transform
-from components.sprite import Sprite
+from components.sprite import Sprite, SpriteLayer
 from components.projectile_emitter import ProjectileEmitter
+from components.velocity import Velocity
+from components.projectile import Projectile
+from components.collider import Collider
 
 
 class ProjectileEmitterSystem(es.Processor):
@@ -14,8 +17,20 @@ class ProjectileEmitterSystem(es.Processor):
         self.pool: EntityPool = game.pool
         self.logger: Logger = game.logger
 
-    def create_projectile(self):
+    def player_shoot(self):
         ...
+
+    def create_projectile(self, x, y):
+        transform = Transform(glm.vec2(x, y), glm.vec2(1, 1), 0.0)
+        sprite = Sprite(3, 6, 1, 10, 9, SpriteLayer.BULLET_LAYER, False, True)
+        collider = Collider(width=3, height=6, offset=glm.vec2(0, 0), group="bullet")
+        proj = Projectile(
+            duration=1.0,
+            hit_damage=1,
+            is_friendly=True,
+            start_time=self.game.clock,
+        )
+        projectile = self.pool.create_entity(transform, sprite, collider)
 
     def process(self):
         for ent, (transform, emitter, sprite) in es.get_components(

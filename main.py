@@ -1,4 +1,5 @@
 import pyxel as px
+import esper as es
 import glm
 import time as t
 
@@ -14,12 +15,15 @@ from components.keyboard_controller import KeyboardController
 from components.collider import Collider
 from components.color import Color, Colors
 from components.sprite import Sprite, SpriteLayer
+from components.projectile_emitter import ProjectileEmitter
 
 # Systems
 from systems.keyboard_system import KeyboardSystem
 from systems.movement_system import MovementSystem
 from systems.render_system import RenderSystem
 from systems.star_system import StarSystem
+from systems.projectile_systems import ProjectileEmitterSystem
+from systems.collider_system import ColliderSystem, CollisionRenderSystem
 
 
 class Game:
@@ -34,6 +38,7 @@ class Game:
         self.res_width = 64
         self.res_height = 64
         px.init(self.res_width, self.res_height, title="Game", fps=60)
+        px.mouse(False)
         self.on_init()
 
     def systems_import(self):
@@ -42,11 +47,21 @@ class Game:
         self.movement_system = MovementSystem(self)
         self.render_system = RenderSystem()
         self.star_system = StarSystem()
+        self.projectile_system = ProjectileEmitterSystem(self)
+        self.collider_system = ColliderSystem()
+        self.collision_render_system = CollisionRenderSystem()
+
+    def enable_event_handlers(self):
+        es.set_handler("shoot", self.projectile_system.player_shoot)
 
     def on_init(self):
         self.asset_store.load_resource("sprites", "./assets/sprites.pyxres")
 
         self.systems_import()
+        self.player_setup()
+        self.spawner.gen_random_entity()
+
+    def player_setup(self):
         sprite = Sprite(8, 8, 0, 8, 32, SpriteLayer.PLAYER_LAYER, False, True)
         color = Color(color=Colors.RED)
         transform = Transform(
@@ -59,16 +74,16 @@ class Game:
             glm.vec2(0, 1),
             glm.vec2(-1, 0),
         )
-        collider = Collider(width=5, height=5, offset=glm.vec2(0, 0), group="player")
+        collider = Collider(width=8, height=8, offset=glm.vec2(0, 0), group="player")
         self.player: Entity = self.pool.create_entity(
             transform, velocity, keyboard, color, collider, sprite
         )
         self.player.Group("player")
-        self.spawner.gen_random_entity()
 
     def update(self):
         self.manual_fps_counter()
         self.star_system.update()
+        self.collider_system.process()
         self.keyboard_system.process()
         self.movement_system.process()
 
@@ -84,6 +99,7 @@ class Game:
         px.cls(0)
         self.star_system.render()
         self.render_system.process()
+        self.collision_render_system.process()
         if self.debug:
             px.text(0, 0, f"FPS: {self.fps}", 7)
             px.text(0, 8, f"Entities: {len(self.pool.entities)-1}", 7)
