@@ -18,7 +18,12 @@ class ProjectileEmitterSystem(es.Processor):
         self.logger: Logger = game.logger
 
     def player_shoot(self):
-        ...
+        for ent, (transform, emitter) in es.get_components(
+            Transform, ProjectileEmitter
+        ):
+            if emitter.is_active:
+                emitter.is_active = False
+                self.create_projectile(transform.position.x, transform.position.y)
 
     def create_projectile(self, x, y):
         transform = Transform(glm.vec2(x, y), glm.vec2(1, 1), 0.0)
