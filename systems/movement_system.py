@@ -20,6 +20,10 @@ class MovementSystem(es.Processor):
             transform.position += velocity.velocity
             # get group
             enemy = self.pool.belongs_to_group(entity, "enemies")
+            bullet = self.pool.belongs_to_group(entity, "bullet")
+            if bullet:
+                continue
+
             size_x = sprite.width
             size_y = sprite.height
             if transform.position.x > self.width - size_x:
@@ -27,6 +31,7 @@ class MovementSystem(es.Processor):
                 # bounce back
                 if enemy:
                     velocity.velocity.x *= -1
+
             if transform.position.x < 0:
                 transform.position.x = 0
                 if enemy:

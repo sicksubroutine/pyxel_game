@@ -6,12 +6,15 @@ from components.sprite import Sprite
 import pyxel as px
 from misc.spawner import Spawner
 import glm
+from misc.logger import Logger
 
 
 class KeyboardSystem(es.Processor):
     def __init__(self, game):
         self.game = game
         self.spawner: Spawner = game.spawner
+        self.logger: Logger = self.game.logger
+        self.keypress_delay = 0.0
 
     def process(self):
         for entity, (keyboard, velocity, transform, sprite) in es.get_components(
@@ -20,8 +23,17 @@ class KeyboardSystem(es.Processor):
             Transform,
             Sprite,
         ):
+            if self.keypress_delay > 0.0:
+                self.keypress_delay -= 1
             velocity.velocity = glm.vec2(0, 0)
             sprite.u = sprite.default_u
+
+            # if ctrl+d is pressed, toggle debug mode
+            if px.btn(px.KEY_CTRL) and px.btnp(px.KEY_D):
+                self.game.debug = not self.game.debug
+                self.logger.Log(f"Debug mode: {self.game.debug}")
+                return
+
             if px.btn(px.KEY_W) and px.btn(px.KEY_A):
                 velocity.velocity = keyboard.up_velocity + keyboard.left_velocity
                 sprite.u -= sprite.width
@@ -44,6 +56,10 @@ class KeyboardSystem(es.Processor):
             elif px.btn(px.KEY_D):
                 velocity.velocity = keyboard.right_velocity
                 sprite.u += sprite.width
+
+            if px.btn(px.KEY_SPACE) and self.keypress_delay <= 0.0:
+                self.keypress_delay = 10.0
+                es.dispatch_event("shoot")
 
             if px.btn(px.KEY_X):
                 self.spawner.gen_random_entity()

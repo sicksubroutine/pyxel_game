@@ -22,7 +22,7 @@ from systems.keyboard_system import KeyboardSystem
 from systems.movement_system import MovementSystem
 from systems.render_system import RenderSystem
 from systems.star_system import StarSystem
-from systems.projectile_systems import ProjectileEmitterSystem
+from systems.projectile_systems import ProjectileEmitterSystem, ProjectileLifetimeSystem
 from systems.collider_system import ColliderSystem, CollisionRenderSystem
 
 
@@ -48,7 +48,8 @@ class Game:
         self.render_system = RenderSystem()
         self.star_system = StarSystem()
         self.projectile_system = ProjectileEmitterSystem(self)
-        self.collider_system = ColliderSystem()
+        self.projectile_lifetime_system = ProjectileLifetimeSystem(self)
+        self.collider_system = ColliderSystem(self)
         self.collision_render_system = CollisionRenderSystem()
 
     def enable_event_handlers(self):
@@ -59,6 +60,7 @@ class Game:
 
         self.systems_import()
         self.player_setup()
+        self.enable_event_handlers()
         self.spawner.gen_random_entity()
 
     def player_setup(self):
@@ -75,8 +77,9 @@ class Game:
             glm.vec2(-1, 0),
         )
         collider = Collider(width=8, height=8, offset=glm.vec2(0, 0), group="player")
+        proj_emitter = ProjectileEmitter(is_friendly=True)
         self.player: Entity = self.pool.create_entity(
-            transform, velocity, keyboard, color, collider, sprite
+            transform, velocity, keyboard, color, collider, sprite, proj_emitter
         )
         self.player.Group("player")
 
@@ -86,6 +89,7 @@ class Game:
         self.collider_system.process()
         self.keyboard_system.process()
         self.movement_system.process()
+        self.projectile_lifetime_system.process()
 
     def manual_fps_counter(self):
         self.frames += 1
@@ -99,8 +103,8 @@ class Game:
         px.cls(0)
         self.star_system.render()
         self.render_system.process()
-        self.collision_render_system.process()
         if self.debug:
+            self.collision_render_system.process()
             px.text(0, 0, f"FPS: {self.fps}", 7)
             px.text(0, 8, f"Entities: {len(self.pool.entities)-1}", 7)
 
