@@ -159,7 +159,7 @@ class EntityPool:
 
     def entity_has_component(self, entity_id: int, component) -> bool:
         self.logger.Log(f"Checking if {entity_id} has {component}")
-        return es.has_component(entity_id, component)
+        return es.has_component(int(entity_id), component)
 
     def entity_get_component(self, entity_id: int, component):
-        return es.component_for_entity(entity_id, component)
+        return es.component_for_entity(int(entity_id), component)

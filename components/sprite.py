@@ -1,5 +1,4 @@
 from enum import Enum
-from dataclasses import dataclass as component
 
 
 class SpriteLayer(Enum):
@@ -13,7 +12,6 @@ class SpriteLayer(Enum):
     GUI_LAYER = 5
 
 
-@component
 class Sprite:
     """Sprite component for tracking sprite data for an entity"""
 
@@ -27,3 +25,4 @@ class Sprite:
         self.layer: SpriteLayer = layer
         self.is_fixed: bool = is_fixed
         self.in_view: bool = in_view
+        self.hit_flash: int = 0

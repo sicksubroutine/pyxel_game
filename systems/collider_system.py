@@ -3,23 +3,26 @@ import pyxel as px
 from components.transform import Transform
 from components.collider import Collider
 from components.projectile import Projectile
+from components.health import Health
 from misc.entity import EntityPool, Entity
+from misc.logger import Logger
 
 
 class ColliderSystem(es.Processor):
     def __init__(self, game):
         self.game = game
         self.pool: EntityPool = game.pool
+        self.logger: Logger = game.logger
 
     # a method to check if two rectangles are colliding
     def is_colliding(self, x1, y1, w1, h1, x2, y2, w2, h2):
         return x1 < x2 + w2 and x2 < x1 + w1 and y1 < y2 + h2 and y2 < y1 + h1
 
     def process(self):
-        for ent, (transform, collider) in es.get_components(Transform, Collider):
+        for ent1, (transform, collider) in es.get_components(Transform, Collider):
             collider.is_colliding = False
             for ent2, (transform2, collider2) in es.get_components(Transform, Collider):
-                if ent == ent2:
+                if ent1 == ent2:
                     continue
                 if collider.group == collider2.group:
                     continue
@@ -35,14 +38,35 @@ class ColliderSystem(es.Processor):
                     collider2.height,
                 ):
                     if collider.group == "bullet" and collider2.group == "player":
-                        proj_emitter = self.pool.entity_get_component(ent, Projectile)
+                        if ent1 not in self.pool.entities:
+                            continue
+                        proj_emitter = self.pool.entity_get_component(ent1, Projectile)
                         if proj_emitter and proj_emitter.is_friendly:
                             continue
                     if collider2.group == "bullet" and collider.group == "player":
+                        if ent2 not in self.pool.entities:
+                            continue
                         proj_emitter = self.pool.entity_get_component(ent2, Projectile)
                         if proj_emitter and proj_emitter.is_friendly:
                             continue
                     collider.is_colliding = True
+                    entity1 = {
+                        "entity": ent1,
+                        "group": collider.group,
+                    }
+                    entity2 = {
+                        "entity": ent2,
+                        "group": collider2.group,
+                    }
+                    if collider.group != "bullet":
+                        health = self.pool.entity_get_component(ent1, Health)
+                        if health:
+                            self.logger.Log(f"Health: {health.current_health}")
+                    if collider2.group != "bullet":
+                        health2 = self.pool.entity_get_component(ent2, Health)
+                        if health2:
+                            self.logger.Log(f"Health2: {health2.current_health}")
+                    es.dispatch_event("collision", entity1, entity2)
 
 
 class CollisionRenderSystem(es.Processor):

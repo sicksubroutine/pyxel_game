@@ -21,19 +21,23 @@ class ProjectileEmitterSystem(es.Processor):
         for ent, (transform, emitter) in es.get_components(
             Transform, ProjectileEmitter
         ):
-            self.create_projectile(
-                transform.position.x + 2,
-                transform.position.y + 1,
-                emitter.is_friendly,
-            )
+            x = transform.position.x + 2.5
+            y = transform.position.y + 1
+            muzzle_flash = 5.0
+            hit_damage = emitter.hit_damage
+            es.dispatch_event("muzzle_flash", x, y, muzzle_flash)
+            self.create_projectile(x, y, emitter.is_friendly, hit_damage)
 
-    def create_projectile(self, x, y, is_friendly):
+    def create_projectile(self, x, y, is_friendly, hit_damage):
         transform = Transform(glm.vec2(x, y), glm.vec2(1, 1), 0.0)
         velocity = Velocity(velocity=glm.vec2(0, -1))
         sprite = Sprite(3, 6, 1, 10, 9, SpriteLayer.BULLET_LAYER, False, True)
         collider = Collider(width=3, height=6, offset=glm.vec2(0, 0), group="bullet")
         proj = Projectile(
-            duration=100.0, hit_damage=1, is_friendly=is_friendly, start_time=0.0
+            duration=100.0,
+            hit_damage=hit_damage,
+            is_friendly=is_friendly,
+            start_time=0.0,
         )
         projectile = self.pool.create_entity(
             transform, sprite, collider, velocity, proj

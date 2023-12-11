@@ -6,6 +6,7 @@ from components.transform import Transform
 from components.velocity import Velocity
 from components.sprite import Sprite, SpriteLayer
 from components.collider import Collider
+from components.health import Health
 from misc.logger import Logger
 
 
@@ -27,12 +28,14 @@ class Spawner:
         random_sprite = random.choice(list(self.enemy_types.values()))
         width = random_sprite.width
         height = random_sprite.height
+        health = Health(100, 100, False)
         collider = Collider(width, height, glm.vec2(0, 0), "enemies")
         ent = self.pool.create_entity(
             Transform(random_pos, glm.vec2(4, 4), 0.0),
             Velocity(random_vel),
             random_sprite,
             collider,
+            health,
         )
         ent.Group("enemies")
 
