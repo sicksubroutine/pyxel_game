@@ -31,9 +31,8 @@ class AudioChannel(Enum):
 
 @component
 class AudioComponent:
-    audio_id: str = ""
+    audio_id: int = -1
     loop: bool = False
     is_playing: bool = False
-    start_time: float = 0.0
     delay: float = 0.0
     channel: AudioChannel = AudioChannel.EFFECT_CHANNEL

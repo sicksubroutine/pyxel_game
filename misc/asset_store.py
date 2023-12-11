@@ -25,5 +25,5 @@ class AssetStore:
     def add_sound(self, name: str) -> None:
         self.sounds[name] = int(Sound())
 
-    def get_sound(self, name) -> px.Sound:
+    def get_sound(self, name) -> int:
         return self.sounds[name]

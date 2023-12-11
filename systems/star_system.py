@@ -14,7 +14,7 @@ class StarSystem:
                 (
                     px.rndi(0, px.width - 1),
                     px.rndi(0, px.height - 1),
-                    px.rndf(0.5, 2.5),
+                    px.rndf(0.25, 2.5),
                 )
             )
 
@@ -34,5 +34,7 @@ class StarSystem:
                 if speed > 2.0
                 else STAR_COLOR_HIGH
                 if speed > 1.0
-                else STAR_COLOR_LOW,
+                else STAR_COLOR_LOW
+                if speed > 0.5
+                else STAR_COLOR_WHITE,
             )

@@ -3,7 +3,7 @@ import glm
 import pyxel as px
 import heapq
 from components.transform import Transform
-from components.color import Color
+from components.color import Color, Colors
 from components.sprite import Sprite, SpriteLayer
 from misc.logger import Logger
 
@@ -26,9 +26,15 @@ class RenderSystem(es.Processor):
             sprite.in_view = True
             return True
 
-    def convert_pal_to_white(self):
-        for i in range(1, 16):
-            px.pal(i, 7)
+    def convert_pal_to_color(self, color_name):
+        try:
+            if color_name not in Colors.__members__:
+                raise ValueError(f"{color_name} is not a valid color")
+            color = Colors[color_name].value
+            for i in range(1, 16):
+                px.pal(i, color)
+        except ValueError as e:
+            self.logger.Log(e)
 
     def process(self):
         priority_queue = []
@@ -45,7 +51,7 @@ class RenderSystem(es.Processor):
             if sprite.in_view:
                 if sprite.hit_flash > 0:
                     sprite.hit_flash -= 1
-                    self.convert_pal_to_white()
+                    self.convert_pal_to_color("RED")
                 px.blt(
                     transform.position.x,
                     transform.position.y,

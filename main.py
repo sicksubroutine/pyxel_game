@@ -27,6 +27,7 @@ from systems.star_system import StarSystem
 from systems.projectile_systems import ProjectileEmitterSystem, ProjectileLifetimeSystem
 from systems.collider_system import ColliderSystem, CollisionRenderSystem
 from systems.damage_system import DamageSystem
+from systems.sound_system import SoundSystem
 
 
 class Game:
@@ -56,6 +57,7 @@ class Game:
         self.collision_render_system = CollisionRenderSystem()
         self.muzzle_flash_system = RenderMuzzleFlashSystem()
         self.damage_system = DamageSystem(self)
+        self.sound_system = SoundSystem()
 
     def enable_event_handlers(self):
         es.set_handler("shoot", self.projectile_system.player_shoot)
@@ -89,9 +91,6 @@ class Game:
         health = Health(100, 100, False)
         collider = Collider(width=8, height=8, offset=glm.vec2(0, 0), group="player")
         proj_emitter = ProjectileEmitter(is_friendly=True, hit_damage=10)
-        audio = AudioComponent(
-            audio_id="shoot", loop=False, channel=AudioChannel.PLAYER_CHANNEL
-        )
         self.player: Entity = self.pool.create_entity(
             transform,
             velocity,
@@ -101,7 +100,6 @@ class Game:
             sprite,
             proj_emitter,
             health,
-            audio,
         )
         self.player.Group("player")
 
@@ -112,6 +110,7 @@ class Game:
         self.keyboard_system.process()
         self.movement_system.process()
         self.projectile_lifetime_system.process()
+        self.sound_system.process()
 
     def manual_fps_counter(self):
         self.frames += 1
