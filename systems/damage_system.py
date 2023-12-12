@@ -1,5 +1,6 @@
 import esper as es
 import traceback
+import glm
 
 from misc.entity import EntityPool
 from misc.logger import Logger
@@ -7,6 +8,7 @@ from misc.logger import Logger
 from components.health import Health
 from components.sprite import Sprite
 from components.projectile import Projectile
+from components.transform import Transform
 
 
 class DamageSystem:
@@ -27,6 +29,12 @@ class DamageSystem:
                 entities["player"] = entity["entity"]
 
         if entities["bullet"] and entities["bullet"] not in self.pool.entities:
+            return
+
+        if entities["enemy"] and entities["enemy"] not in self.pool.entities:
+            return
+
+        if entities["player"] and entities["player"] not in self.pool.entities:
             return
 
         # direct hit between player and enemy
@@ -58,11 +66,16 @@ class DamageSystem:
                 return
             enemy_health = es.component_for_entity(enemy, Health)
             enemy_sprite = es.component_for_entity(enemy, Sprite)
+
             enemy_sprite.hit_flash = 5
             if enemy_health.is_god_mode:
                 return
             enemy_health.current_health -= damage
             if enemy_health.current_health < 1:
+                position = es.component_for_entity(enemy, Transform).position
+                center_pos_x = position.x + enemy_sprite.width / 2
+                center_pos_y = position.y + enemy_sprite.height / 2
+                es.dispatch_event("explosion", center_pos_x, center_pos_y, 100)
                 self.logger.Log("Enemy killed")
                 self.pool.remove_entity(enemy)
         except Exception as e:

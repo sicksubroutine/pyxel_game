@@ -3,6 +3,9 @@ from enum import Enum
 
 
 class Colors(Enum):
+    def __int__(self) -> int:
+        return int(self.value)
+
     BLACK = 0
     DARK_BLUE = 1
     VIOLET = 2

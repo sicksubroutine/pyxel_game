@@ -61,7 +61,8 @@ class KeyboardSystem(es.Processor):
                 self.keypress_delay = 10.0
                 es.dispatch_event("shoot")
 
-            if px.btn(px.KEY_X):
+            if px.btn(px.KEY_X) and self.keypress_delay <= 0.0:
+                self.keypress_delay = 10.0
                 self.spawner.gen_random_entity()
             if px.btn(px.KEY_Z):
                 self.spawner.destroy_entities()
