@@ -23,7 +23,7 @@ class PlayerSystem:
         self.player: Entity = None
 
     def player_setup(self):
-        sprite = Sprite(8, 8, 0, 8, 32, SpriteLayer.PLAYER_LAYER, False, True)
+        sprite = Sprite(8, 8, 0, 8, 8, SpriteLayer.PLAYER_LAYER, False, True)
         color = Color(color=Colors.RED)
         transform = Transform(
             position=glm.vec2(25, 50), scale=glm.vec2(5, 5), rotation=0.0

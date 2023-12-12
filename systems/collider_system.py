@@ -3,8 +3,7 @@ import pyxel as px
 from components.transform import Transform
 from components.collider import Collider
 from components.projectile import Projectile
-from components.health import Health
-from misc.entity import EntityPool, Entity
+from misc.entity import EntityPool
 from misc.logger import Logger
 
 
@@ -58,14 +57,6 @@ class ColliderSystem(es.Processor):
                         "entity": ent2,
                         "group": collider2.group,
                     }
-                    if collider.group != "bullet":
-                        health = self.pool.entity_get_component(ent1, Health)
-                        if health:
-                            self.logger.Log(f"Health: {health.current_health}")
-                    if collider2.group != "bullet":
-                        health2 = self.pool.entity_get_component(ent2, Health)
-                        if health2:
-                            self.logger.Log(f"Health2: {health2.current_health}")
                     es.dispatch_event("collision", entity1, entity2)
 
 

@@ -23,6 +23,9 @@ class Sound(SoundTemplate):
 
 
 class AudioChannel(Enum):
+    def __int__(self) -> int:
+        return int(self.value)
+
     EFFECT_CHANNEL = 0
     UI_CHANNEL = 1
     PLAYER_CHANNEL = 2

@@ -71,8 +71,8 @@ class RenderMuzzleFlashSystem:
 
     def render(self):
         if self.muzzle_flash_size > 0.0:
-            px.circ(self.x, self.y, self.muzzle_flash_size, 11)
-            px.circ(self.x, self.y, self.muzzle_flash_size - 2, 7)
+            px.circ(self.x, self.y, self.muzzle_flash_size, 9)
+            px.circ(self.x, self.y, self.muzzle_flash_size - 2, 8)
             self.muzzle_flash_size -= 1.0
 
     def muzzle_flash(self, x, y, muzzle_flash_size):

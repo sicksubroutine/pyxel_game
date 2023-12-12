@@ -1,6 +1,5 @@
 import pyxel as px
 import esper as es
-import glm
 import time as t
 
 from misc.entity import EntityPool
@@ -37,7 +36,7 @@ class Game:
         self.on_init()
 
     def systems_import(self):
-        self.spawner = Spawner(self.pool, self.logger)
+        self.spawner = Spawner(self)
         self.keyboard_system = KeyboardSystem(self)
         self.movement_system = MovementSystem(self)
         self.render_system = RenderSystem(self)
@@ -48,7 +47,7 @@ class Game:
         self.collision_render_system = CollisionRenderSystem()
         self.muzzle_flash_system = RenderMuzzleFlashSystem()
         self.damage_system = DamageSystem(self)
-        self.sound_system = SoundSystem()
+        self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
         self.particle_system = ParticleSystem(self)
 
@@ -57,12 +56,15 @@ class Game:
         es.set_handler("muzzle_flash", self.muzzle_flash_system.muzzle_flash)
         es.set_handler("collision", self.damage_system.on_collision)
         es.set_handler("explosion", self.spawner.gen_explosion)
+        es.set_handler("sparks", self.spawner.gen_sparks)
         # es.set_handler("player_death", self.damage_system.on_player_death)
 
     def on_init(self):
         self.asset_store.load_resource("assets", "./assets/assets.pyxres")
 
-        self.asset_store.add_sound("shoot")
+        self.asset_store.add_sound("shoot")  # Sound 0
+        self.asset_store.add_sound("hit")  # Sound 1
+        self.asset_store.add_sound("explode")  # Sound 2
 
         self.systems_import()
         self.player_system.player_setup()
@@ -95,7 +97,7 @@ class Game:
         if self.debug:
             self.collision_render_system.process()
             px.text(0, 0, f"FPS: {self.fps}", 7)
-            px.text(0, 8, f"Entities: {len(self.pool.entities)-1}", 7)
+            px.text(0, 8, f"Entities: {len(self.pool.entities)}", 7)
 
     def run(self):
         px.run(self.update, self.render)

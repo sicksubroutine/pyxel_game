@@ -1,14 +1,15 @@
 import esper as es
 import traceback
-import glm
 
 from misc.entity import EntityPool
 from misc.logger import Logger
+from misc.asset_store import AssetStore
 
 from components.health import Health
 from components.sprite import Sprite
 from components.projectile import Projectile
 from components.transform import Transform
+from components.audio import AudioComponent, AudioChannel
 
 
 class DamageSystem:
@@ -16,6 +17,7 @@ class DamageSystem:
         self.game = game
         self.pool: EntityPool = game.pool
         self.logger: Logger = game.logger
+        self.asset_store: AssetStore = game.asset_store
 
     def on_collision(self, entity1, entity2):
         entities = {"bullet": None, "enemy": None, "player": None}
@@ -64,19 +66,20 @@ class DamageSystem:
         try:
             if enemy not in self.pool.entities:
                 return
+            position = es.component_for_entity(enemy, Transform).position
             enemy_health = es.component_for_entity(enemy, Health)
             enemy_sprite = es.component_for_entity(enemy, Sprite)
-
+            es.dispatch_event(
+                "sparks", position.x + enemy_sprite.width / 2, position.y, 10
+            )
             enemy_sprite.hit_flash = 5
             if enemy_health.is_god_mode:
                 return
             enemy_health.current_health -= damage
             if enemy_health.current_health < 1:
-                position = es.component_for_entity(enemy, Transform).position
                 center_pos_x = position.x + enemy_sprite.width / 2
                 center_pos_y = position.y + enemy_sprite.height / 2
                 es.dispatch_event("explosion", center_pos_x, center_pos_y, 100)
-                self.logger.Log("Enemy killed")
                 self.pool.remove_entity(enemy)
         except Exception as e:
             self.logger.Log(traceback.format_exc())
@@ -86,6 +89,12 @@ class DamageSystem:
             if player not in self.pool.entities:
                 return
             player_health = es.component_for_entity(player, Health)
+            audio = AudioComponent(
+                channel=int(AudioChannel.EFFECT_CHANNEL.value) + 1,
+                audio_id=self.asset_store.get_sound("hit"),
+                loop=False,
+            )
+            es.add_component(player, audio)
             if player_health.is_god_mode:
                 return
             player_health.current_health -= damage

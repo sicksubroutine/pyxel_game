@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class SpriteLayer(Enum):
-    """SpriteLayer enum for tracking sprite layers, used for rendering"""
+    """SpriteLayer enum for tracking sprite layers, used for rendering order"""
 
     BACKGROUND_LAYER = 0
     DECORATION_LAYER = 1
@@ -21,7 +21,7 @@ class Sprite:
         self.img = img
         self.u = u
         self.v = v
-        self.default_u = u
+        self.default_u = u  # used for changing sprite depending on keyboard input
         self.layer: SpriteLayer = layer
         self.is_fixed: bool = is_fixed
         self.in_view: bool = in_view

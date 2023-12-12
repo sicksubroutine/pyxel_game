@@ -18,7 +18,7 @@ class ParticleSystem(es.Processor):
         self.logger: Logger = game.logger
 
     def process(self):
-        drag = 10
+        slowdown = 25
         for ent, (transform, velocity, particle) in es.get_components(
             Transform, Velocity, Particle
         ):
@@ -26,7 +26,7 @@ class ParticleSystem(es.Processor):
             if particle.age > 0:
                 particle.age -= 1
                 # fade out over time
-                vel -= (vel / ((particle.age) + EPSILON)) * drag
+                vel -= (vel / (pow((particle.age) + EPSILON, 0.975))) * slowdown
                 transform.position += vel
                 # fade from white, to red, to yellow, to orange, to grey
                 color = int(particle.color)

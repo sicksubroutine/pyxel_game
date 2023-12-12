@@ -163,3 +163,15 @@ class EntityPool:
 
     def entity_get_component(self, entity_id: int, component):
         return es.component_for_entity(int(entity_id), component)
+
+    def get_list_of_entities(self) -> list:
+        # collect a list of entity ids and any groups they may belong to
+        entities = []
+        for entity_id in self.entities:
+            entity = self.entities[entity_id]
+            groups = []
+            for group in self.groups:
+                if entity_id in self.groups[group]:
+                    groups.append(group)
+            entities.append({"entity": entity_id, "groups": groups})
+        return entities

@@ -4,8 +4,9 @@ from components.velocity import Velocity
 from components.transform import Transform
 from components.sprite import Sprite
 import pyxel as px
-from misc.spawner import Spawner
 import glm
+from misc.spawner import Spawner
+from misc.entity import EntityPool
 from misc.logger import Logger
 
 
@@ -14,10 +15,11 @@ class KeyboardSystem(es.Processor):
         self.game = game
         self.spawner: Spawner = game.spawner
         self.logger: Logger = self.game.logger
+        self.pool: EntityPool = game.pool
         self.keypress_delay = 0.0
 
     def process(self):
-        for entity, (keyboard, velocity, transform, sprite) in es.get_components(
+        for entity, (keyboard, velocity, _, sprite) in es.get_components(
             KeyboardController,
             Velocity,
             Transform,
@@ -56,6 +58,13 @@ class KeyboardSystem(es.Processor):
             elif px.btn(px.KEY_D):
                 velocity.velocity = keyboard.right_velocity
                 sprite.u += sprite.width
+
+            # if ctrl period is pressed, output a list of all entities to log
+            if px.btn(px.KEY_CTRL) and px.btnp(px.KEY_PERIOD):
+                self.logger.Log("Entity list:")
+                entities = self.pool.get_list_of_entities()
+                for entity in entities:
+                    self.logger.Log(f"Entity: {entity}")
 
             if px.btn(px.KEY_SPACE) and self.keypress_delay <= 0.0:
                 self.keypress_delay = 10.0

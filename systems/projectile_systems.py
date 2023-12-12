@@ -24,23 +24,25 @@ class ProjectileEmitterSystem(es.Processor):
         for ent, (transform, emitter) in es.get_components(
             Transform, ProjectileEmitter
         ):
-            x = transform.position.x + 2.5
+            x = transform.position.x + 1
             y = transform.position.y + 1
-            muzzle_flash = 5.0
+            muzzle_flash = 6.0
             hit_damage = emitter.hit_damage
-            es.dispatch_event("muzzle_flash", x, y, muzzle_flash)
+            es.dispatch_event("muzzle_flash", x + 2, y, muzzle_flash)
             self.create_projectile(x, y, emitter.is_friendly, hit_damage)
 
-    def create_projectile(self, x, y, is_friendly, hit_damage):
+    def create_projectile(self, x, y, is_friendly, hit_damage, width=6, height=4):
         audio = AudioComponent(
-            channel=AudioChannel.EFFECT_CHANNEL,
+            channel=int(AudioChannel.EFFECT_CHANNEL.value),
             audio_id=self.asset_store.get_sound("shoot"),
             loop=False,
         )
-        transform = Transform(glm.vec2(x, y), glm.vec2(1, 1), 0.0)
+        transform = Transform(glm.vec2(x, y), glm.vec2(0.5, 0.5), 0.0)
         velocity = Velocity(velocity=glm.vec2(0, -1))
-        sprite = Sprite(3, 6, 1, 10, 9, SpriteLayer.BULLET_LAYER, False, True)
-        collider = Collider(width=3, height=6, offset=glm.vec2(0, 0), group="bullet")
+        sprite = Sprite(width, height, 1, 33, 9, SpriteLayer.BULLET_LAYER, False, True)
+        collider = Collider(
+            width=width, height=height, offset=glm.vec2(0, 0), group="bullet"
+        )
         proj = Projectile(
             duration=100.0,
             hit_damage=hit_damage,
@@ -57,6 +59,7 @@ class ProjectileEmitterSystem(es.Processor):
             Transform, ProjectileEmitter, Sprite
         ):
             ...
+            # TODO: Add enemy projectile emitter here
 
 
 class ProjectileLifetimeSystem(es.Processor):

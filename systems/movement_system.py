@@ -2,8 +2,7 @@ import esper as es
 from components.velocity import Velocity
 from components.transform import Transform
 from components.sprite import Sprite
-import glm
-from misc.entity import EntityPool, Entity
+from misc.entity import EntityPool
 
 
 class MovementSystem(es.Processor):
