@@ -42,7 +42,7 @@ class RenderSystem(es.Processor):
             in_view = self.check_if_in_view(transform, sprite)
             if in_view:
                 heapq.heappush(
-                    priority_queue, (sprite.layer.value, ent, transform, sprite)
+                    priority_queue, (int(sprite.layer), ent, transform, sprite)
                 )
 
         while priority_queue:

@@ -1,8 +1,12 @@
 from enum import Enum
+from dataclasses import dataclass as component
 
 
 class SpriteLayer(Enum):
     """SpriteLayer enum for tracking sprite layers, used for rendering order"""
+
+    def __int__(self) -> int:
+        return int(self.value)
 
     BACKGROUND_LAYER = 0
     DECORATION_LAYER = 1
@@ -12,17 +16,17 @@ class SpriteLayer(Enum):
     GUI_LAYER = 5
 
 
+@component
 class Sprite:
     """Sprite component for tracking sprite data for an entity"""
 
-    def __init__(self, width, height, img, u, v, layer, is_fixed, in_view=False):
-        self.width = width
-        self.height = height
-        self.img = img
-        self.u = u
-        self.v = v
-        self.default_u = u  # used for changing sprite depending on keyboard input
-        self.layer: SpriteLayer = layer
-        self.is_fixed: bool = is_fixed
-        self.in_view: bool = in_view
-        self.hit_flash: int = 0
+    width: int = 0
+    height: int = 0
+    img: int = 0
+    u: int = 0
+    v: int = 0
+    default_u: int = u  # used for changing sprite depending on keyboard input
+    layer: SpriteLayer = SpriteLayer.BACKGROUND_LAYER
+    is_fixed: bool = False
+    in_view: bool = False
+    hit_flash: int = 0
