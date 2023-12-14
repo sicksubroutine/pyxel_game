@@ -63,6 +63,7 @@ class ColliderSystem(es.Processor):
 class CollisionRenderSystem(es.Processor):
     def process(self):
         for ent, (transform, collider) in es.get_components(Transform, Collider):
+            # White rectangle if not colliding, red if colliding while in debug mode
             if not collider.is_colliding:
                 px.rectb(
                     transform.position.x,

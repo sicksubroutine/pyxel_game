@@ -1,6 +1,6 @@
 import pyxel as px
 import esper as es
-import time as t
+import time
 
 from misc.entity import EntityPool
 from misc.logger import Logger
@@ -67,9 +67,17 @@ class Game:
         self.asset_store.add_sound("explode")  # Sound 2
 
         self.systems_import()
-        self.player_system.player_setup()
+        self.player = self.player_system.player_setup()
         self.enable_event_handlers()
         self.spawner.gen_random_entity()
+
+    def manual_fps_counter(self):
+        self.frames += 1
+        new_now = int(time.time())
+        if new_now != self.last_clock:
+            self.fps = self.frames
+            self.frames = 0
+            self.last_clock = new_now
 
     def update(self):
         self.manual_fps_counter()
@@ -79,14 +87,6 @@ class Game:
         self.movement_system.process()
         self.projectile_lifetime_system.process()
         self.sound_system.process()
-
-    def manual_fps_counter(self):
-        self.frames += 1
-        new_now = int(t.time())
-        if new_now != self.last_clock:
-            self.fps = self.frames
-            self.frames = 0
-            self.last_clock = new_now
 
     def render(self):
         px.cls(0)

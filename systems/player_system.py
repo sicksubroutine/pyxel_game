@@ -1,5 +1,3 @@
-# TODO: Player System that controls and handles various player actions/interactions
-
 from components.transform import Transform
 from components.velocity import Velocity
 from components.keyboard_controller import KeyboardController
@@ -8,8 +6,6 @@ from components.color import Color, Colors
 from components.sprite import Sprite, SpriteLayer
 from components.projectile_emitter import ProjectileEmitter
 from components.health import Health
-from components.audio import AudioComponent, AudioChannel
-import esper as es
 import glm
 from misc.entity import EntityPool, Entity
 from misc.logger import Logger
@@ -58,3 +54,10 @@ class PlayerSystem:
             health,
         )
         self.player.Group("player")
+        return self.player
+
+    def player_death(self):
+        self.pool.remove_entity(self.player)
+
+    def respawn_player(self):
+        self.player = self.player_setup()
