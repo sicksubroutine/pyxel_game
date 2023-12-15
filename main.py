@@ -7,6 +7,8 @@ from misc.logger import Logger
 from misc.spawner import Spawner
 from misc.asset_store import AssetStore
 
+from level_loader.level_loader import LevelLoader
+
 # Systems
 from systems.keyboard_system import KeyboardSystem
 from systems.movement_system import MovementSystem
@@ -60,16 +62,17 @@ class Game:
         # es.set_handler("player_death", self.damage_system.on_player_death)
 
     def on_init(self):
-        self.asset_store.load_resource("assets", "./assets/assets.pyxres")
+        # self.asset_store.load_resource("assets", "./assets/assets.pyxres")
 
-        self.asset_store.add_sound("shoot")  # Sound 0
-        self.asset_store.add_sound("hit")  # Sound 1
-        self.asset_store.add_sound("explode")  # Sound 2
-
+        # self.asset_store.add_sound("shoot")  # Sound 0
+        # self.asset_store.add_sound("hit")  # Sound 1
+        # self.asset_store.add_sound("explode")  # Sound 2
         self.systems_import()
-        self.player = self.player_system.player_setup()
+
+        self.level_loader: LevelLoader = LevelLoader(self, 1)
+        self.player = self.level_loader.player
+
         self.enable_event_handlers()
-        self.spawner.gen_random_entity()
 
     def manual_fps_counter(self):
         self.frames += 1

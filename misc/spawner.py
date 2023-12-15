@@ -59,7 +59,7 @@ class Spawner:
         # play explosion sound
         audio = self.pool.create_entity(
             AudioComponent(
-                channel=int(AudioChannel.EFFECT_CHANNEL.value),
+                channel=int(AudioChannel.EFFECT_CHANNEL.value) + 1,
                 audio_id=self.asset_store.get_sound("explode"),
                 loop=False,
             )
@@ -87,7 +87,7 @@ class Spawner:
 
         audio = self.pool.create_entity(
             AudioComponent(
-                channel=int(AudioChannel.EFFECT_CHANNEL.value),
+                channel=int(AudioChannel.EFFECT_CHANNEL.value) + 2,
                 audio_id=self.asset_store.get_sound("hit"),
                 loop=False,
             )
