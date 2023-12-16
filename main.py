@@ -76,6 +76,7 @@ class Game:
             self.last_clock = new_now
 
     def update(self):
+        self.level_loader.spawn_schedule()
         self.fps_counter()
         self.star_system.update()
         self.collider_system.process()

@@ -7,8 +7,6 @@ from components.sprite import Sprite, SpriteLayer
 from components.keyboard_controller import KeyboardController
 from components.projectile_emitter import ProjectileEmitter
 
-from level_loader.enemies import Enemies, Enemy, Boss1, Boss2, Boss3, Boss4
-
 
 class Level1:
     def __init__(self, game):
@@ -61,4 +59,7 @@ class Level1:
         ]
 
         # TODO: Get around to making a spawn schedule
-        self.spawn_schedule = {}
+        self.spawn_schedule = [
+            {"enemy": "boss1", "x": 25, "y": 5, "delay": 0},
+            {"enemy": "boss2", "x": 50, "y": 5, "delay": 200},
+        ]

@@ -19,6 +19,7 @@ class LevelLoader:
         self.asset_store: AssetStore = game.asset_store
         self.pool: EntityPool = game.pool
         self.player_system: PlayerSystem = game.player_system
+        self.enemies: Enemies = Enemies(self.game)
         self.current_level = default_level
         self.levels = {
             0: {"name": "level0", "class": None},
@@ -30,12 +31,14 @@ class LevelLoader:
 
         self.possible_components = self.pool.possible_components
         self.load_level()
+        self.delay = 0
 
     def class_checker(self):
         self.assets_present = False
         self.player_present = False
         self.menu_present = False
         self.entities_present = False
+        self.spawn_schedule_present = False
         level_name = self.levels[self.current_level]["name"]
 
         if hasattr(self.loaded_level, "assets"):
@@ -50,6 +53,9 @@ class LevelLoader:
         if hasattr(self.loaded_level, "entities"):
             self.logger.Log(f"Loading entities for {level_name}...")
             self.entities_present = True
+        if hasattr(self.loaded_level, "spawn_schedule"):
+            self.logger.Log(f"Loading spawn schedule for {level_name}...")
+            self.spawn_schedule_present = True
 
     def load_level_class(self, level_name):
         try:
@@ -97,3 +103,20 @@ class LevelLoader:
             return
         components = [component for component in self.loaded_level.player]
         self.player = self.pool.create_entity(*components)
+
+    def spawn_schedule(self):
+        self.delay += 1
+        """
+        Example: self.spawn_schedule = [
+            {"enemy": "boss1", "x": 25, "y": 5, "delay": 0},
+            {"enemy": "boss2", "x": 50, "y": 5, "delay": 200},
+        ]
+        """
+        enemies = self.loaded_level.spawn_schedule
+
+        for enemy in enemies:
+            if self.delay < enemy["delay"]:
+                return
+            self.logger.Log(f"Spawning {enemy['enemy']} at {enemy['x']}, {enemy['y']}")
+            self.enemies.get_enemy(enemy["enemy"], enemy["x"], enemy["y"])
+            enemies.remove(enemy)
