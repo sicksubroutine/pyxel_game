@@ -7,6 +7,8 @@ from components.sprite import Sprite, SpriteLayer
 from components.keyboard_controller import KeyboardController
 from components.projectile_emitter import ProjectileEmitter
 
+from level_loader.enemies import Enemies, Enemy, Boss1, Boss2, Boss3, Boss4
+
 
 class Level1:
     def __init__(self, game):

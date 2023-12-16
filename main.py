@@ -62,19 +62,12 @@ class Game:
         # es.set_handler("player_death", self.damage_system.on_player_death)
 
     def on_init(self):
-        # self.asset_store.load_resource("assets", "./assets/assets.pyxres")
-
-        # self.asset_store.add_sound("shoot")  # Sound 0
-        # self.asset_store.add_sound("hit")  # Sound 1
-        # self.asset_store.add_sound("explode")  # Sound 2
         self.systems_import()
-
         self.level_loader: LevelLoader = LevelLoader(self, 1)
         self.player = self.level_loader.player
-
         self.enable_event_handlers()
 
-    def manual_fps_counter(self):
+    def fps_counter(self):
         self.frames += 1
         new_now = int(time.time())
         if new_now != self.last_clock:
@@ -83,7 +76,7 @@ class Game:
             self.last_clock = new_now
 
     def update(self):
-        self.manual_fps_counter()
+        self.fps_counter()
         self.star_system.update()
         self.collider_system.process()
         self.keyboard_system.process()

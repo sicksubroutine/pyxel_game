@@ -4,8 +4,12 @@ from misc.asset_store import AssetStore
 from misc.entity import EntityPool
 
 from systems.player_system import PlayerSystem
-
+from level_loader.enemies import Enemies
 from level_loader.level1 import Level1
+
+
+class MissingComponent(Exception):
+    pass
 
 
 class LevelLoader:
@@ -81,14 +85,15 @@ class LevelLoader:
         if not self.player_present:
             self.logger.Warn(f"No player found for {self.levels[self.current_level]}")
             return
-        for component in self.loaded_level.player:
-            assert (
-                component.__class__ in self.possible_components
-            ), f"Component {component.__class__} not found in possible components"
-            if component.__class__ not in self.possible_components:
-                self.logger.Warn(
-                    f"Component {component.__class__} not found in possible components"
-                )
-                return
+        try:
+            for component in self.loaded_level.player:
+                if component.__class__ not in self.possible_components:
+                    self.logger.Warn(
+                        f"Component {component.__class__} not found in possible components"
+                    )
+                    raise MissingComponent("Missing component!")
+        except MissingComponent as e:
+            self.logger.Error(f"An issue with components was found: {e}")
+            return
         components = [component for component in self.loaded_level.player]
         self.player = self.pool.create_entity(*components)
