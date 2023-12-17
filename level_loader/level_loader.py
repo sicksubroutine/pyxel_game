@@ -106,17 +106,12 @@ class LevelLoader:
 
     def spawn_schedule(self):
         self.delay += 1
-        """
-        Example: self.spawn_schedule = [
-            {"enemy": "boss1", "x": 25, "y": 5, "delay": 0},
-            {"enemy": "boss2", "x": 50, "y": 5, "delay": 200},
-        ]
-        """
         enemies = self.loaded_level.spawn_schedule
-
         for enemy in enemies:
             if self.delay < enemy["delay"]:
                 return
             self.logger.Log(f"Spawning {enemy['enemy']} at {enemy['x']}, {enemy['y']}")
-            self.enemies.get_enemy(enemy["enemy"], enemy["x"], enemy["y"])
+            self.enemies.get_enemy(
+                enemy["enemy"], enemy["x"], enemy["y"], enemy["health"]
+            )
             enemies.remove(enemy)

@@ -25,6 +25,7 @@ class Enemy:
         vel_x: int,
         vel_y: int,
         game,
+        health,
     ):
         self.game = game
         self.spawner: Spawner = game.spawner
@@ -33,7 +34,7 @@ class Enemy:
         self.velocity = Velocity(glm.vec2(vel_x, vel_y))
         self.transform = Transform(glm.vec2(x, y), glm.vec2(4, 4), 0)
         self.collider = Collider(w, h, glm.vec2(0, 0), "enemies")
-        self.health = Health(100, 100, False)
+        self.health = Health(health, health, False)
         # self.projectile_emitter = ProjectileEmitter(False, 10)
         self.group = "enemies"
         self.entity = None
@@ -51,9 +52,21 @@ class Enemy:
 
 
 class Boss1(Enemy):
-    def __init__(self, x, y, game):
+    def __init__(self, x, y, game, health):
         super().__init__(
-            16, 16, 0, 32, 64, SpriteLayer.ENEMY_LAYER, False, x, y, -0.01, 0, game
+            16,
+            16,
+            0,
+            32,
+            64,
+            SpriteLayer.ENEMY_LAYER,
+            False,
+            x,
+            y,
+            -0.01,
+            0,
+            game,
+            health,
         )
 
     def on_init(self):
@@ -61,9 +74,21 @@ class Boss1(Enemy):
 
 
 class Boss2(Enemy):
-    def __init__(self, x, y, game):
+    def __init__(self, x, y, game, health):
         super().__init__(
-            16, 16, 0, 48, 64, SpriteLayer.ENEMY_LAYER, False, x, y, -0.01, 0, game
+            16,
+            16,
+            0,
+            48,
+            64,
+            SpriteLayer.ENEMY_LAYER,
+            False,
+            x,
+            y,
+            -0.01,
+            0,
+            game,
+            health,
         )
 
     def on_init(self):
@@ -71,9 +96,21 @@ class Boss2(Enemy):
 
 
 class Boss3(Enemy):
-    def __init__(self, x, y, game):
+    def __init__(self, x, y, game, health):
         super().__init__(
-            16, 16, 0, 32, 48, SpriteLayer.ENEMY_LAYER, False, x, y, -0.01, 0, game
+            16,
+            16,
+            0,
+            32,
+            48,
+            SpriteLayer.ENEMY_LAYER,
+            False,
+            x,
+            y,
+            -0.01,
+            0,
+            game,
+            health,
         )
 
     def on_init(self):
@@ -81,9 +118,21 @@ class Boss3(Enemy):
 
 
 class Boss4(Enemy):
-    def __init__(self, x, y, game):
+    def __init__(self, x, y, game, health):
         super().__init__(
-            16, 16, 0, 48, 48, SpriteLayer.ENEMY_LAYER, False, x, y, -0.01, 0, game
+            16,
+            16,
+            0,
+            48,
+            48,
+            SpriteLayer.ENEMY_LAYER,
+            False,
+            x,
+            y,
+            -0.01,
+            0,
+            game,
+            health,
         )
 
     def on_init(self):
@@ -101,15 +150,13 @@ class Enemies:
             "boss4": Boss4,
         }
 
-    def get_enemy(self, name, x, y) -> Enemy:
-        # get the enemy class
+    def get_enemy(self, name, x, y, health) -> Enemy:
         enemy_class = self.enemy_types[name]
-        enemy_instance = enemy_class(x, y, self.game)
+        enemy_instance = enemy_class(x, y, self.game, health)
         self.enemies.append(enemy_instance)
         return enemy_instance
 
     def get_random_enemy(self, x, y) -> Enemy:
-        # get a random enemy class
         enemy_class = random.choice(list(self.enemy_types.values()))
         enemy_instance = enemy_class(x, y, self.game)
         self.enemies.append(enemy_instance)

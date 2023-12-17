@@ -33,7 +33,7 @@ class Level1:
                 layer=SpriteLayer.PLAYER_LAYER,
                 is_fixed=False,
             ),
-            ProjectileEmitter(is_friendly=True, hit_damage=10),
+            ProjectileEmitter(is_friendly=True, hit_damage=100),
         ]
         self.assets = [
             {
@@ -60,6 +60,10 @@ class Level1:
 
         # TODO: Get around to making a spawn schedule
         self.spawn_schedule = [
-            {"enemy": "boss1", "x": 25, "y": 5, "delay": 0},
-            {"enemy": "boss2", "x": 50, "y": 5, "delay": 200},
+            {"enemy": "boss1", "x": 25, "y": 5, "health": 500, "delay": 0},
+            {"enemy": "boss2", "x": 50, "y": 5, "health": 1000, "delay": 500},
+            {"enemy": "boss3", "x": 75, "y": 5, "health": 1500, "delay": 1000},
+            {"enemy": "boss4", "x": 100, "y": 5, "health": 2000, "delay": 2000},
+            {"enemy": "boss1", "x": 125, "y": 5, "health": 2500, "delay": 3000},
+            {"enemy": "boss2", "x": 150, "y": 5, "health": 3000, "delay": 4000},
         ]
