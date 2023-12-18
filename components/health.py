@@ -9,4 +9,3 @@ class Health(BaseComponent):
     max_health: int
     current_health: int
     is_god_mode: bool = False
-    hit_invuln: int = 0

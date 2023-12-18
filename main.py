@@ -20,7 +20,6 @@ from systems.damage_system import DamageSystem
 from systems.sound_system import SoundSystem
 from systems.player_system import PlayerSystem
 from systems.particle_system import ParticleSystem
-from systems.health_system import HealthSystem
 
 
 class Game:
@@ -53,7 +52,6 @@ class Game:
         self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
         self.particle_system = ParticleSystem(self)
-        self.health_system = HealthSystem()
 
     def enable_event_handlers(self):
         es.set_handler("shoot", self.projectile_system.player_shoot)
@@ -85,13 +83,12 @@ class Game:
         self.movement_system.process()
         self.projectile_lifetime_system.process()
         self.sound_system.process()
-        self.health_system.process()
         self.fps_counter()
 
     def render(self):
         px.cls(0)
         self.star_system.render()
-        self.render_system.process()
+        self.render_system.process(self.player_system)
         self.muzzle_flash_system.render()
         self.particle_system.process()
         if self.debug:

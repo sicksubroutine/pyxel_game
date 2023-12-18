@@ -7,6 +7,8 @@ from components.color import Color, Colors
 from components.sprite import Sprite, SpriteLayer
 from misc.logger import Logger
 
+from systems.player_system import PlayerSystem
+
 
 class RenderSystem(es.Processor):
     def __init__(self, game):
@@ -36,7 +38,7 @@ class RenderSystem(es.Processor):
         except ValueError as e:
             self.logger.Log(e)
 
-    def process(self):
+    def process(self, player_system: PlayerSystem):
         priority_queue = []
         for ent, (transform, sprite) in es.get_components(Transform, Sprite):
             in_view = self.check_if_in_view(transform, sprite)
@@ -48,20 +50,34 @@ class RenderSystem(es.Processor):
         while priority_queue:
             _, ent, transform, sprite = heapq.heappop(priority_queue)
 
+            player_entity_id = player_system.player.entity_id
+
             if sprite.in_view:
                 if sprite.hit_flash > 0:
                     sprite.hit_flash -= 1
                     self.convert_pal_to_color("RED")
-                px.blt(
-                    transform.position.x,
-                    transform.position.y,
-                    sprite.img,
-                    sprite.u,
-                    sprite.v,
-                    sprite.width,
-                    sprite.height,
-                    0,
-                )
+                if sprite.hit_flash % 8 == 0 and player_entity_id == ent:
+                    px.blt(
+                        transform.position.x,
+                        transform.position.y,
+                        sprite.img,
+                        sprite.u,
+                        sprite.v,
+                        sprite.width,
+                        sprite.height,
+                        0,
+                    )
+                elif ent != player_entity_id:
+                    px.blt(
+                        transform.position.x,
+                        transform.position.y,
+                        sprite.img,
+                        sprite.u,
+                        sprite.v,
+                        sprite.width,
+                        sprite.height,
+                        0,
+                    )
                 px.pal()
 
 
