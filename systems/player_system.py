@@ -12,7 +12,6 @@ class PlayerSystem:
 
     def player_setup(self, *components):
         self.components = {str(c): c for c in components}
-        self.logger.Log(self.components)
         transform = self.components["transform"]
         position = transform.position
         self.logger.Log(position)
