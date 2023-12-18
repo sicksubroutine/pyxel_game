@@ -1,5 +1,6 @@
 from dataclasses import dataclass as component
 from enum import Enum
+from components.base import BaseComponent
 
 
 class SoundTemplate:
@@ -33,7 +34,7 @@ class AudioChannel(Enum):
 
 
 @component
-class AudioComponent:
+class AudioComponent(BaseComponent):
     audio_id: int = -1
     loop: bool = False
     is_playing: bool = False

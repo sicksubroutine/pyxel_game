@@ -1,9 +1,10 @@
 import glm
 from dataclasses import dataclass as component
+from components.base import BaseComponent
 
 
 @component
-class Collider:
+class Collider(BaseComponent):
     """Collider component for collision detection"""
 
     width: int = 0

@@ -1,8 +1,9 @@
 from dataclasses import dataclass as component
+from components.base import BaseComponent
 
 
 @component
-class Animation:
+class Animation(BaseComponent):
     """Animation component for animating sprites"""
 
     num_frames: int = 1

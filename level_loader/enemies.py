@@ -31,7 +31,7 @@ class Enemy:
         self.spawner: Spawner = game.spawner
         self.logger: Logger = game.logger
         self.sprite = Sprite(w, h, img, u, v, layer, is_fixed)
-        self.velocity = Velocity(glm.vec2(vel_x, vel_y))
+        self.velocity = Velocity(glm.vec2(0.0, 0.25))
         self.transform = Transform(glm.vec2(x, y), glm.vec2(4, 4), 0)
         self.collider = Collider(w, h, glm.vec2(0, 0), "enemies")
         self.health = Health(health, health, False)

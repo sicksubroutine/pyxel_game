@@ -1,8 +1,9 @@
 from dataclasses import dataclass as component
+from components.base import BaseComponent
 
 
 @component
-class Projectile:
+class Projectile(BaseComponent):
     """Projectile component for tracking projectile data"""
 
     duration: float = 0

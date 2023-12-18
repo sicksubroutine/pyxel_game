@@ -7,7 +7,6 @@ from components.velocity import Velocity
 from components.sprite import Sprite
 from components.animation import Animation
 from components.keyboard_controller import KeyboardController
-from components.camera_follow import CameraFollow
 from components.collider import Collider
 from components.health import Health
 from components.projectile_emitter import ProjectileEmitter
@@ -65,7 +64,6 @@ class EntityPool:
             Sprite,
             Animation,
             KeyboardController,
-            CameraFollow,
             Collider,
             Health,
             ProjectileEmitter,

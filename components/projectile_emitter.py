@@ -1,9 +1,10 @@
 from dataclasses import dataclass as component
 import glm
+from components.base import BaseComponent
 
 
 @component
-class ProjectileEmitter:
+class ProjectileEmitter(BaseComponent):
     """ProjectileEmitter component for tracking projectile emitter attached to an entity"""
 
     fire_delay: float = 25

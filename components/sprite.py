@@ -1,5 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass as component
+from components.base import BaseComponent
 
 
 class SpriteLayer(Enum):
@@ -17,7 +18,7 @@ class SpriteLayer(Enum):
 
 
 @component
-class Sprite:
+class Sprite(BaseComponent):
     """Sprite component for tracking sprite data for an entity"""
 
     width: int = 0

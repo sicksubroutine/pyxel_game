@@ -1,5 +1,6 @@
 from dataclasses import dataclass as component
 from enum import Enum
+from components.base import BaseComponent
 
 
 class Colors(Enum):
@@ -25,5 +26,5 @@ class Colors(Enum):
 
 
 @component
-class Color:
+class Color(BaseComponent):
     color: Colors = Colors.BLACK

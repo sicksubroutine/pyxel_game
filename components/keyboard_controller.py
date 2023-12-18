@@ -1,9 +1,10 @@
 from dataclasses import dataclass as component
 import glm
+from components.base import BaseComponent
 
 
 @component
-class KeyboardController:
+class KeyboardController(BaseComponent):
     """KeyboardController component for tracking keyboard input"""
 
     up_velocity: glm.vec2 = glm.vec2(0)

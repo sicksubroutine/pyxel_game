@@ -41,6 +41,10 @@ class DamageSystem:
 
         # direct hit between player and enemy
         if entities["player"] and entities["enemy"]:
+            player_health = es.component_for_entity(entities["player"], Health)
+
+            player_health.hit_invuln = 10
+
             self.damage_to_enemy(entities["enemy"])
             self.damage_to_player(entities["player"])
 
@@ -89,12 +93,14 @@ class DamageSystem:
             if player not in self.pool.entities:
                 return
             player_health = es.component_for_entity(player, Health)
+            sprite = es.component_for_entity(player, Sprite)
             audio = AudioComponent(
                 channel=int(AudioChannel.EFFECT_CHANNEL.value) + 1,
                 audio_id=self.asset_store.get_sound("hit"),
                 loop=False,
             )
             es.add_component(player, audio)
+            sprite.hit_flash = 5
             if player_health.is_god_mode:
                 return
             player_health.current_health -= damage

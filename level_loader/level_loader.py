@@ -102,7 +102,7 @@ class LevelLoader:
             self.logger.Error(f"An issue with components was found: {e}")
             return
         components = [component for component in self.loaded_level.player]
-        self.player = self.pool.create_entity(*components)
+        self.player = self.player_system.player_setup(*components)
 
     def spawn_schedule(self):
         self.delay += 1
