@@ -33,7 +33,7 @@ class Game:
         self.last_clock = 0
         self.res_width = 64
         self.res_height = 64
-        px.init(self.res_width, self.res_height, title="Game", fps=60)
+        px.init(self.res_width, self.res_height, title="Untitled 64x64 Shmup", fps=60)
         px.mouse(False)
         self.on_init()
 
@@ -59,7 +59,7 @@ class Game:
         es.set_handler("collision", self.damage_system.on_collision)
         es.set_handler("explosion", self.spawner.gen_explosion)
         es.set_handler("sparks", self.spawner.gen_sparks)
-        # es.set_handler("player_death", self.damage_system.on_player_death)
+        es.set_handler("player_death", self.player_system.player_death)
 
     def on_init(self):
         self.systems_import()

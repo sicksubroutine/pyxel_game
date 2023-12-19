@@ -6,10 +6,12 @@ from components.health import Health
 from components.sprite import Sprite, SpriteLayer
 from components.keyboard_controller import KeyboardController
 from components.projectile_emitter import ProjectileEmitter
+from level_loader.base import BaseLevel
 
 
-class Level1:
+class Level1(BaseLevel):
     def __init__(self, game):
+        super().__init__(game)
         self.game = game
         self.level_name = "level1"
         self.player = [

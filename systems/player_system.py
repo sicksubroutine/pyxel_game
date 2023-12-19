@@ -12,14 +12,12 @@ class PlayerSystem:
 
     def player_setup(self, *components):
         self.components = {str(c): c for c in components}
-        transform = self.components["transform"]
-        position = transform.position
-        self.logger.Log(position)
         self.player: Entity = self.pool.create_entity(*components)
         self.player.Group("player")
         return self.player
 
     def player_death(self):
+        self.logger.Log("Player death")
         self.components = {}
         self.pool.remove_entity(self.player)
 

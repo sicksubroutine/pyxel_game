@@ -19,7 +19,7 @@ class DamageSystem:
         self.logger: Logger = game.logger
         self.asset_store: AssetStore = game.asset_store
 
-    def on_collision(self, entity1, entity2):
+    def on_collision(self, entity1: dict, entity2: dict) -> None:
         entities = {"bullet": None, "enemy": None, "player": None}
 
         for entity in [entity1, entity2]:
@@ -38,23 +38,26 @@ class DamageSystem:
 
         if entities["player"] and entities["player"] not in self.pool.entities:
             return
-
+        if entities["player"]:
+            sprite = es.component_for_entity(entities["player"], Sprite)
         # direct hit between player and enemy
         if entities["player"] and entities["enemy"]:
-            sprite = es.component_for_entity(entities["player"], Sprite)
             if sprite.hit_flash > 0:
                 # player is invulnerable for a short time after being hit
                 return
             sprite.hit_flash = 120
-
-            self.damage_to_enemy(entities["enemy"])
-            self.damage_to_player(entities["player"])
+            self.damage_to_enemy(entities["enemy"], 25)
+            self.damage_to_player(entities["player"], 25)
 
         # projectile hit player
         if entities["player"] and entities["bullet"]:
             projectile = es.component_for_entity(entities["projectile"], Projectile)
             if projectile.is_friendly:
                 return
+            if sprite.hit_flash > 0:
+                # player is invulnerable for a short time after being hit
+                return
+            sprite.hit_flash = 120
             damage = projectile.hit_damage
             self.damage_to_player(entities["player"], damage)
             self.pool.remove_entity((entities["bullet"]))
@@ -95,9 +98,6 @@ class DamageSystem:
             if player not in self.pool.entities:
                 return
             player_health = es.component_for_entity(player, Health)
-            if player_health.hit_invuln > 0:
-                return
-
             audio = AudioComponent(
                 channel=int(AudioChannel.EFFECT_CHANNEL.value) + 1,
                 audio_id=self.asset_store.get_sound("hit"),
@@ -108,7 +108,6 @@ class DamageSystem:
                 return
             player_health.current_health -= damage
             if player_health.current_health <= 0:
-                ...
-                # es.dispatch_event("player_death")
+                es.dispatch_event("player_death")
         except Exception as e:
             self.logger.Log(traceback.format_exc())

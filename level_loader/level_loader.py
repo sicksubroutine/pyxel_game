@@ -110,7 +110,7 @@ class LevelLoader:
         for enemy in enemies:
             if self.delay < enemy["delay"]:
                 return
-            self.logger.Log(f"Spawning {enemy['enemy']} at {enemy['x']}, {enemy['y']}")
+            # self.logger.Log(f"Spawning {enemy['enemy']} at {enemy['x']}, {enemy['y']}")
             self.enemies.get_enemy(
                 enemy["enemy"], enemy["x"], enemy["y"], enemy["health"]
             )
