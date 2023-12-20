@@ -25,6 +25,9 @@ class Colors(Enum):
     KHAKI = 15
 
 
+colors = {color: Colors[color].value for color in Colors.__members__}
+
+
 @component
 class Color(BaseComponent):
     color: Colors = Colors.BLACK

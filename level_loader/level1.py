@@ -1,4 +1,5 @@
 import glm
+from misc.logger import Logger
 from components.transform import Transform
 from components.velocity import Velocity
 from components.collider import Collider
@@ -13,6 +14,9 @@ class Level1(BaseLevel):
     def __init__(self, game):
         super().__init__(game)
         self.game = game
+        self.logger: Logger = game.logger
+        self.menu = True
+
         self.level_name = "level1"
         self.player = [
             Transform(position=glm.vec2(25, 50), scale=glm.vec2(5, 5), rotation=0.0),
@@ -60,7 +64,6 @@ class Level1(BaseLevel):
             },
         ]
 
-        # TODO: Get around to making a spawn schedule
         self.spawn_schedule = [
             {"enemy": "boss1", "x": 25, "y": 5, "health": 500, "delay": 0},
             {"enemy": "boss2", "x": 50, "y": 5, "health": 1000, "delay": 500},

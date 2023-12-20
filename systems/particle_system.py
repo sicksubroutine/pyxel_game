@@ -1,6 +1,6 @@
 import pyxel as px
 import esper as es
-
+import glm
 from components.transform import Transform
 from components.velocity import Velocity
 from components.particle import Particle
@@ -9,6 +9,7 @@ from misc.entity import EntityPool
 from misc.logger import Logger
 
 EPSILON = 0.000001
+SLOWDOWN = 25
 
 
 class ParticleSystem(es.Processor):
@@ -18,15 +19,18 @@ class ParticleSystem(es.Processor):
         self.logger: Logger = game.logger
 
     def process(self):
-        slowdown = 25
         for ent, (transform, velocity, particle) in es.get_components(
             Transform, Velocity, Particle
         ):
-            vel = velocity.velocity
+            vel = velocity.velocity if not self.game.paused else glm.vec2(0, 0)
             if particle.age > 0:
-                particle.age -= 1
+                particle.age -= 1 if not self.game.paused else 0
                 # fade out over time
-                vel -= (vel / (pow((particle.age) + EPSILON, 0.975))) * slowdown
+                vel -= (
+                    (vel / (pow((particle.age) + EPSILON, 0.975))) * SLOWDOWN
+                    if not self.game.paused
+                    else 0
+                )
                 transform.position += vel
                 # fade from white, to red, to yellow, to orange, to grey
                 color = int(particle.color)

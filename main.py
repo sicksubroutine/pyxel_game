@@ -33,6 +33,8 @@ class Game:
         self.last_clock = 0
         self.res_width = 64
         self.res_height = 64
+        self.paused = False
+        self.keypress_delay = 0.0
         px.init(self.res_width, self.res_height, title="Untitled 64x64 Shmup", fps=60)
 
         self.systems_import()
@@ -48,7 +50,7 @@ class Game:
         self.projectile_lifetime_system = ProjectileLifetimeSystem(self)
         self.collider_system = ColliderSystem(self)
         self.collision_render_system = CollisionRenderSystem()
-        self.muzzle_flash_system = RenderMuzzleFlashSystem()
+        self.muzzle_flash_system = RenderMuzzleFlashSystem(self)
         self.damage_system = DamageSystem(self)
         self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
@@ -82,14 +84,15 @@ class Game:
             self.last_clock = new_now
 
     def update(self):
-        if self.level_loader.spawn_schedule_present:
+        self.keypress_delay -= 1.0 if self.keypress_delay > 0.0 else 0.0
+        if not self.paused:
             self.level_loader.spawn_schedule()
-        self.star_system.update()
-        self.collider_system.process()
-        self.keyboard_system.process()
-        self.movement_system.process()
-        self.projectile_lifetime_system.process()
-        self.sound_system.process()
+            self.star_system.update()
+            self.collider_system.process()
+            self.keyboard_system.process()
+            self.movement_system.process()
+            self.projectile_lifetime_system.process()
+            self.sound_system.process()
         if self.level_loader.menu_present:
             self.menu_update()
         self.fps_counter()

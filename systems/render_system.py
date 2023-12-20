@@ -82,14 +82,15 @@ class RenderSystem(es.Processor):
 
 
 class RenderMuzzleFlashSystem:
-    def __init__(self):
+    def __init__(self, game):
         self.muzzle_flash_size = 0.0
+        self.game = game
 
     def render(self):
         if self.muzzle_flash_size > 0.0:
             px.circ(self.x, self.y, self.muzzle_flash_size, 9)
             px.circ(self.x, self.y, self.muzzle_flash_size - 2, 8)
-            self.muzzle_flash_size -= 1.0
+            self.muzzle_flash_size -= 1.0 if not self.game.paused else 0.0
 
     def muzzle_flash(self, x, y, muzzle_flash_size):
         self.x = x

@@ -17,6 +17,7 @@ class StarSystem:
                     px.rndf(0.25, 2.5),
                 )
             )
+        self.color_modes = None
 
     def update(self):
         for i, (x, y, speed) in enumerate(self.stars):

@@ -144,6 +144,8 @@ class LevelLoader:
         self.player = self.player_system.player_setup(*components)
 
     def spawn_schedule(self):
+        if not self.spawn_schedule_present:
+            return
         self.delay += 1
         enemies = self.loaded_level.spawn_schedule
         for enemy in enemies:

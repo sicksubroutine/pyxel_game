@@ -16,7 +16,6 @@ class KeyboardSystem(es.Processor):
         self.spawner: Spawner = game.spawner
         self.logger: Logger = self.game.logger
         self.pool: EntityPool = game.pool
-        self.keypress_delay = 0.0
 
     def process(self):
         for entity, (keyboard, velocity, _, sprite) in es.get_components(
@@ -25,8 +24,6 @@ class KeyboardSystem(es.Processor):
             Transform,
             Sprite,
         ):
-            if self.keypress_delay > 0.0:
-                self.keypress_delay -= 1
             velocity.velocity = glm.vec2(0, 0)
             sprite.u = sprite.default_u
 
@@ -66,15 +63,24 @@ class KeyboardSystem(es.Processor):
                 for entity in entities:
                     self.logger.Log(f"Entity: {entity}")
 
-            if px.btn(px.KEY_SPACE) and self.keypress_delay <= 0.0:
-                self.keypress_delay = 10.0
+            if px.btn(px.KEY_SPACE) and self.game.keypress_delay <= 0.0:
+                self.game.keypress_delay = 10.0
                 es.dispatch_event("shoot")
 
-                # if px.btn(px.KEY_X) and self.keypress_delay <= 0.0:
-                # self.keypress_delay = 10.0
+                # if px.btn(px.KEY_X) and self.game.keypress_delay <= 0.0:
+                # self.game.keypress_delay = 10.0
                 # self.spawner.gen_enemy()
             if px.btn(px.KEY_Z):
                 self.spawner.destroy_entities()
+
+            if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0:
+                self.game.level_loader.loaded_level.menu_showing = (
+                    not self.game.level_loader.loaded_level.menu_showing
+                )
+                self.game.paused = not self.game.paused
+                self.logger.Log(f"Paused from keyboard_system: {self.game.paused}")
+                self.game.keypress_delay = 25.0
+                return
 
             if px.btnp(px.KEY_ESCAPE):
                 px.quit()
