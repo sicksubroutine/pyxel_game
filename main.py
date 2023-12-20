@@ -34,8 +34,9 @@ class Game:
         self.res_width = 64
         self.res_height = 64
         px.init(self.res_width, self.res_height, title="Untitled 64x64 Shmup", fps=60)
-        px.mouse(False)
-        self.on_init()
+
+        self.systems_import()
+        self.level_init()
 
     def systems_import(self):
         self.spawner = Spawner(self)
@@ -52,19 +53,24 @@ class Game:
         self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
         self.particle_system = ParticleSystem(self)
+        self.level_loader: LevelLoader = LevelLoader(self, 0)
 
     def enable_event_handlers(self):
-        es.set_handler("shoot", self.projectile_system.player_shoot)
-        es.set_handler("muzzle_flash", self.muzzle_flash_system.muzzle_flash)
-        es.set_handler("collision", self.damage_system.on_collision)
-        es.set_handler("explosion", self.spawner.gen_explosion)
-        es.set_handler("sparks", self.spawner.gen_sparks)
-        es.set_handler("player_death", self.player_system.player_death)
+        es.set_handler("start_game", self.level_loader.next_level)
+        if self.level_loader.player_present:
+            es.set_handler("shoot", self.projectile_system.player_shoot)
+            es.set_handler("muzzle_flash", self.muzzle_flash_system.muzzle_flash)
+            es.set_handler("collision", self.damage_system.on_collision)
+            es.set_handler("explosion", self.spawner.gen_explosion)
+            es.set_handler("sparks", self.spawner.gen_sparks)
+            es.set_handler("player_death", self.player_system.player_death)
 
-    def on_init(self):
-        self.systems_import()
-        self.level_loader: LevelLoader = LevelLoader(self, 1)
-        self.player = self.level_loader.player
+    def level_init(self):
+        if self.level_loader.player_present:
+            self.player = self.level_loader.player
+        if self.level_loader.menu_present:
+            self.menu_render = self.level_loader.menu_render
+            self.menu_update = self.level_loader.menu_update
         self.enable_event_handlers()
 
     def fps_counter(self):
@@ -76,13 +82,16 @@ class Game:
             self.last_clock = new_now
 
     def update(self):
-        self.level_loader.spawn_schedule()
+        if self.level_loader.spawn_schedule_present:
+            self.level_loader.spawn_schedule()
         self.star_system.update()
         self.collider_system.process()
         self.keyboard_system.process()
         self.movement_system.process()
         self.projectile_lifetime_system.process()
         self.sound_system.process()
+        if self.level_loader.menu_present:
+            self.menu_update()
         self.fps_counter()
 
     def render(self):
@@ -91,6 +100,8 @@ class Game:
         self.render_system.process(self.player_system)
         self.muzzle_flash_system.render()
         self.particle_system.process()
+        if self.level_loader.menu_present:
+            self.menu_render()
         if self.debug:
             self.collision_render_system.process()
             px.text(0, 0, f"FPS: {self.fps}", 7)
