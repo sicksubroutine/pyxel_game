@@ -13,17 +13,8 @@ class StartMenu(BaseLevel):
         self.logger: Logger = game.logger
         self.level_name = "start_menu"
         self.menu = True
+        self.menu_showing = True
         self.mouse: glm.vec2 = glm.vec2(0, 0)
-
-    def menu_render(self):
-        # draw mouse cursor
-        # px.blt(self.mouse.x, self.mouse.y, 0, 0, 0, 2, 2, colors["BLACK"])
-        # A menu function that loads/renders the start menu
-        px.rect(14, 16, 38, 32, colors["BLACK"])
-        px.rectb(14, 16, 38, 32, colors["WHITE"])
-        px.text(18, 20, "Start", self.selection_color["start"])
-        px.text(18, 28, "Settings", self.selection_color["settings"])
-        px.text(18, 36, "Quit", self.selection_color["quit"])
 
     def menu_update(self):
         # mouse control

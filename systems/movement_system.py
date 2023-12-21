@@ -25,23 +25,21 @@ class MovementSystem(es.Processor):
 
             size_x = sprite.width
             size_y = sprite.height
+
+            if enemy:
+                velocity.velocity.y *= 1
+                if transform.position.y > self.height + size_y:
+                    self.pool.remove_entity(entity)
+
+            # player movement
             if transform.position.x > self.width - size_x:
                 transform.position.x = self.width - size_x
-                # bounce back
-                if enemy:
-                    velocity.velocity.x *= -1
 
             if transform.position.x < 0:
                 transform.position.x = 0
-                if enemy:
-                    velocity.velocity.x *= -1
 
-            if transform.position.y > self.height - size_y:
+            if transform.position.y > self.height - size_y and not enemy:
                 transform.position.y = self.height - size_y
-                # bounce back
-                if enemy:
-                    velocity.velocity.y *= -1
-            if transform.position.y < 0:
+
+            if transform.position.y < 0 and not enemy:
                 transform.position.y = 0
-                if enemy:
-                    velocity.velocity.y *= -1

@@ -1,4 +1,5 @@
 import pyxel as px
+import esper as es
 from components.color import colors
 from misc.logger import Logger
 
@@ -23,7 +24,7 @@ class BaseLevel:
         if not self.menu_showing:
             return
         # unpause game because this will only able to be called when paused
-        if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0:
+        if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0 and not self.menu:
             self.game.paused = not self.game.paused
             self.menu_showing = not self.menu_showing
             self.logger.Log(f"Paused: {self.game.paused}")

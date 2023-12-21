@@ -10,10 +10,10 @@ class LogType(Enum):
     LOG_ERROR: int = 2
 
 
-@dataclass
+@dataclass(frozen=True)
 class LogEntry:
-    log_t: LogType = LogType.LOG_INFO
-    message: str = ""
+    log_t: LogType
+    message: str
 
 
 class Logger:
