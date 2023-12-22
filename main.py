@@ -6,6 +6,7 @@ from misc.entity import EntityPool
 from misc.logger import Logger
 from misc.spawner import Spawner
 from misc.asset_store import AssetStore
+from misc.config import ConfigManager
 
 from level_loader.level_loader import LevelLoader
 
@@ -22,25 +23,47 @@ from systems.player_system import PlayerSystem
 from systems.particle_system import ParticleSystem
 
 
-class Game:
+class BootStrapper:
+    """Responsible for initializing the game and restarting an instance if needed"""
+
     def __init__(self):
-        self.logger: Logger = Logger(console_print=True)
+        self.config = ConfigManager()
+        self.logger: Logger = Logger(
+            console_print=True, file_write=True, file_path=self.config.log_file_name
+        )
+        self.logger.Log("BootStrapper initialized")
+
+    def start_game(self):
+        self.game: Game = Game(self, 0)
+        self.game.run()
+
+    def restart(self, current_level=0):
+        self.logger.Log("Restarting game...")
+        self.game: Game = Game(self, current_level)
+        self.game.run()
+
+
+class Game:
+    def __init__(self, bootstrap, current_level=0):
+        self.config = bootstrap.config
+        self.logger: Logger = bootstrap.logger
         self.pool: EntityPool = EntityPool(self.logger)
         self.asset_store: AssetStore = AssetStore(self.logger)
-        self.debug = False
+        self.debug = self.config.debug
         self.frames = 0
-        self.fps = 0
+        self.fps = self.config.target_fps
         self.last_clock = 0
-        self.res_width = 64
-        self.res_height = 64
+        self.res_width = self.config.window_width
+        self.res_height = self.config.window_height
         self.paused = False
         self.keypress_delay = 0.0
-        px.init(self.res_width, self.res_height, title="Untitled 64x64 Shmup", fps=60)
-
-        self.systems_import()
+        px.init(
+            self.res_width, self.res_height, title="Untitled 64x64 Shmup", fps=self.fps
+        )
+        self.systems_import(current_level)
         self.level_init()
 
-    def systems_import(self):
+    def systems_import(self, level):
         self.spawner = Spawner(self)
         self.keyboard_system = KeyboardSystem(self)
         self.movement_system = MovementSystem(self)
@@ -55,7 +78,7 @@ class Game:
         self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
         self.particle_system = ParticleSystem(self)
-        self.level_loader: LevelLoader = LevelLoader(self, 0)
+        self.level_loader: LevelLoader = LevelLoader(self, level)
 
     def enable_event_handlers(self):
         es.set_handler("start_game", self.level_loader.next_level)
@@ -115,5 +138,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    boot_strapper = BootStrapper()
+    boot_strapper.start_game()

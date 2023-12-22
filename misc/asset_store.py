@@ -33,4 +33,7 @@ class AssetStore:
         return self.sounds[name]
 
     def get_sound(self, name) -> int:
+        if name not in self.sounds:
+            self.logger.Err(f"Sound {name} does not exist")
+            return -1
         return self.sounds[name]

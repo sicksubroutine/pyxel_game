@@ -11,7 +11,7 @@ class StartMenu(BaseLevel):
         super().__init__(game)
         self.game = game
         self.logger: Logger = game.logger
-        self.level_name = "start_menu"
+        self.level_name = "Start Menu"
         self.menu = True
         self.menu_showing = True
         self.mouse: glm.vec2 = glm.vec2(0, 0)

@@ -24,13 +24,11 @@ class ParticleSystem(es.Processor):
         ):
             vel = velocity.velocity if not self.game.paused else glm.vec2(0, 0)
             if particle.age > 0:
-                particle.age -= 1 if not self.game.paused else 0
-                # fade out over time
-                vel -= (
-                    (vel / (pow((particle.age) + EPSILON, 0.975))) * SLOWDOWN
-                    if not self.game.paused
-                    else 0
-                )
+                if not self.game.paused:
+                    particle.age -= 1
+                    # fade out over time
+                    vel -= (vel / (pow((particle.age) + EPSILON, 0.975))) * SLOWDOWN
+
                 transform.position += vel
                 # fade from white, to red, to yellow, to orange, to grey
                 color = int(particle.color)

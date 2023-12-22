@@ -16,8 +16,7 @@ class Level1(BaseLevel):
         self.game = game
         self.logger: Logger = game.logger
         self.menu = True
-
-        self.level_name = "level1"
+        self.level_name = "level 1"
         self.player = [
             Transform(position=glm.vec2(25, 50), scale=glm.vec2(5, 5), rotation=0.0),
             Velocity(velocity=glm.vec2(0, 0)),
@@ -76,7 +75,7 @@ class Level1(BaseLevel):
             {
                 "enemy": "boss2",
                 "x": 50,
-                "y": 5,
+                "y": -25,
                 "velocity": 1.5,
                 "health": 1000,
                 "delay": 500,
@@ -84,7 +83,7 @@ class Level1(BaseLevel):
             {
                 "enemy": "boss3",
                 "x": 60,
-                "y": 5,
+                "y": -25,
                 "velocity": 1.5,
                 "health": 1500,
                 "delay": 1000,
@@ -92,7 +91,7 @@ class Level1(BaseLevel):
             {
                 "enemy": "boss4",
                 "x": 0,
-                "y": 5,
+                "y": -25,
                 "velocity": 1.5,
                 "health": 2000,
                 "delay": 2000,
@@ -100,7 +99,7 @@ class Level1(BaseLevel):
             {
                 "enemy": "boss1",
                 "x": 15,
-                "y": 5,
+                "y": -25,
                 "velocity": 1.5,
                 "health": 2500,
                 "delay": 3000,

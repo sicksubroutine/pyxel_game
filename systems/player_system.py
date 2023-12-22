@@ -20,7 +20,8 @@ class PlayerSystem:
         self.logger.Log("Player death")
         self.components = {}
         self.pool.remove_entity(self.player)
+        self.player = None
 
-    def respawn_player(self):
-        # TODO: need to get the player components from level_loader/level class
+    def respawn_player(self, *components):
+        self.components = {str(c): c for c in components}
         self.player = self.player_setup()

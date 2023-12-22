@@ -54,19 +54,19 @@ class Enemy:
 class Boss1(Enemy):
     def __init__(self, x, y, game, health):
         super().__init__(
-            16,
-            16,
-            0,
-            32,
-            64,
-            SpriteLayer.ENEMY_LAYER,
-            False,
-            x,
-            y,
-            -0.01,
-            0,
-            game,
-            health,
+            w=16,
+            h=16,
+            img=0,
+            u=32,
+            v=64,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
         )
 
     def on_init(self):
@@ -76,19 +76,19 @@ class Boss1(Enemy):
 class Boss2(Enemy):
     def __init__(self, x, y, game, health):
         super().__init__(
-            16,
-            16,
-            0,
-            48,
-            64,
-            SpriteLayer.ENEMY_LAYER,
-            False,
-            x,
-            y,
-            -0.01,
-            0,
-            game,
-            health,
+            w=16,
+            h=16,
+            img=0,
+            u=48,
+            v=64,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
         )
 
     def on_init(self):
@@ -98,19 +98,19 @@ class Boss2(Enemy):
 class Boss3(Enemy):
     def __init__(self, x, y, game, health):
         super().__init__(
-            16,
-            16,
-            0,
-            32,
-            48,
-            SpriteLayer.ENEMY_LAYER,
-            False,
-            x,
-            y,
-            -0.01,
-            0,
-            game,
-            health,
+            w=16,
+            h=16,
+            img=0,
+            u=32,
+            v=48,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
         )
 
     def on_init(self):
@@ -120,19 +120,19 @@ class Boss3(Enemy):
 class Boss4(Enemy):
     def __init__(self, x, y, game, health):
         super().__init__(
-            16,
-            16,
-            0,
-            48,
-            48,
-            SpriteLayer.ENEMY_LAYER,
-            False,
-            x,
-            y,
-            -0.01,
-            0,
-            game,
-            health,
+            w=16,
+            h=16,
+            img=0,
+            u=48,
+            v=48,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
         )
 
     def on_init(self):

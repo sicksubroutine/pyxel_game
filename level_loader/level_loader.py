@@ -7,6 +7,7 @@ from systems.player_system import PlayerSystem
 from level_loader.enemies import Enemies
 from level_loader.level1 import Level1
 from level_loader.start_menu import StartMenu
+from level_loader.ship_select import ShipSelect
 
 
 class MissingComponent(Exception):
@@ -24,7 +25,8 @@ class LevelLoader:
         self.current_level = starting_level
         self.levels = {
             0: {"name": "Start Menu", "class": StartMenu},
-            1: {"name": "Level 1", "class": Level1},
+            1: {"name": "Ship Selection", "class": ShipSelect},
+            2: {"name": "Level 1", "class": Level1},
         }
         es.switch_world(self.levels[self.current_level]["name"])
         if "default" in es.list_worlds():
@@ -112,6 +114,17 @@ class LevelLoader:
         es.switch_world(self.levels[self.current_level]["name"])
         if current_level in es.list_worlds():
             es.delete_world(current_level)
+        self.pool.clear_all_entities()
+        self.load_level()
+        self.game.level_init()
+
+    def previous_level(self):
+        current_level = self.levels[self.current_level]["name"]
+        self.current_level -= 1
+        es.switch_world(self.levels[self.current_level]["name"])
+        if current_level in es.list_worlds():
+            es.delete_world(current_level)
+        self.pool.clear_all_entities()
         self.load_level()
         self.game.level_init()
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 import esper as es
 
 # components
+from components.base import BaseComponent
 from components.transform import Transform
 from components.velocity import Velocity
 from components.sprite import Sprite
@@ -58,7 +59,7 @@ class EntityPool:
         self.entities: dict = {}
         self.tags: dict = {}
         self.groups: dict = {}
-        self.possible_components = [
+        self.possible_components: list = [
             Transform,
             Velocity,
             Sprite,
@@ -116,7 +117,7 @@ class EntityPool:
         else:
             return False
 
-    def has_component(self, entity: Entity, component) -> bool:
+    def has_component(self, entity: Entity, component: BaseComponent) -> bool:
         return es.has_component(entity.entity_id, component)
 
     def get_entity_from_id(self, entity_id: int) -> None | Entity:
@@ -159,7 +160,7 @@ class EntityPool:
         self.logger.Log(f"Checking if {entity_id} has {component}")
         return es.has_component(int(entity_id), component)
 
-    def entity_get_component(self, entity_id: int, component):
+    def entity_get_component(self, entity_id: int, component) -> None | BaseComponent:
         return es.component_for_entity(int(entity_id), component)
 
     def get_list_of_entities(self) -> list:

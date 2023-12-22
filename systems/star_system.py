@@ -7,9 +7,9 @@ STAR_COLOR_LOW = 1
 
 
 class StarSystem:
-    def __init__(self):
+    def __init__(self, color_mode=None):
         self.stars = []
-        for i in range(NUM_STARS):
+        for _ in range(NUM_STARS):
             self.stars.append(
                 (
                     px.rndi(0, px.width - 1),
@@ -17,7 +17,7 @@ class StarSystem:
                     px.rndf(0.25, 2.5),
                 )
             )
-        self.color_modes = None
+        self.color_mode = color_mode
 
     def update(self):
         for i, (x, y, speed) in enumerate(self.stars):

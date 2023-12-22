@@ -23,7 +23,8 @@ class BaseLevel:
     def menu_update(self):
         if not self.menu_showing:
             return
-        # unpause game because this will only able to be called when paused
+
+        # unpause game will only able to be called when paused
         if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0 and not self.menu:
             self.game.paused = not self.game.paused
             self.menu_showing = not self.menu_showing
@@ -68,6 +69,7 @@ class BaseLevel:
     def menu_render(self):
         if not self.menu_showing:
             return
+
         px.rect(14, 16, 38, 32, colors["BLACK"])
         px.rectb(14, 16, 38, 32, colors["WHITE"])
         px.text(18, 20, "Start", self.selection_color["start"])
