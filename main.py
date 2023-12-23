@@ -100,9 +100,9 @@ class Game:
 
     def fps_counter(self):
         self.frames += 1
-        new_now = int(time.time())
-        if new_now != self.last_clock:
-            self.fps = self.frames
+        new_now = time.perf_counter()
+        if new_now - self.last_clock >= 1.0:
+            self.fps = round(self.frames / (new_now - self.last_clock), 2)
             self.frames = 0
             self.last_clock = new_now
 
