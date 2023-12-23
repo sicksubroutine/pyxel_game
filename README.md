@@ -1,6 +1,6 @@
 # Untitled Game
 
-A simple game/game engine made using Pyxel (Pico8 style fantasy console framework for Python), Esper(Entity Component System), and GLM (math module) primarily.
+A simple game/game engine made using [Pyxel](https://github.com/kitao/pyxel) (Pico8 style fantasy console framework for Python), [Esper](https://github.com/benmoran56/esper) (Entity Component System), and [GLM](https://github.com/Zuzu-Typ/PyGLM/) (OpenGL Mathematics library) primarily.
 
 Assets were made by [Gustavo Vituri](https://gvituri.itch.io/) which you can find [here](https://gvituri.itch.io/space-shooter).
 

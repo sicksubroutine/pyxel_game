@@ -28,24 +28,9 @@ class Level1(BaseLevel):
             ),
             Health(max_health=100, current_health=100, is_god_mode=False),
             Collider(width=8, height=8, offset=glm.vec2(0, 0), group="player"),
-            Sprite(
-                width=8,
-                height=8,
-                img=0,
-                default_u=8,
-                u=8,
-                v=8,
-                layer=SpriteLayer.PLAYER_LAYER,
-                is_fixed=False,
-            ),
             ProjectileEmitter(is_friendly=True, hit_damage=100),
         ]
         self.assets = [
-            {
-                "asset_type": "resource",
-                "asset_id": "assets",
-                "path": "./assets/assets.pyxres",
-            },
             {
                 "asset_type": "sound",
                 "asset_id": "shoot",

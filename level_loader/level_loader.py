@@ -31,7 +31,6 @@ class LevelLoader:
         es.switch_world(self.levels[self.current_level]["name"])
         if "default" in es.list_worlds():
             es.delete_world("default")
-
         self.possible_components = self.pool.possible_components
         self.load_level()
         self.delay = 0
@@ -115,6 +114,7 @@ class LevelLoader:
         if current_level in es.list_worlds():
             es.delete_world(current_level)
         self.pool.clear_all_entities()
+        # self.asset_store.clear_assets()
         self.load_level()
         self.game.level_init()
 
@@ -133,12 +133,11 @@ class LevelLoader:
             return
         for asset in self.loaded_level.assets:
             if asset["asset_type"] == "resource":
-                self.asset_store.load_resource(asset["asset_id"], asset["path"])
+                if not self.asset_store.check_resource(asset["asset_id"]):
+                    self.asset_store.load_resource(asset["asset_id"], asset["path"])
             elif asset["asset_type"] == "sound":
-                assigned_number = self.asset_store.add_sound(asset["asset_id"])
-                assert (
-                    assigned_number == asset["number"]
-                ), f"Sound number {assigned_number} does not match {asset['number']}"
+                if not self.asset_store.check_sound(asset["asset_id"]):
+                    self.asset_store.add_sound(asset["asset_id"])
 
     def load_player(self):
         if not self.player_present:

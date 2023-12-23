@@ -19,6 +19,12 @@ class AssetStore:
             sound = None
         self.sounds.clear()
 
+    def check_resource(self, name) -> bool:
+        if name not in self.resources:
+            self.logger.Err(f"Resource {name} does not exist")
+            return False
+        return True
+
     def load_resource(self, name, file_path) -> None:
         self.resources[name] = {
             "name": name,
@@ -26,6 +32,12 @@ class AssetStore:
         }
         px.load(file_path)
         self.logger.Log(f"Loaded resource {name} from {file_path}")
+
+    def check_sound(self, name) -> bool:
+        if name not in self.sounds:
+            self.logger.Err(f"Sound {name} does not exist")
+            return False
+        return True
 
     def add_sound(self, name: str) -> None:
         self.sounds[name] = int(Sound())
