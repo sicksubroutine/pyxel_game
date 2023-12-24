@@ -4,7 +4,6 @@ from components.transform import Transform
 from components.velocity import Velocity
 from components.collider import Collider
 from components.health import Health
-from components.sprite import Sprite, SpriteLayer
 from components.keyboard_controller import KeyboardController
 from components.projectile_emitter import ProjectileEmitter
 from level_loader.base import BaseLevel

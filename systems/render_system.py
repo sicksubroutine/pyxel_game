@@ -1,10 +1,9 @@
 import esper as es
-import glm
 import pyxel as px
 import heapq
 from components.transform import Transform
-from components.color import Color, Colors
-from components.sprite import Sprite, SpriteLayer
+from components.color import Colors
+from components.sprite import Sprite
 from misc.logger import Logger
 
 from systems.player_system import PlayerSystem

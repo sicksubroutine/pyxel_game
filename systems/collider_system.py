@@ -13,8 +13,11 @@ class ColliderSystem(es.Processor):
         self.pool: EntityPool = game.pool
         self.logger: Logger = game.logger
 
-    # a method to check if two rectangles are colliding
-    def is_colliding(self, x1, y1, w1, h1, x2, y2, w2, h2):
+    def is_colliding(self, t1, col1, t2, col2):
+        x1, y1 = t1.position.x, t1.position.y
+        w1, h1 = col1.width, col1.height
+        x2, y2 = t2.position.x, t2.position.y
+        w2, h2 = col2.width, col2.height
         return x1 < x2 + w2 and x2 < x1 + w1 and y1 < y2 + h2 and y2 < y1 + h1
 
     def process(self):
@@ -26,16 +29,7 @@ class ColliderSystem(es.Processor):
                 if collider.group == collider2.group:
                     continue
 
-                if self.is_colliding(
-                    transform.position.x,
-                    transform.position.y,
-                    collider.width,
-                    collider.height,
-                    transform2.position.x,
-                    transform2.position.y,
-                    collider2.width,
-                    collider2.height,
-                ):
+                if self.is_colliding(transform, collider, transform2, collider2):
                     if collider.group == "bullet" and collider2.group == "player":
                         if ent1 not in self.pool.entities:
                             continue

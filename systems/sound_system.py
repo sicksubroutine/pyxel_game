@@ -20,6 +20,5 @@ class SoundSystem(es.Processor):
                 audio.is_playing = True
             if px.play_pos(channel) is None and not audio.loop and audio.is_playing:
                 es.remove_component(ent, AudioComponent)
-                # need to check if the entity has zero components, if so, delete it
                 if len(es.components_for_entity(ent)) == 0:
                     self.pool.remove_entity(ent)
