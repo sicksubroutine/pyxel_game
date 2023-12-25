@@ -2,7 +2,6 @@ import pyxel as px
 import esper as es
 from level_loader.base import BaseLevel
 from misc.logger import Logger
-from components.color import colors
 import glm
 
 
@@ -32,29 +31,29 @@ class StartMenu(BaseLevel):
 
         if px.btnp(px.KEY_DOWN):
             for key in self.selection_color:
-                if self.selection_color[key] == colors["RED"]:
-                    self.selection_color[key] = colors["WHITE"]
+                if self.selection_color[key] == self.colors["RED"]:
+                    self.selection_color[key] = self.colors["WHITE"]
                     if key == "start":
-                        self.selection_color["settings"] = colors["RED"]
+                        self.selection_color["settings"] = self.colors["RED"]
                     elif key == "settings":
-                        self.selection_color["quit"] = colors["RED"]
+                        self.selection_color["quit"] = self.colors["RED"]
                     elif key == "quit":
-                        self.selection_color["start"] = colors["RED"]
+                        self.selection_color["start"] = self.colors["RED"]
                     break
         elif px.btnp(px.KEY_UP):
             for key in self.selection_color:
-                if self.selection_color[key] == colors["RED"]:
-                    self.selection_color[key] = colors["WHITE"]
+                if self.selection_color[key] == self.colors["RED"]:
+                    self.selection_color[key] = self.colors["WHITE"]
                     if key == "start":
-                        self.selection_color["quit"] = colors["RED"]
+                        self.selection_color["quit"] = self.colors["RED"]
                     elif key == "settings":
-                        self.selection_color["start"] = colors["RED"]
+                        self.selection_color["start"] = self.colors["RED"]
                     elif key == "quit":
-                        self.selection_color["settings"] = colors["RED"]
+                        self.selection_color["settings"] = self.colors["RED"]
                     break
         if px.btnp(px.KEY_RETURN):
             for key in self.selection_color:
-                if self.selection_color[key] == colors["RED"]:
+                if self.selection_color[key] == self.colors["RED"]:
                     if key == "start":
                         es.dispatch_event("start_game")
                     elif key == "settings":

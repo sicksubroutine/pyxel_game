@@ -1,4 +1,6 @@
 import glm
+import pyxel as px
+import esper as es
 from misc.logger import Logger
 from components.transform import Transform
 from components.velocity import Velocity
@@ -97,3 +99,48 @@ class Level1(BaseLevel):
                 "delay": 4000,
             },
         ]
+
+    def menu_update(self):
+        if px.btnp(px.KEY_DOWN):
+            for key in self.selection_color:
+                if self.selection_color[key] == self.colors["RED"]:
+                    self.selection_color[key] = self.colors["WHITE"]
+                    if key == "start":
+                        self.selection_color["settings"] = self.colors["RED"]
+                    elif key == "settings":
+                        self.selection_color["quit"] = self.colors["RED"]
+                    elif key == "quit":
+                        self.selection_color["start"] = self.colors["RED"]
+                    break
+        elif px.btnp(px.KEY_UP):
+            for key in self.selection_color:
+                if self.selection_color[key] == self.colors["RED"]:
+                    self.selection_color[key] = self.colors["WHITE"]
+                    if key == "start":
+                        self.selection_color["quit"] = self.colors["RED"]
+                    elif key == "settings":
+                        self.selection_color["start"] = self.colors["RED"]
+                    elif key == "quit":
+                        self.selection_color["settings"] = self.colors["RED"]
+                    break
+        if px.btnp(px.KEY_RETURN):
+            for key in self.selection_color:
+                if self.selection_color[key] == self.colors["RED"]:
+                    if key == "start":
+                        es.dispatch_event("restart_game")
+                    elif key == "settings":
+                        pass
+                    elif key == "quit":
+                        self.logger.Log("Quitting...")
+                        px.quit()
+                    break
+
+    def menu_render(self):
+        if not self.menu_showing:
+            return
+
+        px.rect(14, 16, 38, 32, self.colors["BLACK"])
+        px.rectb(14, 16, 38, 32, self.colors["WHITE"])
+        px.text(18, 20, "Restart", self.selection_color["start"])
+        px.text(18, 28, "Settings", self.selection_color["settings"])
+        px.text(18, 36, "Quit", self.selection_color["quit"])

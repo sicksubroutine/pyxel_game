@@ -19,6 +19,7 @@ class BaseLevel:
         self.player = []
         self.assets = []
         self.spawn_schedule = []
+        self.colors = colors
 
     def menu_update(self):
         if not self.menu_showing:

@@ -37,14 +37,10 @@ class BootStrapper:
         self.game: Game = Game(self, 0)
         self.game.run()
 
-    def restart(self, current_level=0):
-        self.logger.Log("Restarting game...")
-        self.game: Game = Game(self, current_level)
-        self.game.run()
-
 
 class Game:
     def __init__(self, bootstrap, current_level=0):
+        self.boot_strapper: BootStrapper = bootstrap
         self.config = bootstrap.config
         self.logger: Logger = bootstrap.logger
         self.pool: EntityPool = EntityPool(self.logger)
@@ -57,13 +53,11 @@ class Game:
         self.res_height = self.config.window_height
         self.paused = False
         self.keypress_delay = 0.0
-        px.init(
-            self.res_width, self.res_height, title="Untitled 64x64 Shmup", fps=self.fps
-        )
-        self.systems_import(current_level)
-        self.level_init()
+        px.init(self.res_width, self.res_height, title=self.config.title, fps=self.fps)
+        self.systems_import()
+        self.level_init(current_level)
 
-    def systems_import(self, level):
+    def systems_import(self):
         self.spawner = Spawner(self)
         self.keyboard_system = KeyboardSystem(self)
         self.movement_system = MovementSystem(self)
@@ -78,10 +72,10 @@ class Game:
         self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
         self.particle_system = ParticleSystem(self)
-        self.level_loader: LevelLoader = LevelLoader(self, level)
 
     def enable_event_handlers(self):
         es.set_handler("start_game", self.level_loader.next_level)
+        es.set_handler("restart_game", self.restart_game)
         if self.level_loader.player_present:
             es.set_handler("shoot", self.projectile_system.player_shoot)
             es.set_handler("muzzle_flash", self.muzzle_flash_system.muzzle_flash)
@@ -90,7 +84,8 @@ class Game:
             es.set_handler("sparks", self.spawner.gen_sparks)
             es.set_handler("player_death", self.player_system.player_death)
 
-    def level_init(self):
+    def level_init(self, level):
+        self.level_loader: LevelLoader = LevelLoader(self, level)
         if self.level_loader.player_present:
             self.player = self.level_loader.player
         if self.level_loader.menu_present:
@@ -132,6 +127,18 @@ class Game:
             self.collision_render_system.process()
             px.text(0, 0, f"FPS: {self.fps}", 7)
             px.text(0, 8, f"Entities: {len(self.pool.entities)}", 7)
+
+    def restart_game(self):
+        self.pool.clear_all_entities()
+        self.asset_store.clear_assets()
+        es.switch_world("empty")
+        worlds = es.list_worlds()
+        for world in worlds:
+            if world != "empty":
+                es.delete_world(world)
+        self.level_init(self.level_loader.current_level)
+        self.paused = False
+        self.level_loader.loaded_level.menu_showing = False
 
     def run(self):
         px.run(self.update, self.render)

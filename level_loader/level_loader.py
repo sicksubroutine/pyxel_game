@@ -116,7 +116,7 @@ class LevelLoader:
         self.pool.clear_all_entities()
         # self.asset_store.clear_assets()
         self.load_level()
-        self.game.level_init()
+        self.game.level_init(self.current_level)
 
     def previous_level(self):
         current_level = self.levels[self.current_level]["name"]
