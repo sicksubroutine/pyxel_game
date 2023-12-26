@@ -7,7 +7,7 @@ STAR_COLOR_WHITE = 7
 
 
 class StarSystem:
-    def __init__(self, color_mode=None):
+    def __init__(self, star_colors=None):
         self.stars = []
         for _ in range(NUM_STARS):
             self.stars.append(
@@ -17,7 +17,11 @@ class StarSystem:
                     px.rndf(0.25, 2.5),
                 )
             )
-        self.color_mode = color_mode
+        self.star_colors = star_colors
+        self.fast_stars = colors[self.star_colors["fast_stars"]]
+        self.slow_stars = colors[self.star_colors["slow_stars"]]
+        self.fastest_stars = colors[self.star_colors["fastest_stars"]]
+        self.slowest_stars = colors[self.star_colors["slowest_stars"]]
 
     def update(self):
         for i, (x, y, speed) in enumerate(self.stars):
@@ -31,11 +35,11 @@ class StarSystem:
             px.pset(
                 x,
                 y,
-                colors["WHITE"]
+                self.fastest_stars
                 if speed > 2.0
-                else colors["LIGHT_BLUE"]
+                else self.fast_stars
                 if speed > 1.0
-                else colors["GRAY"]
+                else self.slow_stars
                 if speed > 0.5
-                else colors["DARK_BLUE"],
+                else self.slowest_stars,
             )

@@ -43,6 +43,7 @@ class LevelLoader:
         self.menu_present = False
         self.entities_present = False
         self.spawn_schedule_present = False
+        self.star_colors_present = False
         level_name = self.levels[self.current_level]["name"]
 
         self.assets_check(level_name)
@@ -50,6 +51,7 @@ class LevelLoader:
         self.menu_check(level_name)
         self.entities_check(level_name)
         self.spawn_schedule_check(level_name)
+        self.star_colors_check(level_name)
 
     def assets_check(self, level_name):
         if hasattr(self.loaded_level, "assets"):
@@ -91,6 +93,14 @@ class LevelLoader:
             self.logger.Log(f"Loading spawn schedule for {level_name}...")
             self.spawn_schedule_present = True
 
+    def star_colors_check(self, level_name):
+        if hasattr(self.loaded_level, "star_colors"):
+            if not self.loaded_level.star_colors:
+                self.logger.Warn(f"No star colors found for {level_name}")
+                return
+            self.logger.Log(f"Loading star colors for {level_name}...")
+            self.star_colors_present = True
+
     def load_level_class(self, level_name):
         try:
             if level_name not in self.levels.values():
@@ -108,6 +118,7 @@ class LevelLoader:
         self.load_assets()
         self.load_player()
         self.load_menu()
+        self.load_star_colors()
 
     def next_level(self):
         current_level = self.levels[self.current_level]["name"]
@@ -155,6 +166,11 @@ class LevelLoader:
             return
         components = [component for component in self.loaded_level.player]
         self.player = self.player_system.player_setup(*components)
+
+    def load_star_colors(self):
+        if not self.star_colors_present:
+            return
+        self.star_colors = self.loaded_level.star_colors
 
     def spawn_schedule(self):
         if not self.spawn_schedule_present:

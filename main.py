@@ -64,7 +64,6 @@ class Game:
         self.keyboard_system = KeyboardSystem(self)
         self.movement_system = MovementSystem(self)
         self.render_system = RenderSystem(self)
-        self.star_system = StarSystem()
         self.projectile_system = ProjectileEmitterSystem(self)
         self.projectile_lifetime_system = ProjectileLifetimeSystem(self)
         self.collider_system = ColliderSystem(self)
@@ -88,6 +87,10 @@ class Game:
 
     def level_init(self, level):
         self.level_loader: LevelLoader = LevelLoader(self, level)
+        star_colors = None
+        if self.level_loader.star_colors_present:
+            star_colors = self.level_loader.star_colors
+        self.star_system = StarSystem(star_colors)
         if self.level_loader.player_present:
             self.player = self.level_loader.player
         if self.level_loader.menu_present:

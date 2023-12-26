@@ -20,6 +20,12 @@ class BaseLevel:
         self.assets = []
         self.spawn_schedule = []
         self.colors = colors
+        self.star_colors = {
+            "fastest_stars": "WHITE",
+            "fast_stars": "LIGHT_BLUE",
+            "slow_stars": "GRAY",
+            "slowest_stars": "DARK_BLUE",
+        }
 
     def menu_update(self):
         if not self.menu_showing:
