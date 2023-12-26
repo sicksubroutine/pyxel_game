@@ -5,10 +5,10 @@ from components.audio import Sound
 
 
 class AssetStore:
-    def __init__(self, logger: Logger) -> None:
+    def __init__(self, logger) -> None:
         self.sounds = {}
         self.resources = {}
-        self.logger = logger
+        self.logger: Logger = logger
         self.logger.Log("Asset Store created")
 
     def clear_assets(self) -> None:
@@ -39,7 +39,7 @@ class AssetStore:
             return False
         return True
 
-    def add_sound(self, name: str) -> None:
+    def add_sound(self, name: str) -> int:
         self.sounds[name] = int(Sound())
         self.logger.Log(f"Added sound {name}")
         return self.sounds[name]

@@ -1,9 +1,9 @@
 import pyxel as px
+from components.color import colors
+
 
 NUM_STARS = 50
 STAR_COLOR_WHITE = 7
-STAR_COLOR_HIGH = 12
-STAR_COLOR_LOW = 1
 
 
 class StarSystem:
@@ -31,11 +31,11 @@ class StarSystem:
             px.pset(
                 x,
                 y,
-                STAR_COLOR_WHITE
+                colors["WHITE"]
                 if speed > 2.0
-                else STAR_COLOR_HIGH
+                else colors["LIGHT_BLUE"]
                 if speed > 1.0
-                else STAR_COLOR_LOW
+                else colors["GRAY"]
                 if speed > 0.5
-                else STAR_COLOR_WHITE,
+                else colors["DARK_BLUE"],
             )

@@ -29,7 +29,9 @@ class BootStrapper:
     def __init__(self):
         self.config = ConfigManager()
         self.logger: Logger = Logger(
-            console_print=True, file_write=True, file_path=self.config.log_file_name
+            console_print=self.config.debug_to_console,
+            file_write=self.config.debug_to_file,
+            file_path=self.config.log_file_name,
         )
         self.logger.Log("BootStrapper initialized")
 
@@ -130,7 +132,6 @@ class Game:
 
     def restart_game(self):
         self.pool.clear_all_entities()
-        self.asset_store.clear_assets()
         es.switch_world("empty")
         worlds = es.list_worlds()
         for world in worlds:

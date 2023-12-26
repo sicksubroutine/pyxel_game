@@ -31,6 +31,8 @@ class LevelLoader:
         es.switch_world(self.levels[self.current_level]["name"])
         if "default" in es.list_worlds():
             es.delete_world("default")
+        if "empty" in es.list_worlds():
+            es.delete_world("empty")
         self.possible_components = self.pool.possible_components
         self.load_level()
         self.delay = 0
@@ -114,7 +116,6 @@ class LevelLoader:
         if current_level in es.list_worlds():
             es.delete_world(current_level)
         self.pool.clear_all_entities()
-        # self.asset_store.clear_assets()
         self.load_level()
         self.game.level_init(self.current_level)
 
@@ -160,14 +161,11 @@ class LevelLoader:
             return
         self.delay += 1
         enemies = self.loaded_level.spawn_schedule
-        for enemy in enemies:
-            if self.delay < enemy["delay"]:
+        for e in enemies:
+            if self.delay < e["delay"]:
                 return
-            # self.logger.Log(f"Spawning {enemy['enemy']} at {enemy['x']}, {enemy['y']}")
-            self.enemies.get_enemy(
-                enemy["enemy"], enemy["x"], enemy["y"], enemy["health"]
-            )
-            enemies.remove(enemy)
+            self.enemies.get_enemy(e["enemy"], e["x"], e["y"], e["health"])
+            enemies.remove(e)
 
     def load_menu(self):
         if not self.menu_present:

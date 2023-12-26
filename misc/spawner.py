@@ -12,6 +12,7 @@ from components.audio import AudioComponent, AudioChannel
 from misc.entity import EntityPool
 from misc.logger import Logger
 from misc.asset_store import AssetStore
+from misc.utils import Utils
 
 
 class Spawner:
@@ -27,15 +28,10 @@ class Spawner:
         ent.Group("enemies")
         return ent
 
-    @staticmethod
-    def random_angle(min, max):
-        return glm.radians(random.uniform(min, max))
-
     def gen_explosion(self, x, y, size) -> None:
         """Generates an explosion at the given position with the given size"""
         particles = []
         colors = ["RED", "YELLOW", "ORANGE"]
-        # play explosion sound
         audio = self.pool.create_entity(
             AudioComponent(
                 channel=int(AudioChannel.EFFECT_CHANNEL.value) + 1,
@@ -46,7 +42,7 @@ class Spawner:
         audio.Group("explosion audio")
         for i in range(0, size):
             speed = random.uniform(0.5, 10)
-            angle = self.random_angle(0, 360)
+            angle = Utils.random_angle(0, 360)
             vel = glm.vec2(speed * glm.cos(angle), speed * glm.sin(angle))
             color = random.choice(colors)
             random_extra_age = random.randint(0, 25)
@@ -63,7 +59,6 @@ class Spawner:
         """Generates sparks going the opposite direction of the entity being hit"""
         particles = []
         colors = ["RED", "YELLOW", "ORANGE"]
-
         audio = self.pool.create_entity(
             AudioComponent(
                 channel=int(AudioChannel.EFFECT_CHANNEL.value) + 2,
@@ -74,7 +69,7 @@ class Spawner:
         audio.Group("sparks audio")
         for i in range(0, size):
             speed = random.uniform(5, 10)
-            angle = self.random_angle(180, 300)
+            angle = Utils.random_angle(180, 300)
             vel = glm.vec2(speed * glm.cos(angle), speed * glm.sin(angle))
             color = random.choice(colors)
             random_extra_age = random.randint(0, 40)
@@ -88,7 +83,6 @@ class Spawner:
             particles.append(part)
 
     def destroy_entities(self) -> None:
-        # check if enemies group exists
         if "enemies" not in self.pool.groups:
             return
         if len(self.pool.groups["enemies"]) > 0:
