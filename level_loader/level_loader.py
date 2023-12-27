@@ -6,6 +6,7 @@ from misc.entity import EntityPool
 from systems.player_system import PlayerSystem
 from level_loader.enemies import Enemies
 from level_loader.level1 import Level1
+from level_loader.level2 import Level2
 from level_loader.start_menu import StartMenu
 from level_loader.ship_select import ShipSelect
 
@@ -27,6 +28,7 @@ class LevelLoader:
             0: {"name": "Start Menu", "class": StartMenu},
             1: {"name": "Ship Selection", "class": ShipSelect},
             2: {"name": "Level 1", "class": Level1},
+            3: {"name": "Level 2", "class": Level2},
         }
         es.switch_world(self.levels[self.current_level]["name"])
         if "default" in es.list_worlds():
@@ -182,6 +184,14 @@ class LevelLoader:
                 return
             self.enemies.get_enemy(e["enemy"], e["x"], e["y"], e["health"])
             enemies.remove(e)
+        if not enemies and self.delay > 500:
+            self.logger.Log(f"All enemies spawned! Moving to {self.current_level}")
+            # present to next level once all enemies are spawned
+            self.next_level()
+
+    def transition(self):
+        # TODO: There needs to be a transition between levels
+        ...
 
     def load_menu(self):
         if not self.menu_present:

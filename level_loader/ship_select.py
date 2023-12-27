@@ -1,4 +1,4 @@
-from level_loader.base import BaseLevel
+from level_loader.base import BaseMenu
 from systems.player_system import PlayerSystem
 from misc.logger import Logger
 from misc.asset_store import AssetStore
@@ -7,7 +7,7 @@ from components.sprite import Sprite, SpriteLayer
 import pyxel as px
 
 
-class ShipSelect(BaseLevel):
+class ShipSelect(BaseMenu):
     def __init__(self, game):
         super().__init__(game)
         self.game = game

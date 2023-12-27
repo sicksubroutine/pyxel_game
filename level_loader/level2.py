@@ -11,10 +11,10 @@ from components.projectile_emitter import ProjectileEmitter
 from level_loader.base import BaseLevel
 
 
-class Level1(BaseLevel):
+class Level2(BaseLevel):
     def __init__(self, game):
         super().__init__(game)
-        self.level_name = "level 1"
+        self.level_name = "level 2"
         self.player = [
             Transform(position=glm.vec2(25, 50), scale=glm.vec2(5, 5), rotation=0.0),
             Velocity(velocity=glm.vec2(0, 0)),
@@ -48,51 +48,51 @@ class Level1(BaseLevel):
 
         self.spawn_schedule = [
             {
-                "enemy": "boss1",
+                "enemy": "boss2",
                 "x": 25,
                 "y": -25,
                 "velocity": 1.5,
                 "health": 500,
                 "delay": 0,
             },
-            # {
-            #     "enemy": "boss2",
-            #     "x": 50,
-            #     "y": -25,
-            #     "velocity": 1.5,
-            #     "health": 1000,
-            #     "delay": 500,
-            # },
-            # {
-            #     "enemy": "boss3",
-            #     "x": 60,
-            #     "y": -25,
-            #     "velocity": 1.5,
-            #     "health": 1500,
-            #     "delay": 1000,
-            # },
-            # {
-            #     "enemy": "boss4",
-            #     "x": 0,
-            #     "y": -25,
-            #     "velocity": 1.5,
-            #     "health": 2000,
-            #     "delay": 2000,
-            # },
-            # {
-            #     "enemy": "boss1",
-            #     "x": 15,
-            #     "y": -25,
-            #     "velocity": 1.5,
-            #     "health": 2500,
-            #     "delay": 3000,
-            # },
-            # {
-            #     "enemy": "boss2",
-            #     "x": 25,
-            #     "y": 5,
-            #     "velocity": 1.5,
-            #     "health": 3000,
-            #     "delay": 4000,
-            # },
+            {
+                "enemy": "boss1",
+                "x": 50,
+                "y": -25,
+                "velocity": 1.5,
+                "health": 1000,
+                "delay": 500,
+            },
+            {
+                "enemy": "boss1",
+                "x": 60,
+                "y": -25,
+                "velocity": 1.5,
+                "health": 1500,
+                "delay": 1000,
+            },
+            {
+                "enemy": "boss1",
+                "x": 0,
+                "y": -25,
+                "velocity": 1.5,
+                "health": 2000,
+                "delay": 2000,
+            },
+            {
+                "enemy": "boss4",
+                "x": 15,
+                "y": -25,
+                "velocity": 1.5,
+                "health": 2500,
+                "delay": 3000,
+            },
+            {
+                "enemy": "boss4",
+                "x": 25,
+                "y": 5,
+                "velocity": 1.5,
+                "health": 3000,
+                "delay": 4000,
+            },
         ]

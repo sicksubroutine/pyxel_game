@@ -132,6 +132,7 @@ class Game:
             self.collision_render_system.process()
             px.text(0, 0, f"FPS: {self.fps}", 7)
             px.text(0, 8, f"Entities: {len(self.pool.entities)}", 7)
+            px.text(0, 16, f"Level: {self.level_loader.loaded_level.level_name}", 7)
 
     def restart_game(self):
         self.pool.clear_all_entities()
