@@ -78,8 +78,9 @@ class DamageSystem:
             position = es.component_for_entity(enemy, Transform).position
             enemy_health = es.component_for_entity(enemy, Health)
             enemy_sprite = es.component_for_entity(enemy, Sprite)
+            size = enemy_sprite.width
             es.dispatch_event(
-                "sparks", position.x + enemy_sprite.width / 2, position.y, 10
+                "sparks", position.x + enemy_sprite.width / 2, position.y, size
             )
             enemy_sprite.hit_flash = 5
             if enemy_health.is_god_mode:
@@ -88,7 +89,8 @@ class DamageSystem:
             if enemy_health.current_health < 1:
                 center_pos_x = position.x + enemy_sprite.width / 2
                 center_pos_y = position.y + enemy_sprite.height / 2
-                es.dispatch_event("explosion", center_pos_x, center_pos_y, 100)
+                size = 25 if size == 8 else 100
+                es.dispatch_event("explosion", center_pos_x, center_pos_y, size)
                 self.pool.remove_entity(enemy)
         except Exception as e:
             self.logger.Log(traceback.format_exc())

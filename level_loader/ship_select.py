@@ -10,13 +10,10 @@ import pyxel as px
 class ShipSelect(BaseMenu):
     def __init__(self, game):
         super().__init__(game)
-        self.game = game
-        self.logger: Logger = game.logger
         self.level_loader = game.level_loader
         self.asset_store: AssetStore = game.asset_store
         self.player_system: PlayerSystem = game.player_system
         self.level_name = "Ship Selection"
-        self.menu = True
         self.assets = [
             {
                 "asset_type": "resource",

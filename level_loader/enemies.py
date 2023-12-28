@@ -52,7 +52,7 @@ class Enemy:
 
 
 class Boss1(Enemy):
-    def __init__(self, x, y, game, health):
+    def __init__(self, game, x, y, health):
         super().__init__(
             w=16,
             h=16,
@@ -74,7 +74,7 @@ class Boss1(Enemy):
 
 
 class Boss2(Enemy):
-    def __init__(self, x, y, game, health):
+    def __init__(self, game, x, y, health):
         super().__init__(
             w=16,
             h=16,
@@ -96,7 +96,7 @@ class Boss2(Enemy):
 
 
 class Boss3(Enemy):
-    def __init__(self, x, y, game, health):
+    def __init__(self, game, x, y, health):
         super().__init__(
             w=16,
             h=16,
@@ -118,7 +118,7 @@ class Boss3(Enemy):
 
 
 class Boss4(Enemy):
-    def __init__(self, x, y, game, health):
+    def __init__(self, game, x, y, health):
         super().__init__(
             w=16,
             h=16,
@@ -139,11 +139,103 @@ class Boss4(Enemy):
         self.entity = self.spawner.gen_enemy(self)
 
 
+class RedGuy(Enemy):
+    def __init__(self, game, x, y, health):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=40,
+            v=32,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
+        )
+
+    def on_init(self):
+        self.entity = self.spawner.gen_enemy(self)
+
+
+class GreenGuy(Enemy):
+    def __init__(self, game, x, y, health):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=48,
+            v=32,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
+        )
+
+    def on_init(self):
+        self.entity = self.spawner.gen_enemy(self)
+
+
+class BlueGuy(Enemy):
+    def __init__(self, game, x, y, health):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=32,
+            v=16,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
+        )
+
+    def on_init(self):
+        self.entity = self.spawner.gen_enemy(self)
+
+
+class WhiteGuy(Enemy):
+    def __init__(self, game, x, y, health):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=32,
+            v=0,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=-0.01,
+            vel_y=0,
+            game=game,
+            health=health,
+        )
+
+    def on_init(self):
+        self.entity = self.spawner.gen_enemy(self)
+
+
 class Enemies:
     def __init__(self, game):
         self.game = game
         self.enemies = []
         self.enemy_types = {
+            "red_guy": RedGuy,
+            "green_guy": GreenGuy,
+            "blue_guy": BlueGuy,
+            "white_guy": WhiteGuy,
             "boss1": Boss1,
             "boss2": Boss2,
             "boss3": Boss3,
@@ -152,12 +244,12 @@ class Enemies:
 
     def get_enemy(self, name, x, y, health) -> Enemy:
         enemy_class = self.enemy_types[name]
-        enemy_instance = enemy_class(x, y, self.game, health)
+        enemy_instance = enemy_class(self.game, x, y, health)
         self.enemies.append(enemy_instance)
         return enemy_instance
 
     def get_random_enemy(self, x, y) -> Enemy:
         enemy_class = random.choice(list(self.enemy_types.values()))
-        enemy_instance = enemy_class(x, y, self.game)
+        enemy_instance = enemy_class(self.game, x, y)
         self.enemies.append(enemy_instance)
         return enemy_instance

@@ -12,9 +12,9 @@ class BaseMenu:
         self.menu = True
         self.star_colors = {
             "fastest_stars": "RED",
-            "fast_stars": "LIGHT_BLUE",
-            "slow_stars": "GRAY",
-            "slowest_stars": "DARK_BLUE",
+            "fast_stars": "GRAY",
+            "slow_stars": "YELLOW",
+            "slowest_stars": "ORANGE",
         }
 
     def menu_update(self):

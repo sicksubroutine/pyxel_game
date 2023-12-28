@@ -1,4 +1,5 @@
 import esper as es
+import glm
 from misc.logger import Logger
 from misc.asset_store import AssetStore
 from misc.entity import EntityPool
@@ -9,6 +10,7 @@ from level_loader.level1 import Level1
 from level_loader.level2 import Level2
 from level_loader.start_menu import StartMenu
 from level_loader.ship_select import ShipSelect
+from level_loader.transition import TransitionScreen
 
 
 class MissingComponent(Exception):
@@ -179,22 +181,28 @@ class LevelLoader:
             return
         self.delay += 1
         enemies = self.loaded_level.spawn_schedule
+        delay = 0
+        number_of_enemies = len(self.pool.get_group("enemies"))
         for e in enemies:
             if self.delay < e["delay"]:
                 return
             self.enemies.get_enemy(e["enemy"], e["x"], e["y"], e["health"])
             enemies.remove(e)
-        if not enemies and self.delay > 500:
+        # last_delay = enemies[-1]["delay"] + 1000 if enemies else delay
+        if not enemies and number_of_enemies == 0:
             self.logger.Log(f"All enemies spawned! Moving to {self.current_level}")
-            # present to next level once all enemies are spawned
             self.next_level()
 
     def transition(self):
         # TODO: There needs to be a transition between levels
         ...
 
-    def load_menu(self):
+    def load_menu(self, transition=False):
         if not self.menu_present:
             return
         self.menu_render = self.loaded_level.menu_render
         self.menu_update = self.loaded_level.menu_update
+        if transition:
+            transition = TransitionScreen(self.game, self.current_level)
+            self.menu_render = transition.menu_render
+            self.menu_update = transition.menu_update

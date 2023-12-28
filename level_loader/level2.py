@@ -96,3 +96,9 @@ class Level2(BaseLevel):
                 "delay": 4000,
             },
         ]
+        self.star_colors = {
+            "fastest_stars": "RED",
+            "fast_stars": "LIGHT_BLUE",
+            "slow_stars": "BROWN",
+            "slowest_stars": "KHAKI",
+        }

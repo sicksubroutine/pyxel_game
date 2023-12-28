@@ -9,6 +9,7 @@ from misc.asset_store import AssetStore
 from misc.config import ConfigManager
 
 from level_loader.level_loader import LevelLoader
+from components.color import colors
 
 # Systems
 from systems.keyboard_system import KeyboardSystem
@@ -90,7 +91,14 @@ class Game:
         star_colors = None
         if self.level_loader.star_colors_present:
             star_colors = self.level_loader.star_colors
-        self.star_system = StarSystem(star_colors)
+        if hasattr(self, "star_system"):
+            self.star_system.star_colors = star_colors
+            self.star_system.fastest_stars = colors[star_colors["fastest_stars"]]
+            self.star_system.fast_stars = colors[star_colors["fast_stars"]]
+            self.star_system.slow_stars = colors[star_colors["slow_stars"]]
+            self.star_system.slowest_stars = colors[star_colors["slowest_stars"]]
+        else:
+            self.star_system = StarSystem(star_colors)
         if self.level_loader.player_present:
             self.player = self.level_loader.player
         if self.level_loader.menu_present:
