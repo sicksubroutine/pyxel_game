@@ -40,6 +40,7 @@ class LevelLoader:
         self.possible_components = self.pool.possible_components
         self.load_level()
         self.delay = 0
+        self.t_delay = 0
 
     def class_checker(self):
         self.assets_present = False
@@ -116,6 +117,7 @@ class LevelLoader:
             self.logger.Err(f"Error loading level {level_name}: {e}")
 
     def load_level(self):
+        self.delay = 0
         self.loaded_level = self.load_level_class(self.levels[self.current_level])
         self.logger.Log(f"Loading level {self.levels[self.current_level]['name']}...")
         self.class_checker()
@@ -181,28 +183,32 @@ class LevelLoader:
             return
         self.delay += 1
         enemies = self.loaded_level.spawn_schedule
-        delay = 0
         number_of_enemies = len(self.pool.get_group("enemies"))
         for e in enemies:
             if self.delay < e["delay"]:
                 return
             self.enemies.get_enemy(e["enemy"], e["x"], e["y"], e["health"])
             enemies.remove(e)
-        # last_delay = enemies[-1]["delay"] + 1000 if enemies else delay
-        if not enemies and number_of_enemies == 0:
+            self.t_delay = e["delay"] + 500
+        if (
+            not enemies
+            and number_of_enemies == 0
+            and self.delay > self.t_delay
+            and self.menu_present
+        ):
             self.logger.Log(f"All enemies spawned! Moving to {self.current_level}")
             self.next_level()
-
-    def transition(self):
-        # TODO: There needs to be a transition between levels
-        ...
+        elif not enemies and number_of_enemies == 0 and not self.menu_present:
+            self.load_menu(True)
 
     def load_menu(self, transition=False):
-        if not self.menu_present:
+        if not self.menu_present and not transition:
             return
         self.menu_render = self.loaded_level.menu_render
         self.menu_update = self.loaded_level.menu_update
         if transition:
+            self.menu_present = True
+            self.logger.Log("Loading transition screen...")
             transition = TransitionScreen(self.game, self.current_level)
-            self.menu_render = transition.menu_render
-            self.menu_update = transition.menu_update
+            self.game.menu_render = transition.menu_render
+            self.game.menu_update = transition.menu_update

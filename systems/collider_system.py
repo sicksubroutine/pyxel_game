@@ -18,7 +18,14 @@ class ColliderSystem(es.Processor):
         w1, h1 = col1.width, col1.height
         x2, y2 = t2.position.x, t2.position.y
         w2, h2 = col2.width, col2.height
-        return x1 < x2 + w2 and x2 < x1 + w1 and y1 < y2 + h2 and y2 < y1 + h1
+        off_x1, off_y1 = col1.offset.x, col1.offset.y
+        off_x2, off_y2 = col2.offset.x, col2.offset.y
+        return (
+            x1 + off_x1 < x2 + off_x2 + w2
+            and x1 + off_x1 + w1 > x2 + off_x2
+            and y1 + off_y1 < y2 + off_y2 + h2
+            and y1 + off_y1 + h1 > y2 + off_y2
+        )
 
     def process(self):
         for ent1, (transform, collider) in es.get_components(Transform, Collider):
@@ -60,16 +67,16 @@ class CollisionRenderSystem(es.Processor):
             # White rectangle if not colliding, red if colliding while in debug mode
             if not collider.is_colliding:
                 px.rectb(
-                    transform.position.x,
-                    transform.position.y,
+                    transform.position.x + collider.offset.x,
+                    transform.position.y + collider.offset.y,
                     collider.width,
                     collider.height,
                     7,
                 )
             else:
                 px.rectb(
-                    transform.position.x,
-                    transform.position.y,
+                    transform.position.x + collider.offset.x,
+                    transform.position.y + collider.offset.y,
                     collider.width,
                     collider.height,
                     8,

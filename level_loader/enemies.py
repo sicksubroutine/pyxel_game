@@ -24,6 +24,8 @@ class Enemy:
         y: int,
         vel_x: int,
         vel_y: int,
+        off_x: int,
+        off_y: int,
         game,
         health,
     ):
@@ -33,7 +35,7 @@ class Enemy:
         self.sprite = Sprite(w, h, img, u, v, layer, is_fixed)
         self.velocity = Velocity(glm.vec2(0.0, 0.25))
         self.transform = Transform(glm.vec2(x, y), glm.vec2(4, 4), 0)
-        self.collider = Collider(w, h, glm.vec2(0, 0), "enemies")
+        self.collider = Collider(w, h, glm.vec2(off_x, off_y), "enemies")
         self.health = Health(health, health, False)
         # self.projectile_emitter = ProjectileEmitter(False, 10)
         self.group = "enemies"
@@ -65,6 +67,8 @@ class Boss1(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=0,
+            off_y=0,
             game=game,
             health=health,
         )
@@ -87,6 +91,8 @@ class Boss2(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=0,
+            off_y=0,
             game=game,
             health=health,
         )
@@ -109,6 +115,8 @@ class Boss3(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=0,
+            off_y=0,
             game=game,
             health=health,
         )
@@ -131,6 +139,8 @@ class Boss4(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=0,
+            off_y=0,
             game=game,
             health=health,
         )
@@ -153,6 +163,8 @@ class RedGuy(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=0,
+            off_y=0,
             game=game,
             health=health,
         )
@@ -175,6 +187,8 @@ class GreenGuy(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=0,
+            off_y=0,
             game=game,
             health=health,
         )
@@ -197,6 +211,8 @@ class BlueGuy(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=0,
+            off_y=0,
             game=game,
             health=health,
         )
@@ -219,6 +235,8 @@ class WhiteGuy(Enemy):
             y=y,
             vel_x=-0.01,
             vel_y=0,
+            off_x=1,
+            off_y=0,
             game=game,
             health=health,
         )
