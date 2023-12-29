@@ -1,7 +1,4 @@
 import glm
-import pyxel as px
-import esper as es
-from misc.logger import Logger
 from components.transform import Transform
 from components.velocity import Velocity
 from components.collider import Collider
@@ -26,7 +23,7 @@ class Level1(BaseLevel):
             ),
             Health(max_health=100, current_health=100, is_god_mode=False),
             Collider(width=8, height=8, offset=glm.vec2(0, 0), group="player"),
-            ProjectileEmitter(is_friendly=True, hit_damage=100),
+            ProjectileEmitter(is_friendly=True, hit_damage=25),
         ]
         self.assets = [
             {
@@ -51,7 +48,7 @@ class Level1(BaseLevel):
                 "enemy": "green_guy",
                 "x": 25,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 0,
             },
@@ -59,7 +56,7 @@ class Level1(BaseLevel):
                 "enemy": "green_guy",
                 "x": 25,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 40,
             },
@@ -67,7 +64,7 @@ class Level1(BaseLevel):
                 "enemy": "green_guy",
                 "x": 25,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 80,
             },
@@ -75,7 +72,7 @@ class Level1(BaseLevel):
                 "enemy": "red_guy",
                 "x": 56,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 150,
             },
@@ -83,7 +80,7 @@ class Level1(BaseLevel):
                 "enemy": "red_guy",
                 "x": 56,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 190,
             },
@@ -91,7 +88,7 @@ class Level1(BaseLevel):
                 "enemy": "red_guy",
                 "x": 56,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 230,
             },
@@ -99,7 +96,7 @@ class Level1(BaseLevel):
                 "enemy": "white_guy",
                 "x": 0,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 300,
             },
@@ -107,7 +104,7 @@ class Level1(BaseLevel):
                 "enemy": "white_guy",
                 "x": 0,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 340,
             },
@@ -115,7 +112,7 @@ class Level1(BaseLevel):
                 "enemy": "white_guy",
                 "x": 0,
                 "y": -25,
-                "velocity": 0.00,
+                "velocity": 0.25,
                 "health": 300,
                 "delay": 380,
             },

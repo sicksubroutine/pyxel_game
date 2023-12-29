@@ -33,7 +33,7 @@ class Enemy:
         self.spawner: Spawner = game.spawner
         self.logger: Logger = game.logger
         self.sprite = Sprite(w, h, img, u, v, layer, is_fixed)
-        self.velocity = Velocity(glm.vec2(0.0, 0.25))
+        self.velocity = Velocity(glm.vec2(0.0, vel_y))
         self.transform = Transform(glm.vec2(x, y), glm.vec2(4, 4), 0)
         self.collider = Collider(w, h, glm.vec2(off_x, off_y), "enemies")
         self.health = Health(health, health, False)
@@ -52,9 +52,12 @@ class Enemy:
     def on_init(self):
         ...
 
+    def enemy_behavior(self):
+        ...
+
 
 class Boss1(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -65,8 +68,8 @@ class Boss1(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=0,
             off_y=0,
             game=game,
@@ -78,7 +81,7 @@ class Boss1(Enemy):
 
 
 class Boss2(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -89,8 +92,8 @@ class Boss2(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=0,
             off_y=0,
             game=game,
@@ -102,7 +105,7 @@ class Boss2(Enemy):
 
 
 class Boss3(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -113,8 +116,8 @@ class Boss3(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=0,
             off_y=0,
             game=game,
@@ -126,7 +129,7 @@ class Boss3(Enemy):
 
 
 class Boss4(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -137,8 +140,8 @@ class Boss4(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=0,
             off_y=0,
             game=game,
@@ -150,7 +153,7 @@ class Boss4(Enemy):
 
 
 class RedGuy(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -161,8 +164,8 @@ class RedGuy(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=0,
             off_y=0,
             game=game,
@@ -174,7 +177,7 @@ class RedGuy(Enemy):
 
 
 class GreenGuy(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -185,8 +188,8 @@ class GreenGuy(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=0,
             off_y=0,
             game=game,
@@ -198,7 +201,7 @@ class GreenGuy(Enemy):
 
 
 class BlueGuy(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -209,8 +212,8 @@ class BlueGuy(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=0,
             off_y=0,
             game=game,
@@ -222,7 +225,7 @@ class BlueGuy(Enemy):
 
 
 class WhiteGuy(Enemy):
-    def __init__(self, game, x, y, health):
+    def __init__(self, game, x, y, health, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -233,8 +236,8 @@ class WhiteGuy(Enemy):
             is_fixed=False,
             x=x,
             y=y,
-            vel_x=-0.01,
-            vel_y=0,
+            vel_x=0,
+            vel_y=vel_y,
             off_x=1,
             off_y=0,
             game=game,
@@ -260,9 +263,9 @@ class Enemies:
             "boss4": Boss4,
         }
 
-    def get_enemy(self, name, x, y, health) -> Enemy:
+    def get_enemy(self, name, x, y, health, vel_y) -> Enemy:
         enemy_class = self.enemy_types[name]
-        enemy_instance = enemy_class(self.game, x, y, health)
+        enemy_instance = enemy_class(self.game, x, y, health, vel_y)
         self.enemies.append(enemy_instance)
         return enemy_instance
 

@@ -23,6 +23,13 @@ class StarSystem:
         self.fastest_stars = colors[self.star_colors["fastest_stars"]]
         self.slowest_stars = colors[self.star_colors["slowest_stars"]]
 
+    def set_star_colors(self, star_colors):
+        self.star_colors = star_colors
+        self.fast_stars = colors[self.star_colors["fast_stars"]]
+        self.slow_stars = colors[self.star_colors["slow_stars"]]
+        self.fastest_stars = colors[self.star_colors["fastest_stars"]]
+        self.slowest_stars = colors[self.star_colors["slowest_stars"]]
+
     def update(self):
         for i, (x, y, speed) in enumerate(self.stars):
             y += speed

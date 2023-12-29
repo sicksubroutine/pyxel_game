@@ -65,7 +65,7 @@ class BaseLevel:
         self.game = game
         self.logger: Logger = game.logger
         self.level_name = ""
-        self.menu = False
+        self.menu = True
         self.menu_showing = False
         self.selection_color = {
             "restart": colors["RED"],
@@ -87,7 +87,7 @@ class BaseLevel:
             return
 
         # unpause game will only able to be called when paused
-        if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0 and not self.menu:
+        if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0:
             self.game.paused = not self.game.paused
             self.menu_showing = not self.menu_showing
             self.logger.Log(f"Paused: {self.game.paused}")
@@ -103,7 +103,7 @@ class BaseLevel:
                     elif key == "settings":
                         self.selection_color["quit"] = colors["RED"]
                     elif key == "quit":
-                        self.selection_color["start"] = colors["RED"]
+                        self.selection_color["restart"] = colors["RED"]
                     break
         elif px.btnp(px.KEY_UP):
             for key in self.selection_color:
@@ -112,7 +112,7 @@ class BaseLevel:
                     if key == "restart":
                         self.selection_color["quit"] = colors["RED"]
                     elif key == "settings":
-                        self.selection_color["start"] = colors["RED"]
+                        self.selection_color["restart"] = colors["RED"]
                     elif key == "quit":
                         self.selection_color["settings"] = colors["RED"]
                     break

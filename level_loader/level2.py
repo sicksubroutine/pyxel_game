@@ -1,7 +1,4 @@
 import glm
-import pyxel as px
-import esper as es
-from misc.logger import Logger
 from components.transform import Transform
 from components.velocity import Velocity
 from components.collider import Collider
@@ -26,7 +23,7 @@ class Level2(BaseLevel):
             ),
             Health(max_health=100, current_health=100, is_god_mode=False),
             Collider(width=8, height=8, offset=glm.vec2(0, 0), group="player"),
-            ProjectileEmitter(is_friendly=True, hit_damage=100),
+            ProjectileEmitter(is_friendly=True, hit_damage=25),
         ]
         self.assets = [
             {
@@ -51,7 +48,7 @@ class Level2(BaseLevel):
                 "enemy": "boss2",
                 "x": 25,
                 "y": -25,
-                "velocity": 1.5,
+                "velocity": 0.15,
                 "health": 500,
                 "delay": 0,
             },
@@ -59,23 +56,23 @@ class Level2(BaseLevel):
                 "enemy": "boss1",
                 "x": 50,
                 "y": -25,
-                "velocity": 1.5,
+                "velocity": 0.15,
                 "health": 1000,
-                "delay": 500,
+                "delay": 1000,
             },
             {
                 "enemy": "boss1",
                 "x": 60,
                 "y": -25,
-                "velocity": 1.5,
+                "velocity": 0.15,
                 "health": 1500,
-                "delay": 1000,
+                "delay": 1500,
             },
             {
                 "enemy": "boss1",
                 "x": 0,
                 "y": -25,
-                "velocity": 1.5,
+                "velocity": 0.15,
                 "health": 2000,
                 "delay": 2000,
             },
@@ -83,7 +80,7 @@ class Level2(BaseLevel):
                 "enemy": "boss4",
                 "x": 15,
                 "y": -25,
-                "velocity": 1.5,
+                "velocity": 0.15,
                 "health": 2500,
                 "delay": 3000,
             },
@@ -91,7 +88,7 @@ class Level2(BaseLevel):
                 "enemy": "boss4",
                 "x": 25,
                 "y": 5,
-                "velocity": 1.5,
+                "velocity": 0.15,
                 "health": 3000,
                 "delay": 4000,
             },

@@ -19,3 +19,14 @@ class StartMenu(BaseMenu):
             "settings": colors["WHITE"],
             "quit": colors["WHITE"],
         }
+
+    def settings_menu_init(self):
+        self.selection_color = {
+            "fps": colors["WHITE"],
+        }
+
+    def settings_menu_update(self):
+        ...
+
+    def settings_menu_render(self):
+        ...

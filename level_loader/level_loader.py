@@ -187,7 +187,9 @@ class LevelLoader:
         for e in enemies:
             if self.delay < e["delay"]:
                 return
-            self.enemies.get_enemy(e["enemy"], e["x"], e["y"], e["health"])
+            self.enemies.get_enemy(
+                e["enemy"], e["x"], e["y"], e["health"], e["velocity"]
+            )
             enemies.remove(e)
             self.t_delay = e["delay"] + 500
         if (
@@ -201,14 +203,14 @@ class LevelLoader:
         elif not enemies and number_of_enemies == 0 and not self.menu_present:
             self.load_menu(True)
 
-    def load_menu(self, transition=False):
-        if not self.menu_present and not transition:
+    def load_menu(self, transition_screen=False):
+        if not self.menu_present and not transition_screen:
             return
         self.menu_render = self.loaded_level.menu_render
         self.menu_update = self.loaded_level.menu_update
-        if transition:
+        if transition_screen:
             self.menu_present = True
-            self.logger.Log("Loading transition screen...")
-            transition = TransitionScreen(self.game, self.current_level)
+            level_name = self.levels[self.current_level]["name"]
+            transition = TransitionScreen(self.game, level_name)
             self.game.menu_render = transition.menu_render
             self.game.menu_update = transition.menu_update
