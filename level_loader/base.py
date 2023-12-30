@@ -65,7 +65,7 @@ class BaseLevel:
         self.game = game
         self.logger: Logger = game.logger
         self.level_name = ""
-        self.menu = True
+        self.menu = False
         self.menu_showing = False
         self.selection_color = {
             "restart": colors["RED"],
@@ -90,6 +90,10 @@ class BaseLevel:
         if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0:
             self.game.paused = not self.game.paused
             self.menu_showing = not self.menu_showing
+            self.menu = not self.menu
+            self.game.level_loader.menu_present = (
+                not self.game.level_loader.menu_present
+            )
             self.logger.Log(f"Paused: {self.game.paused}")
             self.game.keypress_delay = 25.0
             return
