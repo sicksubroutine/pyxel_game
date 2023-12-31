@@ -74,15 +74,7 @@ class KeyboardSystem(es.Processor):
             #    self.spawner.destroy_entities()
 
             if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0:
-                self.game.level_loader.loaded_level.menu_showing = (
-                    not self.game.level_loader.loaded_level.menu_showing
-                )
-                self.game.level_loader.loaded_level.menu = (
-                    not self.game.level_loader.loaded_level.menu
-                )
-                self.game.level_loader.menu_present = (
-                    not self.game.level_loader.menu_present
-                )
+                self.game.level_loader.pause_menu_do()
                 self.game.paused = not self.game.paused
                 self.logger.Log(f"Paused from keyboard_system: {self.game.paused}")
                 self.game.keypress_delay = 25.0

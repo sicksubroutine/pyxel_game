@@ -72,8 +72,11 @@ class ProjectileLifetimeSystem(es.Processor):
 
     def process(self):
         self.timer += 1.0
-        for ent, (_, projectile) in es.get_components(Transform, Projectile):
+        for ent, (transform, projectile) in es.get_components(Transform, Projectile):
             if projectile.start_time == 0.0:
                 projectile.start_time = self.timer
-            if self.timer - projectile.start_time >= projectile.duration:
+            if (
+                self.timer - projectile.start_time >= projectile.duration
+                or transform.position.y < 0
+            ):
                 self.pool.remove_entity(ent)

@@ -49,7 +49,10 @@ class RenderSystem(es.Processor):
         while priority_queue:
             _, ent, transform, sprite = heapq.heappop(priority_queue)
 
-            player_entity_id = player_system.player.entity_id
+            if player_system.player is not None:
+                player_entity_id = player_system.player.entity_id
+            else:
+                player_entity_id = None
 
             if sprite.in_view:
                 if sprite.hit_flash > 0:
