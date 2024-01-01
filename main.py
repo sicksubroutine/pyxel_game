@@ -67,7 +67,7 @@ class Game:
         self.projectile_system = ProjectileEmitterSystem(self)
         self.projectile_lifetime_system = ProjectileLifetimeSystem(self)
         self.collider_system = ColliderSystem(self)
-        self.collision_render_system = CollisionRenderSystem()
+        self.collision_render_system = CollisionRenderSystem(self)
         self.muzzle_flash_system = RenderMuzzleFlashSystem(self)
         self.damage_system = DamageSystem(self)
         self.sound_system = SoundSystem(self)
@@ -128,14 +128,10 @@ class Game:
         self.render_system.process(self.player_system)
         self.muzzle_flash_system.render()
         self.particle_system.process()
+
         if self.level_loader.menu_present:
             self.menu_render()
-        if self.debug:
-            self.collision_render_system.process()
-            # px.text(0, 0, f"FPS: {self.fps}", 7)
-            px.text(0, 0, f"Delay: {self.level_loader.delay}", 7)
-            px.text(0, 8, f"Entities: {len(self.pool.entities)}", 7)
-            px.text(0, 16, f"Level: {self.level_loader.loaded_level.level_name}", 7)
+        self.collision_render_system.process()
 
     def restart_game(self):
         self.pool.clear_all_entities()

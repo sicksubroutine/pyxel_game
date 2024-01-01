@@ -23,6 +23,8 @@ class StartMenu(BaseMenu):
     def settings_menu_init(self):
         self.selection_color = {
             "fps": colors["WHITE"],
+            "width": colors["WHITE"],
+            "height": colors["WHITE"],
         }
 
     def settings_menu_update(self):

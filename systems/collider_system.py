@@ -62,22 +62,33 @@ class ColliderSystem(es.Processor):
 
 
 class CollisionRenderSystem(es.Processor):
+    def __init__(self, game):
+        self.game = game
+        self.pool = game.pool
+
     def process(self):
-        for ent, (transform, collider) in es.get_components(Transform, Collider):
-            # White rectangle if not colliding, red if colliding while in debug mode
-            if not collider.is_colliding:
-                px.rectb(
-                    transform.position.x + collider.offset.x,
-                    transform.position.y + collider.offset.y,
-                    collider.width,
-                    collider.height,
-                    7,
-                )
-            else:
-                px.rectb(
-                    transform.position.x + collider.offset.x,
-                    transform.position.y + collider.offset.y,
-                    collider.width,
-                    collider.height,
-                    8,
-                )
+        if self.game.debug:
+            # px.text(0, 0, f"FPS: {self.fps}", 7)
+            px.text(0, 0, f"Delay: {self.game.level_loader.delay}", 7)
+            px.text(0, 8, f"Entities: {len(self.pool.entities)}", 7)
+            px.text(
+                0, 16, f"Level: {self.game.level_loader.loaded_level.level_name}", 7
+            )
+            for ent, (transform, collider) in es.get_components(Transform, Collider):
+                # White rectangle if not colliding, red if colliding while in debug mode
+                if not collider.is_colliding:
+                    px.rectb(
+                        transform.position.x + collider.offset.x,
+                        transform.position.y + collider.offset.y,
+                        collider.width,
+                        collider.height,
+                        7,
+                    )
+                else:
+                    px.rectb(
+                        transform.position.x + collider.offset.x,
+                        transform.position.y + collider.offset.y,
+                        collider.width,
+                        collider.height,
+                        8,
+                    )

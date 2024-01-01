@@ -18,6 +18,9 @@ class KeyboardSystem(es.Processor):
         self.pool: EntityPool = game.pool
 
     def process(self):
+        if self.game.player_system.player is None:
+            return
+
         for entity, (keyboard, velocity, _, sprite) in es.get_components(
             KeyboardController,
             Velocity,
