@@ -13,5 +13,5 @@ class Utils:
         return lerp(c, d, t)
 
     @staticmethod
-    def random_angle(min, max):
+    def random_angle(min, max) -> float:
         return radians(uniform(min, max))

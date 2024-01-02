@@ -59,8 +59,8 @@ class ProjectileEmitterSystem(es.Processor):
         for ent, (transform, emitter, sprite) in es.get_components(
             Transform, ProjectileEmitter, Sprite
         ):
+            # TODO: handle the shooting of enemies
             ...
-            # TODO: Add enemy projectile emitter here
 
 
 class ProjectileLifetimeSystem(es.Processor):

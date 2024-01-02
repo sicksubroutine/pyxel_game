@@ -18,6 +18,19 @@ class ParticleSystem(es.Processor):
         self.pool: EntityPool = game.pool
         self.logger: Logger = game.logger
 
+    def age_handling(self, color, particle) -> int:
+        if particle.age < 10:
+            color = int(Colors.GRAY)
+        elif particle.age < particle.max_age / 2:
+            color = int(Colors.ORANGE)
+        elif particle.age < particle.max_age / 1.5:
+            color = int(Colors.YELLOW)
+        elif particle.age < particle.max_age / 1.25:
+            color = int(Colors.RED)
+        elif particle.age > particle.max_age / 1.15:
+            color = int(Colors.WHITE)
+        return color
+
     def process(self):
         for ent, (transform, velocity, particle) in es.get_components(
             Transform, Velocity, Particle
@@ -30,18 +43,8 @@ class ParticleSystem(es.Processor):
                     vel -= (vel / (pow((particle.age) + EPSILON, 0.975))) * SLOWDOWN
 
                 transform.position += vel
-                # fade from white, to red, to yellow, to orange, to grey
                 color = int(particle.color)
-                if particle.age < 10:
-                    color = int(Colors.GRAY)
-                elif particle.age < particle.max_age / 2:
-                    color = int(Colors.ORANGE)
-                elif particle.age < particle.max_age / 1.5:
-                    color = int(Colors.YELLOW)
-                elif particle.age < particle.max_age / 1.25:
-                    color = int(Colors.RED)
-                elif particle.age > particle.max_age / 1.15:
-                    color = int(Colors.WHITE)
+                color = self.age_handling(color, particle)
                 px.pset(transform.position.x, transform.position.y, color)
             else:
                 self.pool.remove_entity(ent)

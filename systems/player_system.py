@@ -35,8 +35,7 @@ class PlayerSystem:
 
     def player_death(self):
         self.logger.Log("Player death")
-        entity_id = self.player.entity_id
-        self.pool.remove_entity(entity_id, True)
+        self.pool.remove_entity(self.player.entity_id, True)
         self.components = {}
         self.player = None
 

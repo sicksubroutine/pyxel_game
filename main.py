@@ -128,7 +128,6 @@ class Game:
         self.render_system.process(self.player_system)
         self.muzzle_flash_system.render()
         self.particle_system.process()
-
         if self.level_loader.menu_present:
             self.menu_render()
         self.collision_render_system.process()
