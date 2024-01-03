@@ -183,7 +183,8 @@ class LevelLoader:
             return
         self.delay += 1
         enemies = self.loaded_level.spawn_schedule
-        number_of_enemies = len(self.pool.get_group("enemies"))
+        zero_enemies = len(self.pool.get_group("enemies")) == 0
+        delay_ended = self.delay > self.t_delay
         for e in enemies:
             if self.delay < e["delay"]:
                 return
@@ -192,15 +193,10 @@ class LevelLoader:
             )
             enemies.remove(e)
             self.t_delay = e["delay"] + 500
-        if (
-            not enemies
-            and number_of_enemies == 0
-            and self.delay > self.t_delay
-            and self.menu_present
-        ):
+        if not enemies and zero_enemies and delay_ended and self.menu_present:
             self.logger.Log(f"All enemies spawned! Moving to {self.current_level}")
             self.next_level()
-        elif not enemies and number_of_enemies == 0 and not self.menu_present:
+        elif not enemies and zero_enemies and not self.menu_present:
             self.load_menu(True)
 
     def load_menu(self, transition_screen=False):

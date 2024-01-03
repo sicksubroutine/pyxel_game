@@ -19,15 +19,18 @@ class PlayerSystem:
         x, y = position.x, position.y
         return glm.vec2(x, y)
 
+    def set_player_position(self, position: glm.vec2) -> None:
+        transform = self.components["transform"]
+        transform.position = glm.vec2(position.x, position.y)
+        self.components["transform"] = transform
+
     def player_setup(self, *components) -> Entity:
         if self.components:
             self.player_position = self.get_player_position()
         self.components = {str(c): c for c in components}
         self.components["sprite"] = self.player_sprite  # ship selection
         if not self.player_position is None:
-            transform = self.components["transform"]
-            transform.position = self.player_position
-            self.components["transform"] = transform
+            self.set_player_position(self.player_position)
         components = list(self.components.values())
         self.player: Entity = self.pool.create_entity(*components)
         self.player.Group("player")
