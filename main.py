@@ -7,6 +7,7 @@ from misc.logger import Logger
 from misc.spawner import Spawner
 from misc.asset_store import AssetStore
 from misc.config import ConfigManager
+from misc.events import EventHandler
 
 from level_loader.level_loader import LevelLoader
 
@@ -56,6 +57,7 @@ class Game:
         self.paused = False
         self.keypress_delay = 0.0
         px.init(self.res_width, self.res_height, title=self.config.title, fps=self.fps)
+        self.event_handler = EventHandler(self)
         self.systems_import()
         self.level_init(current_level)
 
@@ -73,17 +75,6 @@ class Game:
         self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
         self.particle_system = ParticleSystem(self)
-
-    def enable_event_handlers(self):
-        es.set_handler("start_game", self.level_loader.next_level)
-        es.set_handler("restart_game", self.restart_game)
-        if self.level_loader.player_present:
-            es.set_handler("shoot", self.projectile_system.player_shoot)
-            es.set_handler("muzzle_flash", self.muzzle_flash_system.muzzle_flash)
-            es.set_handler("collision", self.damage_system.on_collision)
-            es.set_handler("explosion", self.spawner.gen_explosion)
-            es.set_handler("sparks", self.spawner.gen_sparks)
-            es.set_handler("player_death", self.player_system.player_death)
 
     def level_init(self, level):
         self.level_loader: LevelLoader = LevelLoader(self, level)
