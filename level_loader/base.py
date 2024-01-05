@@ -44,6 +44,7 @@ class BaseMenu:
             for key in self.selection_color:
                 if self.selection_color[key] == colors["RED"]:
                     if key == "start":
+                        self.logger.Log("Starting game...")
                         es.dispatch_event("start_game")
                     elif key == "settings":
                         pass

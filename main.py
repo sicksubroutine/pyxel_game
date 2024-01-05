@@ -57,8 +57,9 @@ class Game:
         self.paused = False
         self.keypress_delay = 0.0
         px.init(self.res_width, self.res_height, title=self.config.title, fps=self.fps)
-        self.event_handler = EventHandler(self)
+
         self.systems_import()
+        self.event_handler = EventHandler(self)
         self.level_init(current_level)
 
     def systems_import(self):
@@ -89,7 +90,7 @@ class Game:
         if self.level_loader.menu_present:
             self.menu_render = self.level_loader.menu_render
             self.menu_update = self.level_loader.menu_update
-        self.enable_event_handlers()
+        self.event_handler.enable_event_handlers()
 
     def fps_counter(self):
         self.frames += 1
