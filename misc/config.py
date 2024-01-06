@@ -3,8 +3,6 @@ from dataclasses import dataclass
 
 @dataclass
 class ConfigManager:
-    """Holds all the configuration for the game"""
-
     title: str = "Untitled 64x64 Shmup"
     window_width: int = 64
     window_height: int = 64

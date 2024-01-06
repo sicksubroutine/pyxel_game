@@ -1,5 +1,3 @@
-import pyxel as px
-import esper as es
 from level_loader.base import BaseMenu
 from misc.logger import Logger
 from components.color import colors

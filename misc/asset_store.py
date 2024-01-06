@@ -1,4 +1,3 @@
-# Where assets are stored
 import pyxel as px
 from misc.logger import Logger
 from components.audio import Sound
