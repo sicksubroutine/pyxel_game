@@ -50,14 +50,14 @@ class Enemy:
         self.on_init()
 
     def on_init(self):
-        ...
+        self.entity = self.spawner.gen_enemy(self)
 
     def enemy_behavior(self):
         ...
 
 
 class Boss1(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -73,15 +73,12 @@ class Boss1(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=health,
+            health=750,
         )
-
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
 
 
 class Boss2(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -97,15 +94,12 @@ class Boss2(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=health,
+            health=800,
         )
-
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
 
 
 class Boss3(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -121,15 +115,12 @@ class Boss3(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=health,
+            health=1000,
         )
-
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
 
 
 class Boss4(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=16,
             h=16,
@@ -145,15 +136,12 @@ class Boss4(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=health,
+            health=1500,
         )
-
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
 
 
 class RedGuy(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -169,15 +157,33 @@ class RedGuy(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=health,
+            health=300,
         )
 
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
+
+class RedGuy2(Enemy):
+    def __init__(self, game, x, y, vel_y):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=40,
+            v=16,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=0,
+            vel_y=vel_y,
+            off_x=0,
+            off_y=0,
+            game=game,
+            health=300,
+        )
 
 
 class GreenGuy(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -193,15 +199,33 @@ class GreenGuy(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=health,
+            health=300,
         )
 
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
+
+class GreenGuy2(Enemy):
+    def __init__(self, game, x, y, vel_y):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=56,
+            v=32,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=0,
+            vel_y=vel_y,
+            off_x=0,
+            off_y=0,
+            game=game,
+            health=300,
+        )
 
 
 class BlueGuy(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -217,15 +241,12 @@ class BlueGuy(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=health,
+            health=300,
         )
-
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
 
 
 class WhiteGuy(Enemy):
-    def __init__(self, game, x, y, health, vel_y):
+    def __init__(self, game, x, y, vel_y):
         super().__init__(
             w=8,
             h=8,
@@ -241,11 +262,8 @@ class WhiteGuy(Enemy):
             off_x=1,
             off_y=0,
             game=game,
-            health=health,
+            health=100,
         )
-
-    def on_init(self):
-        self.entity = self.spawner.gen_enemy(self)
 
 
 class Enemies:
@@ -254,7 +272,9 @@ class Enemies:
         self.enemies = []
         self.enemy_types = {
             "red_guy": RedGuy,
+            "red_guy2": RedGuy2,
             "green_guy": GreenGuy,
+            "green_guy2": GreenGuy2,
             "blue_guy": BlueGuy,
             "white_guy": WhiteGuy,
             "boss1": Boss1,
@@ -263,9 +283,9 @@ class Enemies:
             "boss4": Boss4,
         }
 
-    def get_enemy(self, name, x, y, health, vel_y) -> Enemy:
+    def get_enemy(self, name, x, y, vel_y) -> Enemy:
         enemy_class = self.enemy_types[name]
-        enemy_instance = enemy_class(self.game, x, y, health, vel_y)
+        enemy_instance = enemy_class(self.game, x, y, vel_y)
         self.enemies.append(enemy_instance)
         return enemy_instance
 

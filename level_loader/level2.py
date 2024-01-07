@@ -49,7 +49,6 @@ class Level2(BaseLevel):
                 "x": 25,
                 "y": -25,
                 "velocity": 0.15,
-                "health": 500,
                 "delay": 0,
             },
             {
@@ -57,7 +56,6 @@ class Level2(BaseLevel):
                 "x": 50,
                 "y": -25,
                 "velocity": 0.15,
-                "health": 1000,
                 "delay": 1000,
             },
             {
@@ -65,7 +63,6 @@ class Level2(BaseLevel):
                 "x": 60,
                 "y": -25,
                 "velocity": 0.15,
-                "health": 1500,
                 "delay": 1500,
             },
             {
@@ -73,7 +70,6 @@ class Level2(BaseLevel):
                 "x": 0,
                 "y": -25,
                 "velocity": 0.15,
-                "health": 2000,
                 "delay": 2000,
             },
             {
@@ -81,7 +77,6 @@ class Level2(BaseLevel):
                 "x": 15,
                 "y": -25,
                 "velocity": 0.15,
-                "health": 2500,
                 "delay": 3000,
             },
             {
@@ -89,7 +84,6 @@ class Level2(BaseLevel):
                 "x": 25,
                 "y": 5,
                 "velocity": 0.15,
-                "health": 3000,
                 "delay": 4000,
             },
         ]

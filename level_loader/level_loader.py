@@ -188,9 +188,7 @@ class LevelLoader:
         for e in enemies:
             if self.delay < e["delay"]:
                 return
-            self.enemies.get_enemy(
-                e["enemy"], e["x"], e["y"], e["health"], e["velocity"]
-            )
+            self.enemies.get_enemy(e["enemy"], e["x"], e["y"], e["velocity"])
             enemies.remove(e)
             self.t_delay = e["delay"] + 500
         if not enemies and zero_enemies and delay_ended and self.menu_present:

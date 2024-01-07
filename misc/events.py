@@ -6,24 +6,6 @@ class EventHandler:
     def __init__(self, game):
         self.game = game
 
-    def enable_pause(self):
-        self.game.paused = not self.game.paused
-        self.game.level_loader.loaded_level.menu_showing = (
-            not self.game.level_loader.loaded_level.menu_showing
-        )
-        self.game.level_loader.loaded_level.menu = (
-            not self.game.level_loader.loaded_level.menu
-        )
-        self.game.level_loader.menu_present = not self.game.level_loader.menu_present
-
-    def disable_pause(self):
-        self.game.paused = not self.game.paused
-        self.game.level_loader.loaded_level.menu_showing = True
-        self.game.level_loader.menu_present = True
-        self.game.level_loader.loaded_level.menu = True
-        self.game.menu_render = self.loaded_level.menu_render
-        self.game.menu_update = self.loaded_level.menu_update
-
     def player_handlers(self):
         es.set_handler("shoot", self.game.projectile_system.player_shoot)
         es.set_handler("muzzle_flash", self.game.muzzle_flash_system.muzzle_flash)
@@ -43,3 +25,21 @@ class EventHandler:
         self.general_game_handlers()
         if self.game.level_loader.player_present:
             self.player_handlers()
+
+    def disable_pause(self):
+        self.game.paused = not self.game.paused
+        self.game.level_loader.loaded_level.menu_showing = (
+            not self.game.level_loader.loaded_level.menu_showing
+        )
+        self.game.level_loader.loaded_level.menu = (
+            not self.game.level_loader.loaded_level.menu
+        )
+        self.game.level_loader.menu_present = not self.game.level_loader.menu_present
+
+    def enable_pause(self):
+        self.game.paused = not self.game.paused
+        self.game.level_loader.loaded_level.menu_showing = True
+        self.game.level_loader.menu_present = True
+        self.game.level_loader.loaded_level.menu = True
+        self.game.menu_render = self.game.level_loader.loaded_level.menu_render
+        self.game.menu_update = self.game.level_loader.loaded_level.menu_update

@@ -132,6 +132,8 @@ class BaseLevel:
         if not self.menu_showing:
             return
 
+        px.text(20, 8, "Paused!", colors["ORANGE"])
+
         px.rect(14, 16, 38, 32, colors["BLACK"])
         px.rectb(14, 16, 38, 32, colors["WHITE"])
         px.text(18, 20, "Restart", self.selection_color["restart"])

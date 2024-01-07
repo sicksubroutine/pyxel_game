@@ -49,7 +49,6 @@ class Level1(BaseLevel):
                 "x": 25,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 0,
             },
             {
@@ -57,7 +56,6 @@ class Level1(BaseLevel):
                 "x": 25,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 40,
             },
             {
@@ -65,7 +63,6 @@ class Level1(BaseLevel):
                 "x": 25,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 80,
             },
             {
@@ -73,7 +70,6 @@ class Level1(BaseLevel):
                 "x": 56,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 150,
             },
             {
@@ -81,7 +77,6 @@ class Level1(BaseLevel):
                 "x": 56,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 190,
             },
             {
@@ -89,7 +84,6 @@ class Level1(BaseLevel):
                 "x": 56,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 230,
             },
             {
@@ -97,7 +91,6 @@ class Level1(BaseLevel):
                 "x": 8,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 300,
             },
             {
@@ -105,7 +98,6 @@ class Level1(BaseLevel):
                 "x": 16,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 330,
             },
             {
@@ -113,7 +105,6 @@ class Level1(BaseLevel):
                 "x": 24,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 360,
             },
             {
@@ -121,7 +112,6 @@ class Level1(BaseLevel):
                 "x": 32,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 390,
             },
             {
@@ -129,7 +119,6 @@ class Level1(BaseLevel):
                 "x": 40,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 420,
             },
             {
@@ -137,7 +126,6 @@ class Level1(BaseLevel):
                 "x": 48,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 450,
             },
             {
@@ -145,7 +133,6 @@ class Level1(BaseLevel):
                 "x": 40,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 480,
             },
             {
@@ -153,7 +140,6 @@ class Level1(BaseLevel):
                 "x": 32,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 510,
             },
             {
@@ -161,7 +147,6 @@ class Level1(BaseLevel):
                 "x": 24,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 540,
             },
             {
@@ -169,7 +154,6 @@ class Level1(BaseLevel):
                 "x": 16,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 570,
             },
             {
@@ -177,7 +161,6 @@ class Level1(BaseLevel):
                 "x": 8,
                 "y": -25,
                 "velocity": 0.25,
-                "health": 300,
                 "delay": 600,
             },
         ]
