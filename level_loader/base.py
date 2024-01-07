@@ -89,12 +89,7 @@ class BaseLevel:
 
         # unpause game will only able to be called when paused
         if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0:
-            self.game.paused = not self.game.paused
-            self.menu_showing = not self.menu_showing
-            self.menu = not self.menu
-            self.game.level_loader.menu_present = (
-                not self.game.level_loader.menu_present
-            )
+            es.dispatch_event("disable_pause")
             self.logger.Log(f"Paused: {self.game.paused}")
             self.game.keypress_delay = 25.0
             return

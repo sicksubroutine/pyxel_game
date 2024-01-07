@@ -210,10 +210,3 @@ class LevelLoader:
             transition = TransitionScreen(self.game, level_name)
             self.game.menu_render = transition.menu_render
             self.game.menu_update = transition.menu_update
-
-    def pause_menu_do(self):
-        self.loaded_level.menu_showing = True
-        self.menu_present = True
-        self.loaded_level.menu = True
-        self.game.menu_render = self.loaded_level.menu_render
-        self.game.menu_update = self.loaded_level.menu_update
