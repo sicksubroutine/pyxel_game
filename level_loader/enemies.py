@@ -140,6 +140,48 @@ class Boss4(Enemy):
         )
 
 
+class Boss5(Enemy):
+    def __init__(self, game, x, y, vel_y):
+        super().__init__(
+            w=16,
+            h=16,
+            img=0,
+            u=64,
+            v=48,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=0,
+            vel_y=vel_y,
+            off_x=0,
+            off_y=0,
+            game=game,
+            health=1500,
+        )
+
+
+class Boss6(Enemy):
+    def __init__(self, game, x, y, vel_y):
+        super().__init__(
+            w=16,
+            h=16,
+            img=0,
+            u=64,
+            v=64,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=0,
+            vel_y=vel_y,
+            off_x=0,
+            off_y=0,
+            game=game,
+            health=1500,
+        )
+
+
 class RedGuy(Enemy):
     def __init__(self, game, x, y, vel_y):
         super().__init__(
@@ -169,6 +211,27 @@ class RedGuy2(Enemy):
             img=0,
             u=40,
             v=16,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=0,
+            vel_y=vel_y,
+            off_x=0,
+            off_y=0,
+            game=game,
+            health=300,
+        )
+
+
+class RedGuy3(Enemy):
+    def __init__(self, game, x, y, vel_y):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=72,
+            v=0,
             layer=SpriteLayer.ENEMY_LAYER,
             is_fixed=False,
             x=x,
@@ -266,6 +329,48 @@ class WhiteGuy(Enemy):
         )
 
 
+class OrangeGuy(Enemy):
+    def __init__(self, game, x, y, vel_y):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=48,
+            v=40,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=0,
+            vel_y=vel_y,
+            off_x=1,
+            off_y=0,
+            game=game,
+            health=100,
+        )
+
+
+class OrangeGuy2(Enemy):
+    def __init__(self, game, x, y, vel_y):
+        super().__init__(
+            w=8,
+            h=8,
+            img=0,
+            u=56,
+            v=40,
+            layer=SpriteLayer.ENEMY_LAYER,
+            is_fixed=False,
+            x=x,
+            y=y,
+            vel_x=0,
+            vel_y=vel_y,
+            off_x=1,
+            off_y=0,
+            game=game,
+            health=100,
+        )
+
+
 class Enemies:
     def __init__(self, game):
         self.game = game
@@ -273,14 +378,19 @@ class Enemies:
         self.enemy_types = {
             "red_guy": RedGuy,
             "red_guy2": RedGuy2,
+            "red_guy3": RedGuy3,
             "green_guy": GreenGuy,
             "green_guy2": GreenGuy2,
             "blue_guy": BlueGuy,
             "white_guy": WhiteGuy,
+            "orange_guy": OrangeGuy,
+            "orange_guy2": OrangeGuy2,
             "boss1": Boss1,
             "boss2": Boss2,
             "boss3": Boss3,
             "boss4": Boss4,
+            "boss5": Boss5,
+            "boss6": Boss6,
         }
 
     def get_enemy(self, name, x, y, vel_y) -> Enemy:

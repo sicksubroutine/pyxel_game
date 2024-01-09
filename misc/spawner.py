@@ -7,12 +7,30 @@ from components.velocity import Velocity
 from components.particle import Particle
 from components.color import Colors
 from components.audio import AudioComponent, AudioChannel
+from components.animation import Animation, AniFrame
 
 # misc
 from misc.entity import EntityPool
 from misc.logger import Logger
 from misc.asset_store import AssetStore
 from misc.utils import Utils
+
+
+class Explosion:
+    def __init__(self):
+        self.components = [
+            Animation(
+                frames=[
+                    AniFrame(u=40, v=32, w=16, h=16, img=2),
+                    AniFrame(u=56, v=32, w=16, h=16, img=2),
+                    AniFrame(u=72, v=32, w=16, h=16, img=2),
+                    AniFrame(u=88, v=32, w=16, h=16, img=2),
+                ],
+                num_frames=4,
+                frame_rate=0.1,
+                looping=False,
+            )
+        ]
 
 
 class Spawner:
