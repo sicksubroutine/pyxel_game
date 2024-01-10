@@ -8,6 +8,7 @@ from components.particle import Particle
 from components.color import Colors
 from components.audio import AudioComponent, AudioChannel
 from components.animation import Animation, AniFrame
+from components.sprite import Sprite, SpriteLayer
 
 # misc
 from misc.entity import EntityPool
@@ -16,7 +17,7 @@ from misc.asset_store import AssetStore
 from misc.utils import Utils
 
 
-class Explosion:
+class ShockWave:
     def __init__(self):
         self.components = [
             Animation(
@@ -29,7 +30,15 @@ class Explosion:
                 num_frames=4,
                 frame_rate=0.1,
                 looping=False,
-            )
+            ),
+            Sprite(
+                width=16,
+                height=16,
+                layer=SpriteLayer.DECORATION_LAYER,
+                u=40,
+                v=32,
+                img=2,
+            ),
         ]
 
 
