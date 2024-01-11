@@ -18,7 +18,9 @@ from misc.utils import Utils
 
 
 class ShockWave:
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
+        self.pool: EntityPool = game.pool
         self.components = [
             Animation(
                 frames=[
@@ -40,6 +42,15 @@ class ShockWave:
                 img=2,
             ),
         ]
+        self.entity = self.self_create()
+
+    def self_create(self):
+        ent = self.pool.create_entity(*self.components)
+        ent.Group("shockwave")
+        return ent
+
+    def self_destroy(self):
+        self.pool.remove_entity(self.entity)
 
 
 class Spawner:
@@ -67,6 +78,9 @@ class Spawner:
             )
         )
         audio.Group("explosion audio")
+
+        # shockwave = ShockWave(self.game)
+
         for i in range(0, size):
             speed = random.uniform(0.5, 10)
             angle = Utils.random_angle(0, 360)

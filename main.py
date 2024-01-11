@@ -2,13 +2,13 @@ import pyxel as px
 import esper as es
 import time
 
+# helpers
 from misc.entity import EntityPool
 from misc.logger import Logger
 from misc.spawner import Spawner
 from misc.asset_store import AssetStore
 from misc.config import ConfigManager
 from misc.events import EventHandler
-
 from level_loader.level_loader import LevelLoader
 
 # Systems
@@ -22,6 +22,7 @@ from systems.damage_system import DamageSystem
 from systems.sound_system import SoundSystem
 from systems.player_system import PlayerSystem
 from systems.particle_system import ParticleSystem
+from systems.animation_system import AnimationSystem
 
 
 class BootStrapper:
@@ -76,6 +77,7 @@ class Game:
         self.sound_system = SoundSystem(self)
         self.player_system = PlayerSystem(self)
         self.particle_system = ParticleSystem(self)
+        self.animation_system = AnimationSystem(self)
 
     def level_init(self, level):
         self.level_loader: LevelLoader = LevelLoader(self, level)
