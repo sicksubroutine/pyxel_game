@@ -133,7 +133,6 @@ class LevelLoader:
         if current_level in es.list_worlds():
             es.delete_world(current_level)
         self.pool.clear_all_entities()
-        self.load_level()
         self.game.level_init(self.current_level)
 
     def previous_level(self):
@@ -143,8 +142,7 @@ class LevelLoader:
         if current_level in es.list_worlds():
             es.delete_world(current_level)
         self.pool.clear_all_entities()
-        self.load_level()
-        self.game.level_init()
+        self.game.level_init(self.current_level)
 
     def load_assets(self):
         if not self.assets_present:
@@ -159,6 +157,7 @@ class LevelLoader:
 
     def load_player(self):
         if not self.player_present:
+            self.logger.Log("No player found")
             return
         try:
             for component in self.loaded_level.player:

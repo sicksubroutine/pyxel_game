@@ -51,7 +51,6 @@ class RenderSystem(es.Processor):
 
             if player_system.player is not None:
                 player_entity_id = player_system.player.entity_id
-                self.logger.Log(player_entity_id)
             else:
                 player_entity_id = None
 
@@ -74,7 +73,7 @@ class RenderSystem(es.Processor):
                     ...
                 elif player_entity_id != ent:
                     px.blt(
-                        transform.position.x + 10,
+                        transform.position.x,
                         transform.position.y,
                         sprite.img,
                         sprite.u,

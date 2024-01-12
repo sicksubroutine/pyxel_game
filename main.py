@@ -105,7 +105,7 @@ class Game:
     def update(self):
         self.keypress_delay -= 1.0 if self.keypress_delay > 0.0 else 0.0
         if not self.paused:
-            # self.level_loader.spawn_schedule()
+            self.level_loader.spawn_schedule()
             self.star_system.update()
             self.collider_system.process()
             self.keyboard_system.process()

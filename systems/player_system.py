@@ -9,7 +9,7 @@ class PlayerSystem:
         self.game = game
         self.pool: EntityPool = game.pool
         self.logger: Logger = game.logger
-        self.player: Entity = None
+        self.player = None
         self.player_sprite: Sprite = None
         self.player_position = None
         self.components = {}
