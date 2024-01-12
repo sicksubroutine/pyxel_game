@@ -53,8 +53,9 @@ class Entity:
 
 
 class EntityPool:
-    def __init__(self, logger: Logger) -> None:
-        self.logger: Logger = logger
+    def __init__(self, game) -> None:
+        self.game = game
+        self.logger: Logger = game.logger
         self.logger.Log("Entity Pool initialized")
         self.entities: dict = {}
         self.tags: dict = {}
@@ -74,6 +75,10 @@ class EntityPool:
 
     def create_entity(self, *components: list) -> Entity:
         entity: Entity = Entity(self, *components)
+        self.logger.Log(
+            f"Creating entity {entity.entity_id} with components {components}"
+        )
+        self.logger.Log(self.game.level_loader.loaded_level.level_name)
         self.entities[entity.entity_id] = entity
         return entity
 
