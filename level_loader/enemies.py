@@ -262,7 +262,7 @@ class GreenGuy(Enemy):
             off_x=0,
             off_y=0,
             game=game,
-            health=300,
+            health=150,
         )
 
 
@@ -325,7 +325,7 @@ class WhiteGuy(Enemy):
             off_x=1,
             off_y=0,
             game=game,
-            health=100,
+            health=50,
         )
 
 
