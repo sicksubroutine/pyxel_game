@@ -68,7 +68,7 @@ class ShipSelect(BaseMenu):
                     is_fixed=False,
                 )
                 self.player_system.player_sprite = self.player_sprite
-                self.level_loader.next_level()
+                self.level_loader.load_specific_level("Level 1")
             return
         if px.btnp(px.KEY_DOWN):
             if self.selected_ship < 4:
@@ -87,7 +87,7 @@ class ShipSelect(BaseMenu):
     def menu_render(self):
         px.rect(26, 8, 12, 52, colors["BLACK"])
         px.rectb(26, 8, 12, 52, colors["WHITE"])
-        if self.show_ship_selection % 6 == 0 and self.show_ship_selection > 0:
+        if self.show_ship_selection % 4 == 0 and self.show_ship_selection > 0:
             px.rectb(26, 9 + self.selected_ship * 10, 12, 10, colors["RED"])
         for index, ship in enumerate(self.potential_ships):
             px.blt(

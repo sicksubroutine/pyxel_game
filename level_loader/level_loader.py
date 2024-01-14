@@ -9,6 +9,7 @@ from level_loader.enemies import Enemies
 from level_loader.level1 import Level1
 from level_loader.level2 import Level2
 from level_loader.start_menu import StartMenu
+from level_loader.settings_menu import SettingsMenu
 from level_loader.ship_select import ShipSelect
 from level_loader.transition import TransitionScreen
 
@@ -18,7 +19,7 @@ class MissingComponent(Exception):
 
 
 class LevelLoader:
-    def __init__(self, game, starting_level=0):
+    def __init__(self, game, starting_level="Start Menu"):
         self.game = game
         self.logger: Logger = game.logger
         self.asset_store: AssetStore = game.asset_store
@@ -27,10 +28,11 @@ class LevelLoader:
         self.enemies: Enemies = Enemies(self.game)
         self.current_level = starting_level
         self.levels = {
-            0: {"name": "Start Menu", "class": StartMenu},
-            1: {"name": "Ship Selection", "class": ShipSelect},
-            2: {"name": "Level 1", "class": Level1},
-            3: {"name": "Level 2", "class": Level2},
+            "Start Menu": {"name": "Start Menu", "class": StartMenu},
+            "Settings Menu": {"name": "Settings Menu", "class": SettingsMenu},
+            "Ship Selection": {"name": "Ship Selection", "class": ShipSelect},
+            "Level 1": {"name": "Level 1", "class": Level1},
+            "Level 2": {"name": "Level 2", "class": Level2},
         }
         es.switch_world(self.levels[self.current_level]["name"])
         if "default" in es.list_worlds():
@@ -128,7 +130,12 @@ class LevelLoader:
 
     def next_level(self):
         current_level = self.levels[self.current_level]["name"]
-        self.current_level += 1
+        level_number = int(current_level.split(" ")[1])
+        level_number += 1
+        if f"Level {level_number}" not in self.levels:
+            self.logger.Log("No more levels found")
+            return
+        self.current_level = f"Level {level_number}"
         es.switch_world(self.levels[self.current_level]["name"])
         if current_level in es.list_worlds():
             es.delete_world(current_level)
@@ -138,6 +145,20 @@ class LevelLoader:
     def previous_level(self):
         current_level = self.levels[self.current_level]["name"]
         self.current_level -= 1
+        es.switch_world(self.levels[self.current_level]["name"])
+        if current_level in es.list_worlds():
+            es.delete_world(current_level)
+        self.pool.clear_all_entities()
+        self.game.level_init(self.current_level)
+
+    def load_specific_level(self, level_name):
+        current_level = self.levels[self.current_level]["name"]
+        # determine if level_name is a string or an int
+        if isinstance(level_name, str):
+            for level in self.levels.values():
+                if level["name"] == level_name:
+                    self.current_level = level["name"]
+                    break
         es.switch_world(self.levels[self.current_level]["name"])
         if current_level in es.list_worlds():
             es.delete_world(current_level)

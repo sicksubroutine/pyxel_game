@@ -45,9 +45,9 @@ class BaseMenu:
                 if self.selection_color[key] == colors["RED"]:
                     if key == "start":
                         self.logger.Log("Starting game...")
-                        es.dispatch_event("start_game")
+                        es.dispatch_event("select_level", "Ship Selection")
                     elif key == "settings":
-                        pass
+                        es.dispatch_event("select_level", "Settings Menu")
                     elif key == "quit":
                         self.logger.Log("Quitting...")
                         px.quit()

@@ -18,7 +18,7 @@ class EventHandler:
         es.set_handler("enable_pause", self.enable_pause)
         es.set_handler("disable_pause", self.disable_pause)
         # es.set_handler("toggle_fullscreen", self.game.toggle_fullscreen)
-        es.set_handler("start_game", self.game.level_loader.next_level)
+        es.set_handler("select_level", self.game.level_loader.load_specific_level)
         es.set_handler("restart_game", self.game.restart_game)
 
     def enable_event_handlers(self):

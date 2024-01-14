@@ -38,12 +38,12 @@ class BootStrapper:
         self.logger.Log("BootStrapper initialized")
 
     def start_game(self):
-        self.game: Game = Game(self, 0)
+        self.game: Game = Game(self, "Start Menu")
         self.game.run()
 
 
 class Game:
-    def __init__(self, bootstrap, current_level=0):
+    def __init__(self, bootstrap, current_level="Start Menu"):
         self.boot_strapper: BootStrapper = bootstrap
         self.config = bootstrap.config
         self.logger: Logger = bootstrap.logger
