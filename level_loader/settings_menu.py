@@ -47,11 +47,11 @@ class SettingsMenu(BaseMenu):
             for key in self.selection_color:
                 if self.selection_color[key] == colors["RED"]:
                     if key == "fps":
-                        ...
+                        es.dispatch_event("select_level", "FPS Select")
                     elif key == "width":
-                        ...
+                        es.dispatch_event("select_level", "Resolution Select")
                     elif key == "height":
-                        ...
+                        es.dispatch_event("select_level", "Resolution Select")
                     elif key == "back":
                         es.dispatch_event("select_level", "Start Menu")
                     break
@@ -66,7 +66,56 @@ class SettingsMenu(BaseMenu):
 
 
 class FPSSelect(BaseMenu):
-    ...
+    def __init__(self, game):
+        super().__init__(game)
+        self.level_name = "FPS Select"
+        self.menu = True
+        self.selection_color = {
+            "30": colors["WHITE"],
+            "60": colors["WHITE"],
+            "back": colors["RED"],
+        }
+
+    def menu_update(self):
+        if px.btnp(px.KEY_DOWN):
+            for key in self.selection_color:
+                if self.selection_color[key] == colors["RED"]:
+                    self.selection_color[key] = colors["WHITE"]
+                    if key == "30":
+                        self.selection_color["60"] = colors["RED"]
+                    elif key == "60":
+                        self.selection_color["back"] = colors["RED"]
+                    elif key == "back":
+                        self.selection_color["30"] = colors["RED"]
+                    break
+        elif px.btnp(px.KEY_UP):
+            for key in self.selection_color:
+                if self.selection_color[key] == colors["RED"]:
+                    self.selection_color[key] = colors["WHITE"]
+                    if key == "30":
+                        self.selection_color["back"] = colors["RED"]
+                    elif key == "60":
+                        self.selection_color["30"] = colors["RED"]
+                    elif key == "back":
+                        self.selection_color["60"] = colors["RED"]
+                    break
+        if px.btnp(px.KEY_RETURN):
+            for key in self.selection_color:
+                if self.selection_color[key] == colors["RED"]:
+                    if key == "30":
+                        ...
+                    elif key == "60":
+                        ...
+                    elif key == "back":
+                        es.dispatch_event("select_level", "Settings Menu")
+                    break
+
+    def menu_render(self):
+        px.rect(14, 16, 38, 38, colors["BLACK"])
+        px.rectb(14, 16, 38, 38, colors["WHITE"])
+        px.text(18, 20, "30", self.selection_color["30"])
+        px.text(18, 28, "60", self.selection_color["60"])
+        px.text(18, 36, "back", self.selection_color["back"])
 
 
 class ResolutionSelect(BaseMenu):
@@ -79,3 +128,44 @@ class ResolutionSelect(BaseMenu):
             "height": colors["WHITE"],
             "back": colors["RED"],
         }
+
+    def menu_update(self):
+        if px.btnp(px.KEY_DOWN):
+            for key in self.selection_color:
+                if self.selection_color[key] == colors["RED"]:
+                    self.selection_color[key] = colors["WHITE"]
+                    if key == "width":
+                        self.selection_color["height"] = colors["RED"]
+                    elif key == "height":
+                        self.selection_color["back"] = colors["RED"]
+                    elif key == "back":
+                        self.selection_color["width"] = colors["RED"]
+                    break
+        elif px.btnp(px.KEY_UP):
+            for key in self.selection_color:
+                if self.selection_color[key] == colors["RED"]:
+                    self.selection_color[key] = colors["WHITE"]
+                    if key == "width":
+                        self.selection_color["back"] = colors["RED"]
+                    elif key == "height":
+                        self.selection_color["width"] = colors["RED"]
+                    elif key == "back":
+                        self.selection_color["height"] = colors["RED"]
+                    break
+        if px.btnp(px.KEY_RETURN):
+            for key in self.selection_color:
+                if self.selection_color[key] == colors["RED"]:
+                    if key == "width":
+                        ...
+                    elif key == "height":
+                        ...
+                    elif key == "back":
+                        es.dispatch_event("select_level", "Settings Menu")
+                    break
+
+    def menu_render(self):
+        px.rect(14, 16, 38, 38, colors["BLACK"])
+        px.rectb(14, 16, 38, 38, colors["WHITE"])
+        px.text(18, 20, "width", self.selection_color["width"])
+        px.text(18, 28, "height", self.selection_color["height"])
+        px.text(18, 36, "back", self.selection_color["back"])

@@ -10,6 +10,7 @@ from level_loader.level1 import Level1
 from level_loader.level2 import Level2
 from level_loader.start_menu import StartMenu
 from level_loader.settings_menu import SettingsMenu
+from level_loader.settings_menu import FPSSelect, ResolutionSelect
 from level_loader.ship_select import ShipSelect
 from level_loader.transition import TransitionScreen
 
@@ -30,6 +31,8 @@ class LevelLoader:
         self.levels = {
             "Start Menu": {"name": "Start Menu", "class": StartMenu},
             "Settings Menu": {"name": "Settings Menu", "class": SettingsMenu},
+            "FPS Select": {"name": "FPS Select", "class": FPSSelect},
+            "Resolution Select": {"name": "Res Select", "class": ResolutionSelect},
             "Ship Selection": {"name": "Ship Selection", "class": ShipSelect},
             "Level 1": {"name": "Level 1", "class": Level1},
             "Level 2": {"name": "Level 2", "class": Level2},
