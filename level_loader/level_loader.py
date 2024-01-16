@@ -162,11 +162,11 @@ class LevelLoader:
                 if level["name"] == level_name:
                     self.current_level = level["name"]
                     break
-        es.switch_world(self.levels[self.current_level]["name"])
-        if current_level in es.list_worlds():
-            es.delete_world(current_level)
         if not menu_change:
             self.pool.clear_all_entities()
+            es.switch_world(self.levels[self.current_level]["name"])
+            if current_level in es.list_worlds():
+                es.delete_world(current_level)
         self.game.level_init(self.current_level)
 
     def load_assets(self):

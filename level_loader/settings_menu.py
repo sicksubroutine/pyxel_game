@@ -47,11 +47,11 @@ class SettingsMenu(BaseMenu):
             for key in self.selection_color:
                 if self.selection_color[key] == colors["RED"]:
                     if key == "fps":
-                        es.dispatch_event("select_level", "FPS Select")
+                        es.dispatch_event("select_level", "FPS Select", True)
                     elif key == "width":
-                        es.dispatch_event("select_level", "Resolution Select")
+                        es.dispatch_event("select_level", "Resolution Select", True)
                     elif key == "height":
-                        es.dispatch_event("select_level", "Resolution Select")
+                        es.dispatch_event("select_level", "Resolution Select", True)
                     elif key == "back":
                         es.dispatch_event("select_level", "Start Menu")
                     break
