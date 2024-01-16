@@ -154,7 +154,7 @@ class LevelLoader:
         self.pool.clear_all_entities()
         self.game.level_init(self.current_level)
 
-    def load_specific_level(self, level_name):
+    def load_specific_level(self, level_name, menu_change=False):
         current_level = self.levels[self.current_level]["name"]
         # determine if level_name is a string or an int
         if isinstance(level_name, str):
@@ -165,7 +165,8 @@ class LevelLoader:
         es.switch_world(self.levels[self.current_level]["name"])
         if current_level in es.list_worlds():
             es.delete_world(current_level)
-        self.pool.clear_all_entities()
+        if not menu_change:
+            self.pool.clear_all_entities()
         self.game.level_init(self.current_level)
 
     def load_assets(self):

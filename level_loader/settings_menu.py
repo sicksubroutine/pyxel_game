@@ -76,6 +76,17 @@ class FPSSelect(BaseMenu):
             "back": colors["RED"],
         }
 
+    @staticmethod
+    def fps_change(value):
+        file_path = "misc/config.py"
+        with open(file_path, "r") as f:
+            lines = f.readlines()
+        with open(file_path, "w") as f:
+            for line in lines:
+                if "target_fps" in line:
+                    line = f"    target_fps: int = {value}\n"
+                f.write(line)
+
     def menu_update(self):
         if px.btnp(px.KEY_DOWN):
             for key in self.selection_color:
@@ -103,9 +114,11 @@ class FPSSelect(BaseMenu):
             for key in self.selection_color:
                 if self.selection_color[key] == colors["RED"]:
                     if key == "30":
-                        ...
+                        self.fps_change(30)
+                        self.logger.Log("FPS changed to 30")
                     elif key == "60":
-                        ...
+                        self.fps_change(60)
+                        self.logger.Log("FPS changed to 60")
                     elif key == "back":
                         es.dispatch_event("select_level", "Settings Menu")
                     break

@@ -47,7 +47,7 @@ class BaseMenu:
                         self.logger.Log("Starting game...")
                         es.dispatch_event("select_level", "Ship Selection")
                     elif key == "settings":
-                        es.dispatch_event("select_level", "Settings Menu")
+                        es.dispatch_event("select_level", "Settings Menu", True)
                     elif key == "quit":
                         self.logger.Log("Quitting...")
                         px.quit()
