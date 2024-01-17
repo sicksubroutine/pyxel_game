@@ -75,7 +75,6 @@ class EntityPool:
 
     def create_entity(self, *components: list) -> Entity:
         entity: Entity = Entity(self, *components)
-        self.logger.Log(self.game.level_loader.loaded_level.level_name)
         self.entities[entity.entity_id] = entity
         return entity
 

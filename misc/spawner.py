@@ -79,8 +79,8 @@ class Spawner:
         )
         audio.Group("explosion audio")
 
-        # shockwave = ShockWave(self.game)
-
+        shockwave = ShockWave(self.game)
+        shock = shockwave.self_create()
         for i in range(0, size):
             speed = random.uniform(0.5, 10)
             angle = Utils.random_angle(0, 360)
