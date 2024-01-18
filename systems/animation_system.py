@@ -11,11 +11,6 @@ class AnimationSystem(es.Processor):
 
     def process(self):
         for entity, (animation, sprite) in es.get_components(Animation, Sprite):
-            if animation.looping:
-                animation.current_frame += animation.speed * self.game.dt
-                if animation.current_frame >= len(animation.frames):
-                    animation.current_frame = 0
-
             sprite.u = animation.frames[animation.current_frame].u
             sprite.v = animation.frames[animation.current_frame].v
             sprite.img = animation.frames[animation.current_frame].img

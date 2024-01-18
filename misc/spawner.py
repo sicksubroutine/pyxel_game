@@ -44,7 +44,7 @@ class ShockWave:
         ]
         self.entity = self.self_create()
 
-    def self_create(self):
+    def init_shockwave(self):
         ent = self.pool.create_entity(*self.components)
         ent.Group("shockwave")
         return ent
@@ -79,8 +79,8 @@ class Spawner:
         )
         audio.Group("explosion audio")
 
-        shockwave = ShockWave(self.game)
-        shock = shockwave.self_create()
+        # shockwave = ShockWave(self.game)
+        # shock = shockwave.self_create()
         for i in range(0, size):
             speed = random.uniform(0.5, 10)
             angle = Utils.random_angle(0, 360)
