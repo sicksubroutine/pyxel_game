@@ -8,6 +8,7 @@ from systems.player_system import PlayerSystem
 from level_loader.enemies import Enemies
 from level_loader.level1 import Level1
 from level_loader.level2 import Level2
+from level_loader.level3 import Level3
 from level_loader.start_menu import StartMenu
 from level_loader.settings_menu import SettingsMenu
 from level_loader.settings_menu import FPSSelect, ResolutionSelect
@@ -36,6 +37,7 @@ class LevelLoader:
             "Ship Selection": {"name": "Ship Selection", "class": ShipSelect},
             "Level 1": {"name": "Level 1", "class": Level1},
             "Level 2": {"name": "Level 2", "class": Level2},
+            "Level 3": {"name": "Level 3", "class": Level3},
         }
         es.switch_world(self.levels[self.current_level]["name"])
         if "default" in es.list_worlds():
