@@ -42,7 +42,7 @@ class ShockWave:
                 img=2,
             ),
         ]
-        self.entity = self.self_create()
+        self.entity = self.init_shockwave()
 
     def init_shockwave(self):
         ent = self.pool.create_entity(*self.components)
