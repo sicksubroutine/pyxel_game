@@ -18,10 +18,12 @@ from misc.utils import Utils
 
 
 class ShockWave:
-    def __init__(self, game):
+    def __init__(self, game, x, y):
         self.game = game
+        self.logger: Logger = game.logger
         self.pool: EntityPool = game.pool
         self.components = [
+            Transform(glm.vec2(x, y), glm.vec2(1, 1), 0.0),
             Animation(
                 frames=[
                     AniFrame(u=40, v=32, w=16, h=16, img=2),
@@ -42,6 +44,7 @@ class ShockWave:
                 img=2,
             ),
         ]
+        self.logger.Log("ShockWave initialized")
         self.entity = self.init_shockwave()
 
     def init_shockwave(self):
@@ -79,8 +82,7 @@ class Spawner:
         )
         audio.Group("explosion audio")
 
-        # shockwave = ShockWave(self.game)
-        # shock = shockwave.self_create()
+        shockwave = ShockWave(self.game, x, y)
         for i in range(0, size):
             speed = random.uniform(0.5, 10)
             angle = Utils.random_angle(0, 360)
