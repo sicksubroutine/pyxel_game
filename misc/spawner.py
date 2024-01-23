@@ -22,17 +22,19 @@ class ShockWave:
         self.game = game
         self.logger: Logger = game.logger
         self.pool: EntityPool = game.pool
+        self.frames = [
+            AniFrame(u=40, v=32, w=16, h=16, img=2),
+            AniFrame(u=40, v=32, w=16, h=16, img=2),
+            AniFrame(u=56, v=32, w=16, h=16, img=2),
+            AniFrame(u=72, v=32, w=16, h=16, img=2),
+            AniFrame(u=88, v=32, w=16, h=16, img=2),
+        ]
         self.components = [
             Transform(glm.vec2(x, y), glm.vec2(1, 1), 0.0),
             Animation(
-                frames=[
-                    AniFrame(u=40, v=32, w=16, h=16, img=2),
-                    AniFrame(u=56, v=32, w=16, h=16, img=2),
-                    AniFrame(u=72, v=32, w=16, h=16, img=2),
-                    AniFrame(u=88, v=32, w=16, h=16, img=2),
-                ],
-                num_frames=4,
-                frame_rate=0.1,
+                frames=self.frames,
+                num_frames=len(self.frames),
+                frame_rate=25.0,
                 looping=False,
             ),
             Sprite(
@@ -52,9 +54,6 @@ class ShockWave:
         ent.Group("shockwave")
         return ent
 
-    def self_destroy(self):
-        self.pool.remove_entity(self.entity)
-
 
 class Spawner:
     def __init__(self, game):
@@ -69,7 +68,7 @@ class Spawner:
         ent.Group("enemies")
         return ent
 
-    def gen_explosion(self, x, y, size) -> None:
+    def gen_explosion(self, x, y, width, height, size=25) -> None:
         """Generates an explosion at the given position with the given size"""
         particles = []
         colors = ["RED", "YELLOW", "ORANGE"]
@@ -81,8 +80,7 @@ class Spawner:
             )
         )
         audio.Group("explosion audio")
-
-        shockwave = ShockWave(self.game, x, y)
+        shockwave = ShockWave(self.game, x - (width), y - (height / 2))
         for i in range(0, size):
             speed = random.uniform(0.5, 10)
             angle = Utils.random_angle(0, 360)

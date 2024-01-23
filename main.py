@@ -1,6 +1,7 @@
 import pyxel as px
 import esper as es
 import time
+import sys
 
 # helpers
 from misc.entity import EntityPool
@@ -23,6 +24,9 @@ from systems.sound_system import SoundSystem
 from systems.player_system import PlayerSystem
 from systems.particle_system import ParticleSystem
 from systems.animation_system import AnimationSystem
+
+
+EPSILON = sys.float_info.epsilon
 
 
 class BootStrapper:
@@ -52,6 +56,7 @@ class Game:
         self.debug = self.config.debug
         self.frames = 0
         self.fps = self.config.target_fps
+        self.delta_time = 0.0
         self.last_clock = 0
         self.res_width = self.config.window_width
         self.res_height = self.config.window_height
@@ -101,6 +106,7 @@ class Game:
             self.fps = round(self.frames / (new_now - self.last_clock), 2)
             self.frames = 0
             self.last_clock = new_now
+        self.delta_time = 1.0 / (self.fps + EPSILON)
 
     def update(self):
         self.keypress_delay -= 1.0 if self.keypress_delay > 0.0 else 0.0
@@ -112,6 +118,7 @@ class Game:
             self.movement_system.process()
             self.projectile_lifetime_system.process()
             self.sound_system.process()
+            self.animation_system.process(self.delta_time)
         if self.level_loader.menu_present:
             self.menu_update()
         self.fps_counter()

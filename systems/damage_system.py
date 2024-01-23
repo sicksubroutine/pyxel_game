@@ -87,10 +87,17 @@ class DamageSystem:
                 return
             enemy_health.current_health -= damage
             if enemy_health.current_health < 1:
-                center_pos_x = position.x + enemy_sprite.width / 2
-                center_pos_y = position.y + enemy_sprite.height / 2
+                center_pos_x = position.x + (enemy_sprite.width / 2)
+                center_pos_y = position.y + (enemy_sprite.height / 2)
                 size = 25 if size == 8 else 100
-                es.dispatch_event("explosion", center_pos_x, center_pos_y, size)
+                es.dispatch_event(
+                    "explosion",
+                    center_pos_x,
+                    center_pos_y,
+                    enemy_sprite.width,
+                    enemy_sprite.height,
+                    size,
+                )
                 self.pool.remove_entity(enemy)
         except Exception as e:
             self.logger.Log(traceback.format_exc())
