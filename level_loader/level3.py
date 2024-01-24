@@ -45,51 +45,16 @@ class Level3(BaseLevel):
 
         self.spawn_schedule = [
             {
-                "enemy": "boss2",
+                "enemy": "white_guy",
                 "x": 25,
                 "y": -25,
                 "velocity": 0.15,
                 "delay": 0,
-            },
-            {
-                "enemy": "boss1",
-                "x": 50,
-                "y": -25,
-                "velocity": 0.15,
-                "delay": 1000,
-            },
-            {
-                "enemy": "boss1",
-                "x": 60,
-                "y": -25,
-                "velocity": 0.15,
-                "delay": 1500,
-            },
-            {
-                "enemy": "boss1",
-                "x": 0,
-                "y": -25,
-                "velocity": 0.15,
-                "delay": 2000,
-            },
-            {
-                "enemy": "boss4",
-                "x": 15,
-                "y": -25,
-                "velocity": 0.15,
-                "delay": 3000,
-            },
-            {
-                "enemy": "boss4",
-                "x": 25,
-                "y": 5,
-                "velocity": 0.15,
-                "delay": 4000,
-            },
+            }
         ]
         self.star_colors = {
-            "fastest_stars": "RED",
+            "fastest_stars": "VIOLET",
             "fast_stars": "LIGHT_BLUE",
-            "slow_stars": "BROWN",
-            "slowest_stars": "KHAKI",
+            "slow_stars": "LIME_GREEN",
+            "slowest_stars": "ORANGE",
         }

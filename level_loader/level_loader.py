@@ -216,7 +216,7 @@ class LevelLoader:
                 return
             self.enemies.get_enemy(e["enemy"], e["x"], e["y"], e["velocity"])
             enemies.remove(e)
-            self.t_delay = e["delay"] + 500
+            self.t_delay = e["delay"] + 1000
         if not enemies and zero_enemies and delay_ended and self.menu_present:
             self.logger.Log(f"All enemies spawned! Moving to {self.current_level}")
             self.next_level()
