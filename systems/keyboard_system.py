@@ -70,17 +70,8 @@ class KeyboardSystem(es.Processor):
                 self.game.keypress_delay = 10.0
                 es.dispatch_event("shoot")
 
-            # if px.btn(px.KEY_X) and self.game.keypress_delay <= 0.0:
-            #   self.game.keypress_delay = 10.0
-            #   self.spawner.gen_enemy()
-            # if px.btn(px.KEY_Z):
-            #    self.spawner.destroy_entities()
-
             if px.btn(px.KEY_P) and self.game.keypress_delay <= 0.0:
                 es.dispatch_event("enable_pause")
                 self.logger.Log(f"Paused from keyboard_system: {self.game.paused}")
                 self.game.keypress_delay = 25.0
                 return
-
-            if px.btnp(px.KEY_ESCAPE):
-                px.quit()

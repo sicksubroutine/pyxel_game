@@ -52,7 +52,7 @@ class Game:
         self.config = bootstrap.config
         self.logger: Logger = bootstrap.logger
         self.pool: EntityPool = EntityPool(self)
-        self.asset_store: AssetStore = AssetStore(self.logger)
+        self.asset_store: AssetStore = AssetStore(self)
         self.debug = self.config.debug
         self.frames = 0
         self.fps = self.config.target_fps
