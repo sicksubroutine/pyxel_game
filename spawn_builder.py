@@ -16,6 +16,16 @@ from level_loader.enemies import Enemies
 from systems.star_system import StarSystem
 
 
+class PlacementMode:
+    def __init__(self):
+        ...
+
+
+class PreviewMode:
+    def __init__(self):
+        ...
+
+
 class Spawner:
     """Use this to create enemies for the Spawn Builder"""
 
@@ -54,6 +64,34 @@ class SpawnBuilder:
         # possible modes: placement, preview
         self.possible_modes = ["placement", "preview"]
         self.tool_mode = self.possible_modes[0]  # Starting mode is placement
+        self.tool_class = None
+        self.placement_mode = PlacementMode()
+        self.preview_mode = PreviewMode()
+
+    def mode_switcher(self, current_mode):
+        # change mode class
+        try:
+            if current_mode == self.possible_modes[0]:
+                self.tool_class = self.placement_mode
+            elif current_mode == self.possible_modes[1]:
+                self.tool_class = self.preview_mode
+            else:
+                raise ValueError(f"Unknown mode: {current_mode}")
+        except Exception as e:
+            self.logger.Log(f"Error: {e}")
+
+    def keyboard_controls(self):
+        # switch mode using m key
+        if px.btnp(px.KEY_M):
+            if self.tool_mode == self.possible_modes[0]:
+                self.tool_mode = self.possible_modes[1]
+                self.mode_switcher(self.tool_mode)
+            else:
+                self.tool_mode = self.possible_modes[0]
+                self.mode_switcher(self.tool_mode)
+
+    def mouse_controls(self):
+        ...
 
     def fps_counter(self):
         self.frames += 1
