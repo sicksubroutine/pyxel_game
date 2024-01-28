@@ -5,7 +5,7 @@ It will be a graphical interface that will allow the user to place enemies depen
 """
 import pyxel as px
 import time
-
+from glm import vec2
 from misc.config import ConfigManager
 from misc.logger import Logger
 from misc.asset_store import AssetStore
@@ -91,7 +91,10 @@ class SpawnBuilder:
                 self.mode_switcher(self.tool_mode)
 
     def mouse_controls(self):
-        ...
+        self.mouse_pos = vec2(px.mouse_x, px.mouse_y)
+        # center mouse on screen
+        px.mouse_x = self.res_width // 2
+        px.mouse_y = self.res_height // 2
 
     def fps_counter(self):
         self.frames += 1
@@ -115,13 +118,9 @@ class SpawnBuilder:
 
     def render(self):
         px.cls(0)
+        # render a box where the mouse is
+        px.rectb(px.mouse_x - 8, px.mouse_y - 8, 16, 16, 9)
         self.star_system.render()
-
-    def placement_mode(self):
-        ...
-
-    def preview_mode(self):
-        ...
 
     def run(self):
         px.run(self.update, self.render)
