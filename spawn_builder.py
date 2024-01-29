@@ -16,13 +16,36 @@ from level_loader.enemies import Enemies
 from systems.star_system import StarSystem
 
 
-class PlacementMode:
-    def __init__(self):
+class BaseMode:
+    def __init__(self, tool):
+        self.tool = tool
+
+    def render(self):
+        ...
+
+    def update(self):
         ...
 
 
-class PreviewMode:
-    def __init__(self):
+class PlacementMode(BaseMode):
+    def __init__(self, tool):
+        self.tool = tool
+
+    def render(self):
+        px.text(0, 0, "Placement Mode", 7)
+
+    def update(self):
+        ...
+
+
+class PreviewMode(BaseMode):
+    def __init__(self, tool):
+        self.tool = tool
+
+    def render(self):
+        px.text(0, 0, "Preview Mode", 7)
+
+    def update(self):
         ...
 
 
@@ -64,9 +87,10 @@ class SpawnBuilder:
         # possible modes: placement, preview
         self.possible_modes = ["placement", "preview"]
         self.tool_mode = self.possible_modes[0]  # Starting mode is placement
-        self.tool_class = None
-        self.placement_mode = PlacementMode()
-        self.preview_mode = PreviewMode()
+
+        self.placement_mode = PlacementMode(self)
+        self.preview_mode = PreviewMode(self)
+        self.tool_class = self.placement_mode
 
     def mode_switcher(self, current_mode):
         # change mode class
@@ -115,11 +139,14 @@ class SpawnBuilder:
 
     def update(self):
         self.star_system.update()
+        self.keyboard_controls()
 
     def render(self):
         px.cls(0)
         # render a box where the mouse is
-        px.rectb(px.mouse_x - 8, px.mouse_y - 8, 16, 16, 9)
+        px.rectb(px.mouse_x - 8, px.mouse_y - 8, 4, 4, 7)
+        # print the current mode on the screen
+        self.current_mode_render = self.tool_class.render()
         self.star_system.render()
 
     def run(self):
