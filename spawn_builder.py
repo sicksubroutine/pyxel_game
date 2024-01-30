@@ -3,6 +3,7 @@ A tool for building a Spawn Schedule that each level will contain.
 It will be a graphical interface that will allow the user to place enemies depending on the "timer" of the level.
 
 """
+
 import pyxel as px
 import time
 from glm import vec2
@@ -20,22 +21,49 @@ class BaseMode:
     def __init__(self, tool):
         self.tool = tool
 
-    def render(self):
-        ...
+    def render(self): ...
 
-    def update(self):
-        ...
+    def update(self): ...
 
 
 class PlacementMode(BaseMode):
     def __init__(self, tool):
         self.tool = tool
+        self.potential_ships = self.tool.potential_ships
+        self.selected_ship = None
 
     def render(self):
         px.text(0, 0, "Placement Mode", 7)
+        for index, ship in enumerate(self.potential_ships):
+            px.blt(
+                10,
+                10 + (10 * index),
+                0,
+                self.potential_ships[ship]["u"],
+                self.potential_ships[ship]["v"],
+                8,
+                8,
+                0,
+            )
 
     def update(self):
-        ...
+        # check if ship is selected using mouse and location on screen
+        for index, ship in enumerate(self.potential_ships):
+            if (
+                self.tool.mouse_pos.x
+                > self.potential_ships[ship]["location_on_screen"].x
+                and self.tool.mouse_pos.x
+                < self.potential_ships[ship]["location_on_screen"].x + 8
+                and self.tool.mouse_pos.y
+                > self.potential_ships[ship]["location_on_screen"].y
+                and self.tool.mouse_pos.y
+                < self.potential_ships[ship]["location_on_screen"].y + 8
+            ):
+                self.selected_ship = ship
+                print(f"Selected ship: {self.selected_ship}")
+                break
+            else:
+                self.selected_ship = None
 
 
 class PreviewMode(BaseMode):
@@ -45,8 +73,7 @@ class PreviewMode(BaseMode):
     def render(self):
         px.text(0, 0, "Preview Mode", 7)
 
-    def update(self):
-        ...
+    def update(self): ...
 
 
 class Spawner:
@@ -56,8 +83,7 @@ class Spawner:
         self.tool = tool
         self.logger: Logger = tool.logger
 
-    def gen_enemy(self, enemy):
-        ...
+    def gen_enemy(self, enemy): ...
 
 
 class SpawnBuilder:
@@ -73,12 +99,21 @@ class SpawnBuilder:
         self.enemies: Enemies = Enemies(self)
         self.pool: EntityPool = EntityPool(self)
 
+        self.potential_ships = {
+            "ship1": {"u": 8, "v": 0, "location_on_screen": vec2(10, 10)},
+            "ship2": {"u": 8, "v": 8, "location_on_screen": vec2(10, 20)},
+            "ship3": {"u": 8, "v": 16, "location_on_screen": vec2(10, 30)},
+            "ship4": {"u": 8, "v": 24, "location_on_screen": vec2(10, 40)},
+            "ship5": {"u": 8, "v": 32, "location_on_screen": vec2(10, 50)},
+        }
+
         self.enemy_types = self.enemies.enemy_types
 
         self.res_width = self.config.window_width
         self.res_height = self.config.window_height
         self.fps = self.config.target_fps
         px.init(self.res_width, self.res_height, title="Spawn Builder", fps=self.fps)
+        px.load("assets/assets.pyxres", True, True, True, True)
         self.logger.Log(f"Pyxel initialized at {self.res_width}x{self.res_height}")
 
         self.systems_setup()
@@ -143,11 +178,11 @@ class SpawnBuilder:
 
     def render(self):
         px.cls(0)
-        # render a box where the mouse is
-        px.rectb(px.mouse_x - 8, px.mouse_y - 8, 4, 4, 7)
+        self.star_system.render()
         # print the current mode on the screen
         self.current_mode_render = self.tool_class.render()
-        self.star_system.render()
+        # render a box where the mouse is
+        px.rectb(px.mouse_x - 8, px.mouse_y - 8, 4, 4, 7)
 
     def run(self):
         px.run(self.update, self.render)
