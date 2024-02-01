@@ -30,6 +30,11 @@ class BaseMode:
     def __init__(self, tool):
         self.tool = tool
 
+    def check_mouse_click(self, mouse, rect):
+        if rect.x < mouse.x < rect.x + rect.w and rect.y < mouse.y < rect.y + rect.h:
+            return True
+        return False
+
     def render(self): ...
 
     def update(self): ...
@@ -38,18 +43,18 @@ class BaseMode:
 class SelectionMode(BaseMode):
     def __init__(self, tool):
         self.tool = tool
-        self.potential_ships = self.tool.potential_ships
+        self.ships = self.tool.ships
         self.selected_ship = tool.selected_ship
 
     def render(self):
         px.text(0, 0, "Selection Mode", 7)
-        for index, ship in enumerate(self.potential_ships):
+        for index, ship in enumerate(self.ships):
             px.blt(
                 10,
                 10 + (10 * index),
                 0,
-                self.potential_ships[ship]["u"],
-                self.potential_ships[ship]["v"],
+                self.ships[ship]["u"],
+                self.ships[ship]["v"],
                 8,
                 8,
                 0,
@@ -58,17 +63,8 @@ class SelectionMode(BaseMode):
     def update(self):
         mouse_pos = vec2(px.mouse_x, px.mouse_y)
         if px.btnp(px.MOUSE_BUTTON_LEFT):
-            for ship in self.potential_ships:
-                if (
-                    self.potential_ships[ship]["location_on_screen"].x
-                    < mouse_pos.x
-                    < self.potential_ships[ship]["location_on_screen"].x
-                    + self.potential_ships[ship]["location_on_screen"].w
-                    and self.potential_ships[ship]["location_on_screen"].y
-                    < mouse_pos.y
-                    < self.potential_ships[ship]["location_on_screen"].y
-                    + self.potential_ships[ship]["location_on_screen"].h
-                ):
+            for ship in self.ships:
+                if self.check_mouse_click(mouse_pos, self.ships[ship]["rect"]):
                     print(f"Selected ship: {ship}")
                     self.tool.selected_ship = ship
                     self.tool.logger.Log(f"Selected ship: {self.selected_ship}")
@@ -77,18 +73,18 @@ class SelectionMode(BaseMode):
 class PlacementMode(BaseMode):
     def __init__(self, tool):
         self.tool = tool
-        self.potential_ships = self.tool.potential_ships
+        self.ships = self.tool.ships
         self.selected_ship = tool.selected_ship
 
     def render(self):
         px.text(0, 0, "Placement Mode", 7)
-        for index, ship in enumerate(self.potential_ships):
+        for index, ship in enumerate(self.ships):
             px.blt(
                 10,
                 10 + (10 * index),
                 0,
-                self.potential_ships[ship]["u"],
-                self.potential_ships[ship]["v"],
+                self.ships[ship]["u"],
+                self.ships[ship]["v"],
                 8,
                 8,
                 0,
@@ -130,13 +126,12 @@ class SpawnBuilder:
         self.enemies: Enemies = Enemies(self)
         self.pool: EntityPool = EntityPool(self)
         self.selected_ship = None
-
-        self.potential_ships = {
-            "ship1": {"u": 8, "v": 0, "location_on_screen": Rect(10, 10, 8, 8)},
-            "ship2": {"u": 8, "v": 8, "location_on_screen": Rect(10, 20, 8, 8)},
-            "ship3": {"u": 8, "v": 16, "location_on_screen": Rect(10, 30, 8, 8)},
-            "ship4": {"u": 8, "v": 24, "location_on_screen": Rect(10, 40, 8, 8)},
-            "ship5": {"u": 8, "v": 32, "location_on_screen": Rect(10, 50, 8, 8)},
+        self.ships = {
+            "ship1": {"u": 8, "v": 0, "rect": Rect(10, 10, 8, 8)},
+            "ship2": {"u": 8, "v": 8, "rect": Rect(10, 20, 8, 8)},
+            "ship3": {"u": 8, "v": 16, "rect": Rect(10, 30, 8, 8)},
+            "ship4": {"u": 8, "v": 24, "rect": Rect(10, 40, 8, 8)},
+            "ship5": {"u": 8, "v": 32, "rect": Rect(10, 50, 8, 8)},
         }
 
         self.enemy_types = self.enemies.enemy_types
