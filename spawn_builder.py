@@ -29,6 +29,7 @@ class Rect:
 class BaseMode:
     def __init__(self, tool):
         self.tool = tool
+        self.time = 0.0
 
     def check_mouse_click(self, mouse, rect):
         if rect.x < mouse.x < rect.x + rect.w and rect.y < mouse.y < rect.y + rect.h:
@@ -92,15 +93,41 @@ class PlacementMode(BaseMode):
 
     def update(self): ...
 
+    def advance_time(self):
+        # A method that will advance the time by 1 second
+        # time is used as a way to separate the enemies in the spawn schedule
+        self.time += 1.0
+
+    def reverse_time(self):
+        # A method that will reverse the time by 1 second
+        # time is used as a way to separate the enemies in the spawn schedule
+        self.time -= 1.0
+
+    def set_time(self, time):
+        # A method that will set the time to a specific value
+        self.time = time
+
+    def get_time(self):
+        # A method that will return the current time
+        return self.time
+
+    def place_enemy(self, enemy):
+        # A method that will place the enemy in the spawn schedule
+        ...
+
 
 class PreviewMode(BaseMode):
     def __init__(self, tool):
         self.tool = tool
+        self.play_time_forward()
 
     def render(self):
         px.text(0, 0, "Preview Mode", 7)
 
     def update(self): ...
+
+    def play_time_forward(self):
+        self.time += 1.0
 
 
 class Spawner:
