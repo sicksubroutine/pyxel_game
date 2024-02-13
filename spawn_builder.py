@@ -48,6 +48,27 @@ class SelectionMode(BaseMode):
         self.selected_ship = tool.selected_ship
 
     def render(self):
+        # put a red box around the selected ship while hovering
+        # check if the mouse is within the rect of the ship
+        mouse_pos = vec2(px.mouse_x, px.mouse_y)
+        for ship in self.ships:
+            if self.check_mouse_click(mouse_pos, self.ships[ship]["rect"]):
+                px.rectb(
+                    self.ships[ship]["rect"].x - 1,
+                    self.ships[ship]["rect"].y - 1,
+                    self.ships[ship]["rect"].w + 2,
+                    self.ships[ship]["rect"].h + 2,
+                    8,
+                )
+            # if ship is selected, keep the box around it
+            if self.selected_ship == ship:
+                px.rectb(
+                    self.ships[ship]["rect"].x - 1,
+                    self.ships[ship]["rect"].y - 1,
+                    self.ships[ship]["rect"].w + 2,
+                    self.ships[ship]["rect"].h + 2,
+                    8,
+                )
         px.text(0, 0, "Selection Mode", 7)
         for index, ship in enumerate(self.ships):
             px.blt(
@@ -119,12 +140,12 @@ class PlacementMode(BaseMode):
 class PreviewMode(BaseMode):
     def __init__(self, tool):
         self.tool = tool
-        self.play_time_forward()
 
     def render(self):
         px.text(0, 0, "Preview Mode", 7)
 
-    def update(self): ...
+    def update(self):
+        self.play_time_forward()
 
     def play_time_forward(self):
         self.time += 1.0
@@ -175,7 +196,7 @@ class SpawnBuilder:
 
         # show mouse
         px.mouse(True)
-
+        self.mouse_pos = vec2(px.mouse_x, px.mouse_y)
         # possible modes: placement, preview
         self.possible_modes = [
             {
